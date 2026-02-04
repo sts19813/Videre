@@ -18,4 +18,9 @@ class Patient extends Model
         'observations',
         'status',
     ];
+
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class);
+    }
 }

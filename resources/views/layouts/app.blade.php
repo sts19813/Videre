@@ -1,45 +1,58 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <title>@yield('title', 'Videre')</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{-- Metronic CSS --}}
-    <link href="{{ asset('metronic/assets/vendors/apexcharts/apexcharts.css') }}" rel="stylesheet" />
-    <link href="{{ asset('metronic/assets/vendors/keenicons/styles.bundle.css') }}" rel="stylesheet" />
-    <link href="{{ asset('metronic/assets/css/styles.css') }}" rel="stylesheet" />
+    {{-- Bootstrap 5 --}}
+
+    {{-- Keenicons (Metronic icons solamente) --}}
+    <link href="{{ asset('/metronic/assets/vendors/keenicons/styles.bundle.css') }}" rel="stylesheet">
+
+    	<!-- Vendor Stylesheets (para páginas específicas, opcional) -->
+	<link href="{{ asset('/metronic/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet"
+		type="text/css" />
+	<link href="{{ asset('/metronic/assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet"
+		type="text/css" />
+
+	<!-- Global Stylesheets Bundle (obligatorios) -->
+	<link href="{{ asset('/metronic/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/metronic/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+
 
     @stack('styles')
 </head>
 
-<body class="antialiased flex h-full bg-background">
+<body class="bg-light">
 
-<script>
-    const defaultThemeMode = 'light';
-    let themeMode = localStorage.getItem('kt-theme') ?? defaultThemeMode;
-    document.documentElement.classList.add(themeMode);
-</script>
-
-<div class="flex grow flex-col">
-
+    {{-- HEADER --}}
     @include('partials.header')
-    @include('partials.navbar')
-    @include('partials.toolbar')
 
-    {{-- APP CONTENT (METRONIC CORE) --}}
-    <div class="app-content flex-grow">
-        <div class="kt-container-fixed py-6">
+    {{-- NAVBAR / SIDEBAR --}}
+    @include('partials.navbar')
+
+    {{-- MAIN CONTENT --}}
+    <main class="container-fluid">
+        <div class="container">
             @yield('content')
         </div>
-    </div>
+    </main>
 
+    {{-- FOOTER --}}
     @include('partials.footer')
-</div>
 
-@include('partials.scripts')
-@stack('scripts')
+    <!--begin::Javascript-->
+	<script>
+		var hostUrl = "{{ asset('assets') }}/";
+	</script>
 
+	<!--begin::Global Javascript Bundle (obligatorio para todas las páginas)-->
+	<script src="{{ asset('/metronic/assets/plugins/global/plugins.bundle.js') }}"></script>
+	<script src="{{ asset('/metronic/assets/js/scripts.bundle.js') }}"></script>
+	<!--end::Global Javascript Bundle-->
+
+
+    @stack('scripts')
 </body>
 </html>

@@ -21,29 +21,22 @@ class ProviderPatientController extends Controller
      */
     public function store(Request $request)
     {
-        /**
-         * ⚠️ SIN AUTH:
-         * Provider fijo temporal
-         * Luego se reemplaza por auth()->user()->provider->id
-         */
-        $providerId = 1;
-
         $validated = $request->validate([
-            'first_name'   => 'required|string|max:255',
-            'last_name'    => 'required|string|max:255',
-            'phone'        => 'required|string|max:20',
-            'email'        => 'nullable|email|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'nullable|email|max:255',
             'observations' => 'nullable|string',
         ]);
 
         Patient::create([
-            'provider_id'  => $providerId,
-            'first_name'   => $validated['first_name'],
-            'last_name'    => $validated['last_name'],
-            'phone'        => $validated['phone'],
-            'email'        => $validated['email'] ?? null,
-            'observations' => $validated['observations'] ?? null,
-            'status'       => 'pendiente',
+            'provider_id' => auth()->user()->provider->id ?? 1, // temporal
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'phone' => $validated['phone'],
+            'email' => $validated['email'],
+            'observations' => $validated['observations'],
+            'status' => 'pendiente',
         ]);
 
         return redirect()
