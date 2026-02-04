@@ -7,27 +7,18 @@
         <!-- Logo -->
         <div class="flex items-center gap-2 lg:gap-5 2xl:-ml-[60px]">
             <a href="html/demo2.html">
-                <img class="dark:hidden min-h-[42px]" src="assets/media/app/mini-logo-circle.svg" />
-                <img class="hidden dark:inline-block min-h-[42px]" src="assets/media/app/mini-logo-circle-dark.svg" />
+                <img class="dark:hidden min-h-[42px]" src="/assets/img/Videre-Logo.svg" />
+                <img class="hidden min-h-[42px]" src="/assets/img/Videre-Logo.svg" />
             </a>
             <div class="flex items-center">
                 <h3 class="text-secondary-foreground text-base hidden md:block">
-                    MetronicTeam
                 </h3>
-                <span class="text-sm text-muted-foreground font-medium px-2.5 hidden md:inline">
-                    /
-                </span>
+                
                 <div class="kt-menu kt-menu-default" data-kt-menu="true">
                     <div class="kt-menu-item" data-kt-menu-item-offset="0, 10px"
                         data-kt-menu-item-placement="bottom-start" data-kt-menu-item-toggle="dropdown"
                         data-kt-menu-item-trigger="hover">
-                        <button class="kt-menu-toggle text-mono font-medium">
-                            Account
-                            <span class="kt-menu-arrow">
-                                <i class="ki-filled ki-down">
-                                </i>
-                            </span>
-                        </button>
+                        
                         <div class="kt-menu-dropdown kt-menu-default w-48">
                             <div class="kt-menu-item">
                                 <a class="kt-menu-link" href="html/demo2/public-profile/profiles/default.html"
@@ -238,7 +229,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-4.png" />
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-4.png" />
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
                                         <div class="kt-avatar-status kt-avatar-status-online size-2.5">
@@ -295,7 +286,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-5.png" />
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-5.png" />
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
                                         <div class="kt-avatar-status kt-avatar-status-online size-2.5">
@@ -340,7 +331,7 @@
                             <div class="flex grow gap-2.5 px-5" id="notification_request_3">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-27.png" />
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-27.png" />
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
                                         <div class="kt-avatar-status kt-avatar-status-online size-2.5">
@@ -387,7 +378,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-10.png" />
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-10.png" />
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
                                         <div class="kt-avatar-status kt-avatar-status-offline size-2.5">
@@ -414,7 +405,7 @@
                                     </div>
                                     <div
                                         class="kt-card shadow-none flex items-center flex-row gap-1.5 p-2.5 rounded-lg bg-muted/70">
-                                        <img class="h-5" src="assets/media/file-types/pdf.svg" />
+                                        <img class="h-5" src="/metronic/assets/media/file-types/pdf.svg" />
                                         <a class="hover:text-primary font-medium text-secondary-foreground text-xs me-1"
                                             href="#">
                                             Launch_nov24.pptx
@@ -430,7 +421,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-11.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-11.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -463,7 +454,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-14.png" />
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-14.png" />
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
                                         <div class="kt-avatar-status kt-avatar-status-offline size-2.5">
@@ -492,7 +483,7 @@
                                         class="kt-card shadow-none flex items-center flex-row gap-1.5 p-2.5 rounded-lg bg-muted/70">
                                         <div
                                             class="flex items-center justify-center w-[26px] h-[30px] shrink-0 bg-background rounded-sm border border-border">
-                                            <img class="h-5" src="assets/media/file-types/figma.svg" />
+                                            <img class="h-5" src="/metronic/assets/media/file-types/figma.svg" />
                                         </div>
                                         <a class="hover:text-primary font-medium text-secondary-foreground text-xs me-1"
                                             href="#">
@@ -525,7 +516,7 @@
                             <div class="flex grow gap-2.5 px-5" id="notification_request_13">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-25.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-25.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -586,7 +577,7 @@
                             </div>
                             <div class="flex items-center grow gap-2.5 px-5">
                                 <div
-                                    class="flex items-center justify-center size-8 bg-green-50 rounded-full border border-green-200 dark:border-green-950">
+                                    class="flex items-center justify-center size-8 bg-green-50 rounded-full border border-green-200">
                                     <i class="ki-filled ki-check text-lg text-green-500">
                                     </i>
                                 </div>
@@ -605,7 +596,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-34.png" />
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-34.png" />
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
                                         <div class="kt-avatar-status kt-avatar-status-online size-2.5">
@@ -632,7 +623,7 @@
                                     <div
                                         class="kt-card shadow-none flex items-center justify-between flex-row gap-1.5 p-2.5 rounded-lg bg-muted/70">
                                         <div class="flex items-center gap-1.5">
-                                            <img class="h-6" src="assets/media/file-types/xls.svg" />
+                                            <img class="h-6" src="/metronic/assets/media/file-types/xls.svg" />
                                             <div class="flex flex-col gap-0.5">
                                                 <a class="hover:text-primary font-medium text-secondary-foreground text-xs"
                                                     href="#">
@@ -668,7 +659,7 @@
                             <div class="flex grow gap-2 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-29.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-29.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -716,11 +707,11 @@
                                             <div class="flex -space-x-2">
                                                 <div class="flex">
                                                     <img class="hover:z-5 relative shrink-0 rounded-full ring-1 ring-background size-6"
-                                                        src="assets/media/avatars/300-3.png" />
+                                                        src="/metronic/assets/media/avatars/300-3.png" />
                                                 </div>
                                                 <div class="flex">
                                                     <img class="hover:z-5 relative shrink-0 rounded-full ring-1 ring-background size-6"
-                                                        src="assets/media/avatars/300-2.png" />
+                                                        src="/metronic/assets/media/avatars/300-2.png" />
                                                 </div>
                                             </div>
                                         </div>
@@ -740,7 +731,7 @@
                             <div class="flex grow gap-2.5 px-5" id="notification_request_3">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-30.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-30.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -787,7 +778,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-24.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-24.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -837,7 +828,7 @@
                             <div class="flex grow gap-2 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-15.png" />
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-15.png" />
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
                                         <div class="kt-avatar-status kt-avatar-status-online size-2.5">
@@ -895,15 +886,15 @@
                                             <div class="flex -space-x-2">
                                                 <div class="flex">
                                                     <img class="hover:z-5 relative shrink-0 rounded-full ring-1 ring-background size-6"
-                                                        src="assets/media/avatars/300-4.png" />
+                                                        src="/metronic/assets/media/avatars/300-4.png" />
                                                 </div>
                                                 <div class="flex">
                                                     <img class="hover:z-5 relative shrink-0 rounded-full ring-1 ring-background size-6"
-                                                        src="assets/media/avatars/300-1.png" />
+                                                        src="/metronic/assets/media/avatars/300-1.png" />
                                                 </div>
                                                 <div class="flex">
                                                     <img class="hover:z-5 relative shrink-0 rounded-full ring-1 ring-background size-6"
-                                                        src="assets/media/avatars/300-2.png" />
+                                                        src="/metronic/assets/media/avatars/300-2.png" />
                                                 </div>
                                                 <div class="flex">
                                                     <span
@@ -931,7 +922,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-6.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-6.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -965,7 +956,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-12.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-12.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -993,7 +984,7 @@
                                     <div
                                         class="kt-card shadow-none flex items-center justify-between flex-row gap-1.5 p-2.5 rounded-lg bg-muted/70">
                                         <div class="flex items-center gap-1.5">
-                                            <img class="h-6" src="assets/media/file-types/word.svg" />
+                                            <img class="h-6" src="/metronic/assets/media/file-types/word.svg" />
                                             <div class="flex flex-col gap-0.5">
                                                 <a class="hover:text-primary font-medium text-secondary-foreground text-xs"
                                                     href="#">
@@ -1025,7 +1016,7 @@
                                     <div
                                         class="kt-card shadow-none flex items-center justify-between flex-row gap-1.5 p-2.5 rounded-lg bg-muted/70">
                                         <div class="flex items-center gap-1.5">
-                                            <img class="h-6" src="assets/media/file-types/svg.svg" />
+                                            <img class="h-6" src="/metronic/assets/media/file-types/svg.svg" />
                                             <div class="flex flex-col gap-0.5">
                                                 <a class="hover:text-primary font-medium text-secondary-foreground text-xs"
                                                     href="#">
@@ -1061,7 +1052,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-21.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-21.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -1119,7 +1110,7 @@
                             <div class="flex grow gap-2.5 px-5" id="notification_request_3">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-13.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-13.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -1184,7 +1175,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-1.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-1.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -1215,7 +1206,7 @@
                                     <div class="flex items-center gap-2.5">
                                         <div class="kt-card shadow-none flex flex-col gap-3.5 bg-muted/70 w-40">
                                             <div class="bg-cover bg-no-repeat kt-card-rounded-t shrink-0 h-24"
-                                                style="background-image: url('assets/media/images/600x600/6.jpg')">
+                                                style="background-image: url('/metronic/assets/media/images/600x600/6.jpg')">
                                             </div>
                                             <div class="px-2.5 pb-2">
                                                 <a class="font-medium block text-secondary-foreground hover:text-primary text-xs leading-4 mb-0.5"
@@ -1233,7 +1224,7 @@
                                         </div>
                                         <div class="kt-card shadow-none flex flex-col gap-3.5 bg-muted/70 w-40">
                                             <div class="bg-cover bg-no-repeat kt-card-rounded-t shrink-0 h-24"
-                                                style="background-image: url('assets/media/images/600x600/1.jpg')">
+                                                style="background-image: url('/metronic/assets/media/images/600x600/1.jpg')">
                                             </div>
                                             <div class="px-2.5 pb-2">
                                                 <a class="font-medium block text-secondary-foreground hover:text-primary text-xs leading-4 mb-0.5"
@@ -1257,7 +1248,7 @@
                             <div class="flex grow gap-2.5 px-5" id="notification_request_17">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-19.png" />
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-19.png" />
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
                                         <div class="kt-avatar-status kt-avatar-status-online size-2.5">
@@ -1286,7 +1277,7 @@
                                         class="kt-card shadow-none flex items-center flex-row gap-1.5 p-2.5 rounded-lg bg-muted/70">
                                         <div
                                             class="flex items-center justify-center w-[26px] h-[30px] shrink-0 bg-white rounded-sm border border-border">
-                                            <img class="h-5" src="assets/media/brand-logos/jira.svg" />
+                                            <img class="h-5" src="/metronic/assets/media/brand-logos/jira.svg" />
                                         </div>
                                         <a class="hover:text-primary font-medium text-secondary-foreground text-xs me-1"
                                             href="#">
@@ -1313,7 +1304,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-17.png" />
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-17.png" />
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
                                         <div class="kt-avatar-status kt-avatar-status-online size-2.5">
@@ -1352,7 +1343,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-34.png" />
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-34.png" />
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
                                         <div class="kt-avatar-status kt-avatar-status-online size-2.5">
@@ -1385,7 +1376,7 @@
                             <div class="flex grow gap-2.5 px-5">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-9.png" />
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-9.png" />
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
                                         <div class="kt-avatar-status kt-avatar-status-online size-2.5">
@@ -1426,7 +1417,7 @@
                             <div class="flex grow gap-2.5 px-5" id="notification_request_3">
                                 <div class="kt-avatar size-8">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-13.png" />
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-13.png" />
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
                                         <div class="kt-avatar-status kt-avatar-status-online size-2.5">
@@ -1508,7 +1499,7 @@
                             <div class="flex items-center flex-wrap gap-2">
                                 <div
                                     class="flex items-center justify-center shrink-0 rounded-full bg-accent/60 border border-border size-11">
-                                    <img alt="" class="size-7" src="assets/media/brand-logos/gitlab.svg" />
+                                    <img alt="" class="size-7" src="/metronic/assets/media/brand-logos/gitlab.svg" />
                                 </div>
                                 <div class="flex flex-col">
                                     <a class="text-sm font-semibold text-mono hover:text-primary" href="#">
@@ -1523,15 +1514,15 @@
                                 <div class="flex -space-x-2">
                                     <div class="flex">
                                         <img class="hover:z-5 relative shrink-0 rounded-full ring-1 ring-background size-[30px]"
-                                            src="assets/media/avatars/300-4.png" />
+                                            src="/metronic/assets/media/avatars/300-4.png" />
                                     </div>
                                     <div class="flex">
                                         <img class="hover:z-5 relative shrink-0 rounded-full ring-1 ring-background size-[30px]"
-                                            src="assets/media/avatars/300-1.png" />
+                                            src="/metronic/assets/media/avatars/300-1.png" />
                                     </div>
                                     <div class="flex">
                                         <img class="hover:z-5 relative shrink-0 rounded-full ring-1 ring-background size-[30px]"
-                                            src="assets/media/avatars/300-2.png" />
+                                            src="/metronic/assets/media/avatars/300-2.png" />
                                     </div>
                                     <div class="flex">
                                         <span
@@ -1646,7 +1637,7 @@
                     data-kt-scrollable-offset="230px">
                     <div class="flex flex-col gap-5 py-5">
                         <div class="flex items-end gap-3.5 px-5">
-                            <img alt="" class="rounded-full size-9" src="assets/media/avatars/300-5.png" />
+                            <img alt="" class="rounded-full size-9" src="/metronic/assets/media/avatars/300-5.png" />
                             <div class="flex flex-col gap-1.5">
                                 <div
                                     class="kt-card shadow-none flex flex-col bg-accent/60 gap-2.5 p-3 rounded-bs-none text-2sm">
@@ -1676,7 +1667,7 @@
                             <div class="relative shrink-0">
                                 <div class="kt-avatar size-9">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-2.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-2.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -1687,7 +1678,7 @@
                             </div>
                         </div>
                         <div class="flex items-end gap-3.5 px-5">
-                            <img alt="" class="rounded-full size-9" src="assets/media/avatars/300-4.png" />
+                            <img alt="" class="rounded-full size-9" src="/metronic/assets/media/avatars/300-4.png" />
                             <div class="flex flex-col gap-1.5">
                                 <div
                                     class="kt-card shadow-none flex flex-col bg-accent/60 gap-2.5 p-3 rounded-bs-none text-2sm">
@@ -1700,7 +1691,7 @@
                             </div>
                         </div>
                         <div class="flex items-end gap-3.5 px-5">
-                            <img alt="" class="rounded-full size-9" src="assets/media/avatars/300-1.png" />
+                            <img alt="" class="rounded-full size-9" src="/metronic/assets/media/avatars/300-1.png" />
                             <div class="flex flex-col gap-1.5">
                                 <div
                                     class="kt-card shadow-none flex flex-col bg-accent/60 gap-2.5 p-3 rounded-bs-none text-2sm">
@@ -1731,7 +1722,7 @@
                             <div class="relative shrink-0">
                                 <div class="kt-avatar size-9">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-2.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-2.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -1759,7 +1750,7 @@
                             <div class="relative shrink-0">
                                 <div class="kt-avatar size-9">
                                     <div class="kt-avatar-image">
-                                        <img alt="avatar" src="assets/media/avatars/300-2.png">
+                                        <img alt="avatar" src="/metronic/assets/media/avatars/300-2.png">
                                         </img>
                                     </div>
                                     <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -1770,7 +1761,7 @@
                             </div>
                         </div>
                         <div class="flex items-end gap-3.5 px-5">
-                            <img alt="" class="rounded-full size-9" src="assets/media/avatars/300-4.png" />
+                            <img alt="" class="rounded-full size-9" src="/metronic/assets/media/avatars/300-4.png" />
                             <div class="flex flex-col gap-1.5">
                                 <div
                                     class="kt-card shadow-none flex flex-col bg-accent/60 gap-2.5 p-3 rounded-bs-none text-2sm">
@@ -1790,7 +1781,7 @@
                         id="join_request">
                         <div class="kt-avatar size-9">
                             <div class="kt-avatar-image">
-                                <img alt="avatar" src="assets/media/avatars/300-14.png">
+                                <img alt="avatar" src="/metronic/assets/media/avatars/300-14.png">
                                 </img>
                             </div>
                             <div class="kt-avatar-indicator -end-2 -bottom-2">
@@ -1828,7 +1819,7 @@
                     </div>
                     <div class="relative grow mx-5">
                         <img alt="" class="rounded-full size-[30px] absolute start-0 top-2/4 -translate-y-2/4 ms-2.5"
-                            src="assets/media/avatars/300-2.png">
+                            src="/metronic/assets/media/avatars/300-2.png">
                         <input class="kt-input h-auto py-4 ps-12 bg-transparent" placeholder="Write a message..."
                             type="text" value="" />
                         <div class="flex items-center gap-2.5 absolute end-3 top-1/2 -translate-y-1/2">
@@ -1853,21 +1844,21 @@
                 data-kt-dropdown-trigger="click">
                 <div class="cursor-pointer shrink-0" data-kt-dropdown-toggle="true">
                     <img alt="" class="size-9 rounded-full border-2 border-input shrink-0"
-                        src="assets/media/avatars/gray/5.png">
+                        src="/metronic/assets/media/avatars/gray/5.png">
                     </img>
                 </div>
                 <div class="kt-dropdown-menu w-[250px]" data-kt-dropdown-menu="true">
                     <div class="flex items-center justify-between px-2.5 py-1.5 gap-1.5">
                         <div class="flex items-center gap-2">
                             <img alt="" class="size-9 shrink-0 rounded-full border-2 border-green-500"
-                                src="assets/media/avatars/300-2.png">
+                                src="/metronic/assets/media/avatars/300-2.png">
                             <div class="flex flex-col gap-1.5">
                                 <span class="text-sm text-foreground font-semibold leading-none">
                                     Cody Fisher
                                 </span>
                                 <a class="text-xs text-secondary-foreground hover:text-primary font-medium leading-none"
                                     href="html/demo2/account/home/get-started.html">
-                                    c.fisher@gmail.com
+                                    sts19813@gmail.com
                                 </a>
                             </div>
                             </img>
@@ -2002,7 +1993,7 @@
                                 <span class="ms-auto kt-badge kt-badge-stroke shrink-0">
                                     English
                                     <img alt="" class="inline-block size-3.5 rounded-full"
-                                        src="assets/media/flags/united-states.svg" />
+                                        src="/metronic/assets/media/flags/united-states.svg" />
                                 </span>
                             </button>
                             <div class="kt-dropdown-menu w-[180px]" data-kt-dropdown-menu="true">
@@ -2011,7 +2002,7 @@
                                         <a class="kt-dropdown-menu-link" href="?dir=ltr">
                                             <span class="flex items-center gap-2">
                                                 <img alt="" class="inline-block size-4 rounded-full"
-                                                    src="assets/media/flags/united-states.svg" />
+                                                    src="/metronic/assets/media/flags/united-states.svg" />
                                                 <span class="kt-menu-title">
                                                     English
                                                 </span>
@@ -2024,7 +2015,7 @@
                                         <a class="kt-dropdown-menu-link" href="?dir=rtl">
                                             <span class="flex items-center gap-2">
                                                 <img alt="" class="inline-block size-4 rounded-full"
-                                                    src="assets/media/flags/saudi-arabia.svg" />
+                                                    src="/metronic/assets/media/flags/saudi-arabia.svg" />
                                                 <span class="kt-menu-title">
                                                     Arabic(Saudi)
                                                 </span>
@@ -2035,7 +2026,7 @@
                                         <a class="kt-dropdown-menu-link" href="?dir=ltr">
                                             <span class="flex items-center gap-2">
                                                 <img alt="" class="inline-block size-4 rounded-full"
-                                                    src="assets/media/flags/spain.svg" />
+                                                    src="/metronic/assets/media/flags/spain.svg" />
                                                 <span class="kt-menu-title">
                                                     Spanish
                                                 </span>
@@ -2046,7 +2037,7 @@
                                         <a class="kt-dropdown-menu-link" href="?dir=ltr">
                                             <span class="flex items-center gap-2">
                                                 <img alt="" class="inline-block size-4 rounded-full"
-                                                    src="assets/media/flags/germany.svg" />
+                                                    src="/metronic/assets/media/flags/germany.svg" />
                                                 <span class="kt-menu-title">
                                                     German
                                                 </span>
@@ -2057,7 +2048,7 @@
                                         <a class="kt-dropdown-menu-link" href="?dir=ltr">
                                             <span class="flex items-center gap-2">
                                                 <img alt="" class="inline-block size-4 rounded-full"
-                                                    src="assets/media/flags/japan.svg" />
+                                                    src="/metronic/assets/media/flags/japan.svg" />
                                                 <span class="kt-menu-title">
                                                     Japanese
                                                 </span>

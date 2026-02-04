@@ -5,71 +5,41 @@
     <meta charset="utf-8" />
     <title>@yield('title', 'Videre')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     {{-- Metronic CSS --}}
     <link href="{{ asset('metronic/assets/vendors/apexcharts/apexcharts.css') }}" rel="stylesheet" />
-    <link href="{{ asset('metronic/assets/assets/vendors/keenicons/styles.bundle.css') }}" rel="stylesheet" />
+    <link href="{{ asset('metronic/assets/vendors/keenicons/styles.bundle.css') }}" rel="stylesheet" />
     <link href="{{ asset('metronic/assets/css/styles.css') }}" rel="stylesheet" />
 
     @stack('styles')
 </head>
 
-<body
-    class="antialiased flex h-full text-base text-foreground bg-background [--header-height:100px] data-[kt-sticky-header=on]:[--header-height:60px]">
-    <!-- Theme Mode -->
-    <script>
-        const defaultThemeMode = 'light'; // light|dark|system
-        let themeMode;
+<body class="antialiased flex h-full bg-background">
 
-        if (document.documentElement) {
-            if (localStorage.getItem('kt-theme')) {
-                themeMode = localStorage.getItem('kt-theme');
-            } else if (
-                document.documentElement.hasAttribute('data-kt-theme-mode')
-            ) {
-                themeMode =
-                    document.documentElement.getAttribute('data-kt-theme-mode');
-            } else {
-                themeMode = defaultThemeMode;
-            }
+<script>
+    const defaultThemeMode = 'light';
+    let themeMode = localStorage.getItem('kt-theme') ?? defaultThemeMode;
+    document.documentElement.classList.add(themeMode);
+</script>
 
-            if (themeMode === 'system') {
-                themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches
-                    ? 'dark'
-                    : 'light';
-            }
+<div class="flex grow flex-col">
 
-            document.documentElement.classList.add(themeMode);
-        }
-    </script>
+    @include('partials.header')
+    @include('partials.navbar')
+    @include('partials.toolbar')
 
-    <div class="flex grow flex-col in-data-[kt-sticky-header=on]:pt-(--header-height)">
-
-        @include('partials.header')
-
-        @include('partials.navbar')
-
-        @include('partials.toolbar')
-
-
-        <!-- Content -->
-        <main class="grow" id="content" role="content">
-            <!-- Container -->
-            <div class="kt-container-fixed" id="contentContainer">
-            </div>
-            <!-- End of Container -->
-
+    {{-- APP CONTENT (METRONIC CORE) --}}
+    <div class="app-content flex-grow">
+        <div class="kt-container-fixed py-6">
             @yield('content')
-
-        </main>
-
-        @include('partials.footer')
-
-
+        </div>
     </div>
 
+    @include('partials.footer')
+</div>
 
-    @include('partials.scripts')
-    @stack('scripts')
+@include('partials.scripts')
+@stack('scripts')
+
 </body>
-
 </html>
