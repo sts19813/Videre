@@ -7,8 +7,11 @@ use App\Http\Controllers\Provider\ProviderPatientController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminProviderController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\RootController;
 
 
+
+Route::get('/', RootController::class)->name('root');
 Route::get('/lang/{lang}', [LocaleController::class, 'switch'])->name('lang.switch');
 
 Route::middleware(['auth'])

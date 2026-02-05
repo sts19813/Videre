@@ -2,7 +2,7 @@
     $user = Auth::user();
     $name = $user->name;
     $initials = collect(explode(' ', $name))
-        ->map(fn ($w) => mb_substr($w, 0, 1))
+        ->map(fn($w) => mb_substr($w, 0, 1))
         ->join('');
 
     $currentLocale = app()->getLocale();
@@ -25,21 +25,14 @@
 
             {{-- User dropdown --}}
             <div class="dropdown">
-                <div
-                    class="cursor-pointer symbol symbol-circle symbol-40px"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                >
+                <div class="cursor-pointer symbol symbol-circle symbol-40px" data-bs-toggle="dropdown"
+                    aria-expanded="false">
                     @if ($user->profile_photo)
-                        <img
-                            src="{{ asset($user->profile_photo) }}"
-                            alt="user"
-                            class="symbol-label"
-                            style="object-fit: cover;"
-                        >
+                        <img src="{{ asset($user->profile_photo) }}" alt="user" class="symbol-label"
+                            style="object-fit: cover;">
                     @else
                         <div class="symbol-label fw-bold d-flex justify-content-center align-items-center text-white"
-                             style="background:#0d6efd;">
+                            style="background:#0d6efd;">
                             {{ $initials }}
                         </div>
                     @endif
@@ -55,7 +48,7 @@
                                 <img src="{{ asset($user->profile_photo) }}" class="symbol-label">
                             @else
                                 <div class="symbol-label fw-bold d-flex justify-content-center align-items-center text-white"
-                                     style="background:#0d6efd;">
+                                    style="background:#0d6efd;">
                                     {{ $initials }}
                                 </div>
                             @endif
@@ -83,26 +76,18 @@
                         <div class="fw-semibold text-muted mb-2">{{ __('messages.mode') }}</div>
 
                         <div class="d-flex gap-2">
-                            <button class="btn btn-light btn-sm flex-fill"
-                                    data-kt-element="mode"
-                                    data-kt-value="light">
-                                <i class="ki-outline ki-night-day me-1"></i>
-                                {{ __('messages.mode_light') }}
+                            <button class="btn btn-light btn-sm" onclick="setThemeMode('light')">
+                                Light
                             </button>
 
-                            <button class="btn btn-light btn-sm flex-fill"
-                                    data-kt-element="mode"
-                                    data-kt-value="dark">
-                                <i class="ki-outline ki-moon me-1"></i>
-                                {{ __('messages.mode_dark') }}
+                            <button class="btn btn-light btn-sm" onclick="setThemeMode('dark')">
+                                Dark
                             </button>
 
-                            <button class="btn btn-light btn-sm flex-fill"
-                                    data-kt-element="mode"
-                                    data-kt-value="system">
-                                <i class="ki-outline ki-screen me-1"></i>
-                                {{ __('messages.mode_system') }}
+                            <button class="btn btn-light btn-sm" onclick="setThemeMode('system')">
+                                System
                             </button>
+
                         </div>
                     </div>
 
@@ -113,18 +98,15 @@
                         <div class="fw-semibold text-muted mb-2">{{ __('messages.language') }}</div>
 
                         <a href="{{ route('lang.switch', 'en') }}"
-                           class="dropdown-item d-flex align-items-center {{ $currentLocale == 'en' ? 'active' : '' }}">
-                            <img src="{{ asset('assets/media/flags/united-states.svg') }}"
-                                 class="me-2"
-                                 width="20">
+                            class="dropdown-item d-flex align-items-center {{ $currentLocale == 'en' ? 'active' : '' }}">
+                            <img src="{{ asset('/metronic/assets/media/flags/united-states.svg') }}" class="me-2"
+                                width="20">
                             English
                         </a>
 
                         <a href="{{ route('lang.switch', 'es') }}"
-                           class="dropdown-item d-flex align-items-center {{ $currentLocale == 'es' ? 'active' : '' }}">
-                            <img src="{{ asset('assets/media/flags/mexico.svg') }}"
-                                 class="me-2"
-                                 width="20">
+                            class="dropdown-item d-flex align-items-center {{ $currentLocale == 'es' ? 'active' : '' }}">
+                            <img src="{{ asset('/metronic/assets/media/flags/mexico.svg') }}" class="me-2" width="20">
                             Español
                         </a>
                     </div>
@@ -132,9 +114,8 @@
                     <div class="dropdown-divider"></div>
 
                     {{-- Logout --}}
-                    <a href="#"
-                       class="dropdown-item text-danger px-4 py-2"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a href="#" class="dropdown-item text-danger px-4 py-2"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="ki-outline ki-exit-right me-2"></i>
                         {{ __('messages.logout') }}
                     </a>
