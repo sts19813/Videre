@@ -19,7 +19,9 @@
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center"
                         style="width:48px;height:48px;">
-                        <i class="ki-duotone ki-user-square text-primary fs-4"></i>
+                        
+                        <i class="ki-outline ki-user fs-3 text-primary"></i>
+
                     </div>
                     <div>
                         <div class="text-muted small">Pacientes enviados</div>
@@ -37,7 +39,7 @@
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="rounded-circle bg-warning bg-opacity-10 d-flex align-items-center justify-content-center"
                         style="width:48px;height:48px;">
-                        <i class="ki-duotone ki-time text-warning fs-4"></i>
+                        <i class="ki-outline ki-time text-warning fs-4"></i>
                     </div>
                     <div>
                         <div class="text-muted small">Pendientes</div>
@@ -55,7 +57,7 @@
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="rounded-circle bg-info bg-opacity-10 d-flex align-items-center justify-content-center"
                         style="width:48px;height:48px;">
-                        <i class="ki-duotone ki-calendar text-info fs-4"></i>
+                        <i class="ki-outline ki-calendar text-info fs-4"></i>
                     </div>
                     <div>
                         <div class="text-muted small">Con cita</div>
@@ -73,7 +75,7 @@
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center"
                         style="width:48px;height:48px;">
-                        <i class="ki-duotone ki-check-circle text-success fs-4"></i>
+                        <i class="ki-outline ki-check-circle text-success fs-4"></i>
                     </div>
                     <div>
                         <div class="text-muted small">Atendidos</div>

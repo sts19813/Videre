@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminProviderController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\RootController;
-
+use App\Http\Controllers\Admin\AdminPatientController;
 
 
 Route::get('/', RootController::class)->name('root');
@@ -50,8 +50,16 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::post('/providers', [AdminProviderController::class, 'store'])
             ->name('providers.store');
-    });
 
+        Route::put('/patients/{patient}/status', [AdminPatientController::class, 'updateStatus']);
+        Route::get('/patients/{patient}', [AdminPatientController::class, 'show']);
+        // routes/web.php
+        Route::post('/patients', [AdminPatientController::class, 'store'])->name('patients.store');
+
+        Route::patch('/providers/{provider}/status', [AdminProviderController::class, 'updateStatus'])->name('providers.status');
+
+
+    });
 
 
 
