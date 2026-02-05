@@ -15,7 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'active.provider' => \App\Http\Middleware\ActiveProviderMiddleware::class,
+            'locale' => \App\Http\Middleware\SetLocale::class,
         ]);
+        // Aplicar middleware de idioma al grupo web
+        $middleware->appendToGroup('web', 'locale');
 
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -2,11 +2,24 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\Provider\ProviderDashboardController;
 use App\Http\Controllers\Provider\ProviderPatientController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminProviderController;
+use App\Http\Controllers\LocaleController;
+
+
+Route::get('/lang/{lang}', [LocaleController::class, 'switch'])->name('lang.switch');
+
+Route::middleware(['auth'])
+    ->group(function () {
+        Route::get('/perfil', [ProfileController::class, 'index'])->name('profile.index');
+        Route::post('/perfil/actualizar', [ProfileController::class, 'update'])->name('profile.update');
+        Route::post('/perfil/foto', [ProfileController::class, 'updatePhoto'])->name('profile.update.photo');
+        Route::post('/perfil/password', [ProfileController::class, 'updatePassword'])->name('profile.update.password');
+    });
+
+
 
 Route::middleware(['auth', 'role:provider', 'active.provider'])
     ->prefix('provider')
@@ -15,8 +28,6 @@ Route::middleware(['auth', 'role:provider', 'active.provider'])
 
         Route::get('/dashboard', [ProviderDashboardController::class, 'index'])
             ->name('dashboard');
-
-
 
         Route::post('/patients', [ProviderPatientController::class, 'store'])
             ->name('patients.store');
@@ -37,6 +48,10 @@ Route::middleware(['auth', 'role:admin'])
         Route::post('/providers', [AdminProviderController::class, 'store'])
             ->name('providers.store');
     });
+
+
+
+
 
 
 require __DIR__ . '/auth.php';
