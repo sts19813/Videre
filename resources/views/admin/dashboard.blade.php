@@ -119,23 +119,58 @@
                                         <td>{{ $patient->email }}</td>
 
                                         <td class="text-center">
-                                            <select class="form-select form-select-sm patient-status">
-                                                <option value="pendiente" @selected($patient->status === 'pendiente')>Pendiente
-                                                </option>
-                                                <option value="cita_agendada" @selected($patient->status === 'cita_agendada')>Con
-                                                    cita</option>
-                                                <option value="atendido" @selected($patient->status === 'atendido')>Atendido
-                                                </option>
-                                                <option value="cancelado" @selected($patient->status === 'cancelado')>Cancelado
-                                                </option>
-                                            </select>
+                                            @php
+                                                $badges = [
+                                                    'pendiente' => 'badge-light-warning',
+                                                    'cita_agendada' => 'badge-light-primary',
+                                                    'atendido' => 'badge-light-success',
+                                                    'cancelado' => 'badge-light-danger',
+                                                ];
+                                            @endphp
+
+                                            <span class="badge {{ $badges[$patient->status] }}">
+                                                {{ ucfirst(str_replace('_', ' ', $patient->status)) }}
+                                            </span>
                                         </td>
 
+
                                         <td class="text-center">
-                                            <button class="btn btn-sm btn-light-primary btn-view-patient">
-                                                <i class="ki-outline ki-eye fs-5"></i>
-                                            </button>
+
+                                            {{-- PENDIENTE --}}
+                                            @if ($patient->status === 'pendiente')
+                                                <button class="btn btn-sm btn-primary btn-schedule-appointment">
+                                                    <i class="ki-outline ki-calendar fs-5"></i>
+                                                    Agendar cita
+                                                </button>
+
+                                                <button class="btn btn-sm btn-light-danger btn-cancel-patient">
+                                                    <i class="ki-outline ki-cross fs-5"></i>
+                                                    Cancelar
+                                                </button>
+                                            @endif
+
+                                            {{-- CITA AGENDADA --}}
+                                            @if ($patient->status === 'cita_agendada')
+                                                <button class="btn btn-sm btn-warning btn-reschedule-appointment">
+                                                    <i class="ki-outline ki-refresh fs-5"></i>
+                                                    Reagendar
+                                                </button>
+
+                                                <button class="btn btn-sm btn-success btn-attend-patient">
+                                                    <i class="ki-outline ki-check fs-5"></i>
+                                                    Atender
+                                                </button>
+                                            @endif
+
+                                            {{-- ATENDIDO --}}
+                                            @if ($patient->status === 'atendido')
+                                                <button class="btn btn-sm btn-light-primary btn-view-patient">
+                                                    <i class="ki-outline ki-eye fs-5"></i>
+                                                </button>
+                                            @endif
+
                                         </td>
+
                                     </tr>
                                 @empty
                                     <tr>
@@ -321,224 +356,247 @@
         </div>
     </div>
 
+    <div class="modal fade" id="appointmentModal" tabindex="-1">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Agendar cita</h5>
+                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">
+                        <i class="ki-outline ki-cross"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="appointmentPatientId">
+
+                    <div class="mb-3">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" id="appointmentDate" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Hora</label>
+                        <input type="time" id="appointmentTime" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" id="saveAppointment">
+                        Guardar cita
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="attendPatientModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Atender paciente</h5>
+                    <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">
+                        <i class="ki-outline ki-cross"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="attendPatientId">
+
+                    <div class="mb-4">
+                        <label class="form-label">Fecha de atención *</label>
+                        <input type="date" id="attentionDate" class="form-control" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Hora de atención *</label>
+                        <input type="time" id="attentionTime" class="form-control" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Procedimiento / Estudio ocular *</label>
+                        <select id="procedure" class="form-select" required>
+                            <option value="">Selecciona un procedimiento</option>
+                            <option>Examen visual completo</option>
+                            <option>Agudeza visual</option>
+                            <option>Fondo de ojo</option>
+                            <option>Tonometría</option>
+                            <option>Retinografía</option>
+                            <option>OCT</option>
+                            <option>Campimetría visual</option>
+                            <option>Topografía corneal</option>
+                            <option>Adaptación de lentes de contacto</option>
+                            <option>Evaluación preoperatoria</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Observaciones</label>
+                        <textarea id="attentionObservations" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-success" id="saveAttention">
+                        Guardar atención
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
+    <script src="/assets/js/dashboardAdmin.js"></script>
+
     <script>
-        let table2 = null;
-
-        $(document).ready(function () {
-
-            let table = $('#patientsTable').DataTable({
-                responsive: true,
-                pageLength: 10,
-                lengthChange: true,
-                searching: true,
-                ordering: true,
-                info: true,
-                language: { url: '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-MX.json' },
-                dom: "<'row mb-3'<'col-12 d-flex justify-content-end'f>>" +
-                    "<'row'<'col-12'tr>>" +
-                    "<'row mt-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'p>>",
-            });
-
-            table2 = $('#providersTable').DataTable({
-                responsive: true,
-                pageLength: 10,
-                searching: true,
-                ordering: true,
-                lengthChange: false,
-                language: { url: '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-MX.json' },
-                dom: "<'row mb-3'<'col-12 d-flex justify-content-end'f>>" +
-                    "<'row'<'col-12'tr>>" +
-                    "<'row mt-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'p>>",
-            });
-        });
-        //cambio de estatus
-        $(document).on('change', '.patient-status', function () {
-            let row = $(this).closest('tr');
-            let patientId = row.data('id');
-            let status = $(this).val();
-
-            $.ajax({
-                url: `/admin/patients/${patientId}/status`,
-                method: 'PUT',
-                data: {
-                    status: status,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function () {
-                    toastr.success('Estatus actualizado');
-                },
-                error: function () {
-                    toastr.error('Error al actualizar');
-                }
-            });
-        });
-
-        //vista detalle paciente
-        $(document).on('click', '.btn-view-patient', function () {
-            let patientId = $(this).closest('tr').data('id');
-
-            $('#patientDetailModal').modal('show');
-            $('#patientDetailContent').html('<div class="text-center py-10">Cargando...</div>');
-
-            $.get(`/admin/patients/${patientId}`, function (html) {
-                $('#patientDetailContent').html(html);
-            });
+        $('#referralType').on('change', function () {
+            renderClinicalForm(this.value);
         });
 
 
-        //crear paciente
-        $('#createPatientForm').on('submit', function (e) {
-            e.preventDefault();
+        function renderClinicalForm(type) {
+            let html = '';
 
-            let form = $(this);
+            /* =====================================================
+               CONSULTA GENERAL
+            ===================================================== */
+            if (type === 'consulta_general') {
+                html = `
+                    <div class="card border-warning p-4">
+                        <h6 class="fw-bold mb-3">Información específica - Consulta general</h6>
 
-            $.post("{{ route('admin.patients.store') }}", form.serialize())
-                .done(() => {
-                    bootstrap.Modal.getInstance(
-                        document.getElementById('patientCreateModal')
-                    ).hide();
+                        <div class="mb-3">
+                            <label class="form-label">Motivo de consulta / síntomas *</label>
+                            <textarea name="clinical_data[motivo_consulta]" 
+                                      class="form-control" 
+                                      rows="3" 
+                                      required></textarea>
+                        </div>
 
-                    location.reload(); // o DataTable ajax.reload()
-                })
-                .fail(err => {
-                    alert('Error al guardar paciente');
-                });
-        });
-
-        //cambiar estatus al provedor
-        $(document).on('change', '.provider-status', function () {
-            let row = $(this).closest('tr');
-            let providerId = row.data('id');
-
-            $.ajax({
-                url: `/admin/providers/${providerId}/status`,
-                method: 'PATCH',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    is_active: this.value
-                }
-            });
-        });
-        //crea el proveedor desde el admin
-        $('#createProviderForm').on('submit', function (e) {
-            e.preventDefault();
-
-            let form = $(this);
-            let url = form.attr('action');
-            let formData = form.serialize();
-
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: formData,
-                success: function (response) {
-                    if (response.success) {
-
-                        // Guardar tab activo
-                        localStorage.setItem('adminActiveTab', 'tab-providers');
-
-                        // Cerrar modal
-                        const modal = bootstrap.Modal.getInstance(
-                            document.getElementById('providerCreateModal')
-                        );
-                        modal.hide();
-
-                        toastr.success('Proveedor creado correctamente');
-
-                        // Recargar página completa
-                        setTimeout(() => {
-                            location.reload();
-                        }, 500);
-                    }
-                },
-                error: function (xhr) {
-                    let msg = 'Error al crear proveedor';
-
-                    if (xhr.responseJSON?.message) {
-                        msg = xhr.responseJSON.message;
-                    }
-
-                    toastr.error(msg);
-                }
-            });
-        });
-
-
-        //para generar contraseña aleatoria
-        function generatePassword(length = 14) {
-            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%^&*";
-            let password = "";
-            for (let i = 0; i < length; i++) {
-                password += chars.charAt(Math.floor(Math.random() * chars.length));
+                        <div class="mb-3">
+                            <label class="form-label">Presión intraocular (mmHg)</label>
+                            <input type="text" 
+                                   name="clinical_data[presion_intraocular]" 
+                                   class="form-control" 
+                                   placeholder="Ej: 15 mmHg">
+                        </div>
+                    </div>`;
             }
-            return password;
+
+            /* =====================================================
+               CIRUGÍA REFRACTIVA
+            ===================================================== */
+            if (type === 'cirugia_refractiva') {
+                html = `
+                    <div class="card border-primary p-4">
+                        <h6 class="fw-bold mb-3">Información específica - Cirugía refractiva</h6>
+
+                        <div class="mb-3">
+                            <label class="form-label">¿Usa lentes de contacto?</label><br>
+                            <label><input type="radio" name="clinical_data[usa_lentes]" value="si"> Sí</label>
+                            <label class="ms-3"><input type="radio" name="clinical_data[usa_lentes]" value="no"> No</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">¿Antecedentes familiares de queratocono?</label><br>
+                            <label><input type="radio" name="clinical_data[queratocono]" value="si"> Sí</label>
+                            <label class="ms-3"><input type="radio" name="clinical_data[queratocono]" value="no"> No</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">¿Embarazo o lactancia activa?</label><br>
+                            <label><input type="radio" name="clinical_data[embarazo]" value="si"> Sí</label>
+                            <label class="ms-3"><input type="radio" name="clinical_data[embarazo]" value="no"> No</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">¿Uso de isotretinoína en los últimos 6 meses?</label><br>
+                            <label><input type="radio" name="clinical_data[isotretinoina]" value="si"> Sí</label>
+                            <label class="ms-3"><input type="radio" name="clinical_data[isotretinoina]" value="no"> No</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Padecimiento actual / síntomas</label>
+                            <textarea name="clinical_data[padecimiento_actual]" 
+                                      class="form-control" 
+                                      rows="3"></textarea>
+                        </div>
+                    </div>`;
+            }
+
+            /* =====================================================
+               CATARATA / CRISTALINO
+            ===================================================== */
+            if (type === 'catarata_cristalino') {
+                html = `
+                    <div class="card border-info p-4">
+                        <h6 class="fw-bold mb-3">Información específica - Catarata / Cristalino</h6>
+
+                        <div class="mb-3">
+                            <label class="form-label">¿Diabetes, hipertensión o glaucoma?</label><br>
+                            <label><input type="radio" name="clinical_data[enfermedades]" value="si"> Sí</label>
+                            <label class="ms-3"><input type="radio" name="clinical_data[enfermedades]" value="no"> No</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">¿Cirugías oculares previas?</label><br>
+                            <label><input type="radio" name="clinical_data[cirugias_previas]" value="si"> Sí</label>
+                            <label class="ms-3"><input type="radio" name="clinical_data[cirugias_previas]" value="no"> No</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Síntomas o padecimiento actual</label>
+                            <textarea name="clinical_data[sintomas]" 
+                                      class="form-control" 
+                                      rows="3"></textarea>
+                        </div>
+                    </div>`;
+            }
+
+            /* =====================================================
+               RETINA
+            ===================================================== */
+            if (type === 'retina') {
+                html = `
+                    <div class="card border-success p-4">
+                        <h6 class="fw-bold mb-3">Información específica - Retina</h6>
+
+                        <div class="mb-3">
+                            <label class="form-label">¿Diabetes o hipertensión?</label><br>
+                            <label><input type="radio" name="clinical_data[diabetes_hipertension]" value="si"> Sí</label>
+                            <label class="ms-3"><input type="radio" name="clinical_data[diabetes_hipertension]" value="no"> No</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">¿Cirugías oculares previas?</label><br>
+                            <label><input type="radio" name="clinical_data[cirugias_previas]" value="si"> Sí</label>
+                            <label class="ms-3"><input type="radio" name="clinical_data[cirugias_previas]" value="no"> No</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">¿Traumatismo ocular reciente?</label><br>
+                            <label><input type="radio" name="clinical_data[traumatismo]" value="si"> Sí</label>
+                            <label class="ms-3"><input type="radio" name="clinical_data[traumatismo]" value="no"> No</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Síntomas o padecimiento actual</label>
+                            <textarea name="clinical_data[sintomas]" 
+                                      class="form-control" 
+                                      rows="3"></textarea>
+                        </div>
+                    </div>`;
+            }
+
+            $('#dynamicClinicalSection').html(html);
         }
 
-        $('#providerCreateModal').on('shown.bs.modal', function () {
-            let pwd = generatePassword();
 
-            // Mostrarla
-            $('#generatedPassword').val(pwd);
-
-            // Enviarla al backend
-            $('#passwordField').val(pwd);
-        });
-
-
-        $('#copyPassword').on('click', function () {
-            let input = document.getElementById('generatedPassword');
-            let password = input.value;
-
-            if (!password) {
-                toastr.error('No hay contraseña para copiar');
-                return;
-            }
-
-            // Seleccionar texto
-            input.removeAttribute('readonly');
-            input.select();
-            input.setSelectionRange(0, 99999);
-            input.setAttribute('readonly', true);
-
-            // Clipboard moderno
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(password).then(() => {
-                    toastr.success('Contraseña copiada');
-                }).catch(() => {
-                    fallbackCopy();
-                });
-            } else {
-                fallbackCopy();
-            }
-
-            function fallbackCopy() {
-                try {
-                    document.execCommand('copy');
-                    toastr.success('Contraseña copiada');
-                } catch (e) {
-                    toastr.error('No se pudo copiar la contraseña');
-                }
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-
-            const savedTab = localStorage.getItem('adminActiveTab');
-
-            if (savedTab) {
-                const trigger = document.querySelector(
-                    `button[data-bs-target="#${savedTab}"]`
-                );
-
-                if (trigger) {
-                    new bootstrap.Tab(trigger).show();
-                }
-
-                localStorage.removeItem('adminActiveTab');
-            }
-        });
     </script>
 @endpush

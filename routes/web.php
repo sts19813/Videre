@@ -28,12 +28,8 @@ Route::middleware(['auth', 'role:provider', 'active.provider'])
     ->prefix('provider')
     ->name('provider.')
     ->group(function () {
-
-        Route::get('/dashboard', [ProviderDashboardController::class, 'index'])
-            ->name('dashboard');
-
-        Route::post('/patients', [ProviderPatientController::class, 'store'])
-            ->name('patients.store');
+        Route::get('/dashboard', [ProviderDashboardController::class, 'index'])->name('dashboard');
+        Route::post('/patients', [ProviderPatientController::class, 'store'])->name('patients.store');
     });
 
 
@@ -42,27 +38,17 @@ Route::middleware(['auth', 'role:admin'])
     ->name('admin.')
     ->group(function () {
 
-        Route::get('/dashboard', [AdminDashboardController::class, 'index'])
-            ->name('dashboard');
-
-        Route::get('/providers', [AdminProviderController::class, 'index'])
-            ->name('providers.index');
-
-        Route::post('/providers', [AdminProviderController::class, 'store'])
-            ->name('providers.store');
-
-        Route::put('/patients/{patient}/status', [AdminPatientController::class, 'updateStatus']);
-        Route::get('/patients/{patient}', [AdminPatientController::class, 'show']);
-        // routes/web.php
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/providers', [AdminProviderController::class, 'index'])->name('providers.index');
+        Route::post('/providers', [AdminProviderController::class, 'store'])->name('providers.store');
         Route::post('/patients', [AdminPatientController::class, 'store'])->name('patients.store');
-
+        Route::get('/patients/{patient}', [AdminPatientController::class, 'show'])->name('patients.show');
+        Route::put('/patients/{patient}/status', [AdminPatientController::class, 'updateStatus'])->name('patients.status');
         Route::patch('/providers/{provider}/status', [AdminProviderController::class, 'updateStatus'])->name('providers.status');
-
-
+        Route::put('/patients/{patient}/schedule', [AdminPatientController::class, 'schedule'])->name('patients.schedule');
+        Route::put('/patients/{patient}/attend',[AdminPatientController::class, 'attend'])->name('patients.attend');
+        Route::put('/patients/{patient}/cancel',[AdminPatientController::class, 'cancel'])->name('patients.cancel');
     });
-
-
-
 
 
 require __DIR__ . '/auth.php';
