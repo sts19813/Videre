@@ -199,20 +199,36 @@ $('#createPatientForm').on('submit', function (e) {
 $(document).on('change', '.provider-status', function () {
     const row = $(this).closest('tr');
     const providerId = row.data('id');
+    const select = this;
 
     $.ajax({
         url: `/admin/providers/${providerId}/status`,
-        method: 'PATCH',
+        method: 'PUT',
         headers: {
             'X-CSRF-TOKEN': document
                 .querySelector('meta[name="csrf-token"]')
                 .getAttribute('content')
         },
         data: {
-            is_active: this.value
+            is_active: select.value
+        },
+        success: function () {
+            toastr.success('Estatus actualizado correctamente');
+        },
+        error: function () {
+            toastr.error('No se pudo actualizar el estatus');
+
+            // opcional: regresar el select a su valor anterior
+            select.value = select.dataset.previous;
         }
     });
 });
+
+/* Guardar valor previo por si falla */
+$(document).on('focus', '.provider-status', function () {
+    this.dataset.previous = this.value;
+});
+
 
 
 /* =========================================================
