@@ -144,12 +144,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="5" class="text-center text-muted py-10">
-                                <i class="ki-duotone ki-information fs-2 mb-2 d-block"></i>
-                                No hay pacientes registrados
-                            </td>
-                        </tr>
+
                     @endforelse
                 </tbody>
             </table>
@@ -172,7 +167,10 @@
                 ordering: true,
                 info: true,
                 searching: true,
-                "language": { url: '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-MX.json' },
+                "language": {
+                    url: '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-MX.json',
+                    emptyTable: 'No hay pacientes registrados'
+                },
                 dom: "<'row mb-3'<'col-12 d-flex justify-content-end'f>>" +
                     "<'row'<'col-12'tr>>" +
                     "<'row mt-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'p>>",
