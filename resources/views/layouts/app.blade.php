@@ -18,8 +18,23 @@
     <!-- Global Stylesheets Bundle (obligatorios) -->
     <link href="{{ asset('/metronic/assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/metronic/assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        #patientCreateModal .form-control,
+        #patientCreateModal .form-select {
+            padding: 6px !important;
+            background-color: #F3F3F5 !important;
+        }
 
+        #patientCreateModal .modal-content {
+            max-width: 500px !important;
+            margin: auto;
+        }
 
+        .btn:not(.btn-outline):not(.btn-dashed):not(.btn-bordered):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon):not(.btn-hover-outline) {
+            padding: 5px 15px !important;
+            border-radius: 5px !important;
+        }
+    </style>
     @stack('styles')
 </head>
 

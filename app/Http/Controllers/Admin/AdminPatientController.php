@@ -113,6 +113,10 @@ class AdminPatientController extends Controller
             // Información clínica dinámica
             'clinical_data' => 'nullable|array',
 
+            'refraction' => 'nullable|string',
+            'anterior_segment_findings' => 'nullable|string',
+            'posterior_segment_findings' => 'nullable|string',
+
             // Observaciones generales
             'observations' => 'nullable|string',
         ]);

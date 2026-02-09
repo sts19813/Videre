@@ -15,7 +15,7 @@ $(document).ready(function () {
         pageLength: 10,
         lengthChange: true,
         searching: true,
-        ordering: true,
+        ordering: false,
         info: true,
         language: {
             url: '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-MX.json'

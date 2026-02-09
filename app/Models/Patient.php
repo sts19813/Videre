@@ -33,6 +33,10 @@ class Patient extends Model
         'attention_time',
         'procedure',
         'attention_observations',
+
+        'refraction',
+        'anterior_segment_findings',
+        'posterior_segment_findings',
     ];
 
     protected $casts = [

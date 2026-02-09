@@ -12,17 +12,20 @@ return new class extends Migration {
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
-
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnDelete();
-
             $table->string('clinic_name');
             $table->string('contact_name');
             $table->string('phone')->nullable();
-
+            $table->enum('provider_type', [
+                'doctor',
+                'optica'
+            ])->default('doctor');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('email');
             $table->boolean('is_active')->default(true);
-
             $table->timestamps();
         });
     }

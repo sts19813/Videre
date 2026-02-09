@@ -18,7 +18,7 @@ class AdminDashboardController extends Controller
         ];
 
         $patients = Patient::with('provider.user')
-            ->latest()
+            ->orderBy('updated_at', 'desc')
             ->get();
 
         $providers = Provider::with('user')->get();

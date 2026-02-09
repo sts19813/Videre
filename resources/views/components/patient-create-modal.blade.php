@@ -1,11 +1,13 @@
+@props([
+    'isAdmin' => false,
+    'providers' => [],
+    'action' => '',
+])
+
 <style>
     #patientCreateModal .modal-body {
         max-height: 65vh;
         overflow-y: auto;
-    }
-
-    .modal-content {
-        overflow: auto;
     }
 </style>
 
@@ -25,14 +27,17 @@
             </div>
 
             {{-- FORM --}}
-            <form method="POST" action="{{ route('provider.patients.store') }}">
+            <form id="createPatientForm" method="POST" action="{{ $action }}">
                 @csrf
 
                 <div class="modal-body">
                     <div class="row g-4">
 
-                        <b>Información del referente</b>
                         {{-- REFERENTE --}}
+                        <div class="col-12">
+                            <b>Información del referente</b>
+                        </div>
+
                         <div class="col-md-6">
                             <label class="form-label">¿Quién refiere? *</label>
                             <select name="referrer" class="form-select" required>
@@ -44,7 +49,6 @@
                             </select>
                         </div>
 
-                        {{-- TIPO REFERIDO --}}
                         <div class="col-md-6">
                             <label class="form-label">Tipo de referido *</label>
                             <select name="referral_type" id="referralType" class="form-select" required>
@@ -56,8 +60,11 @@
                             </select>
                         </div>
 
-                        <b class="mt-8">Información del paciente</b>
                         {{-- PACIENTE --}}
+                        <div class="col-12 mt-6">
+                            <b>Información del paciente</b>
+                        </div>
+
                         <div class="col-md-6">
                             <label class="form-label">Nombre *</label>
                             <input type="text" name="first_name" class="form-control" required>
@@ -77,6 +84,21 @@
                             <label class="form-label">Correo</label>
                             <input type="email" name="email" class="form-control">
                         </div>
+
+                        {{-- ADMIN ONLY --}}
+                        @if($isAdmin)
+                            <div class="col-md-12">
+                                <label class="form-label">Proveedor *</label>
+                                <select name="provider_id" class="form-select" required>
+                                    <option value="">Selecciona proveedor</option>
+                                    @foreach($providers as $provider)
+                                        <option value="{{ $provider->id }}">
+                                            {{ $provider->user->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
 
                         {{-- SEGURO --}}
                         <div class="col-md-6">
@@ -107,11 +129,55 @@
                         {{-- CLÍNICO DINÁMICO --}}
                         <div class="col-12" id="dynamicClinicalSection"></div>
 
+                        {{-- DATOS CLÍNICOS (OPCIONAL) --}}
+            
+                        <b class="mb-0">
+                            Datos clínicos
+                            <span class="text-muted">(opcional, si se cuenta con ellos)</span>
+                        </b>
+                    
+
+                        {{-- Refracción / graduación --}}
+                        <div class="mb-0">
+                            <label class="form-label">Refracción / graduación</label>
+                            <textarea
+                                class="form-control form-control-solid"
+                                name="refraction"
+                                rows="2"
+                                placeholder="Ej: OD: -2.00 -0.50 x 180, OI: -1.75 -0.25 x 90"
+                            ></textarea>
+                        </div>
+
+                        {{-- Hallazgos segmento anterior --}}
+                        <div class="mb-0">
+                            <label class="form-label">Hallazgos segmento anterior</label>
+                            <textarea
+                                class="form-control form-control-solid"
+                                name="anterior_segment_findings"
+                                rows="2"
+                                placeholder="Describe los hallazgos"
+                            ></textarea>
+                        </div>
+
+                        {{-- Hallazgos segmento posterior --}}
+                        <div class="mb-5">
+                            <label class="form-label">Hallazgos segmento posterior</label>
+                            <textarea
+                                class="form-control form-control-solid"
+                                name="posterior_segment_findings"
+                                rows="2"
+                                placeholder="Describe los hallazgos"
+                            ></textarea>
+                        </div>
+
+                
+
                         {{-- OBSERVACIONES --}}
                         <div class="col-12">
                             <b>Observaciones</b>
                             <textarea name="observations" class="form-control" rows="3"></textarea>
                         </div>
+
                     </div>
                 </div>
 
