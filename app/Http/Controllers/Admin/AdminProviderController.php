@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class AdminProviderController extends Controller
 {
@@ -33,11 +35,13 @@ class AdminProviderController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
+        $request->validate([
+            'provider_type' => 'required|in:doctor,optica',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'clinic_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
             'email' => 'required|email|unique:users,email',
-            'clinic_name' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:50',
             'password' => 'required|string|min:10',
         ]);
 
@@ -45,23 +49,36 @@ class AdminProviderController extends Controller
 
         try {
 
-            
             $user = User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
+                'name' => $request->first_name . ' ' . $request->last_name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
                 'role' => 'provider',
                 'is_active' => true,
             ]);
 
-            
             $provider = Provider::create([
                 'user_id' => $user->id,
-                'clinic_name' => $data['clinic_name'],
-                'contact_name' => $data['name'], // obligatorio en DB
-                'phone' => $data['phone'],
+                'provider_type' => $request->provider_type,
+                'clinic_name' => $request->clinic_name,
+                'contact_name' => $user->name,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'phone' => $request->phone,
+                'email' => $request->email,
                 'is_active' => true,
             ]);
+
+            // 📧 Enviar credenciales
+            Mail::raw(
+                "Bienvenido a Videre\n\n" .
+                "Correo: {$request->email}\n" .
+                "Contraseña: {$request->password}\n\n" .
+                "Inicia sesión en: " . route('login'),
+                fn($message) =>
+                $message->to($request->email)
+                    ->subject('Acceso a Videre')
+            );
 
             DB::commit();
 
@@ -71,13 +88,15 @@ class AdminProviderController extends Controller
                     'id' => $provider->id,
                     'name' => $user->name,
                     'email' => $user->email,
-                    'is_active' => $provider->is_active,
                 ],
             ]);
 
         } catch (\Throwable $e) {
 
             DB::rollBack();
+            Log::error('Error crear proveedor admin', [
+                'error' => $e->getMessage()
+            ]);
 
             return response()->json([
                 'success' => false,
@@ -85,4 +104,5 @@ class AdminProviderController extends Controller
             ], 500);
         }
     }
+
 }
