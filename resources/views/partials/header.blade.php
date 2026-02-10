@@ -16,7 +16,7 @@
     <div class="container-fluid px-4">
 
         {{-- Logo --}}
-        <a href="{{ route('provider.dashboard') }}" class="navbar-brand d-flex align-items-center">
+        <a href="/" class="navbar-brand d-flex align-items-center">
             <img src="{{ asset('assets/img/Videre-Logo.svg') }}" alt="Videre" height="30">
         </a>
 

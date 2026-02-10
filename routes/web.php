@@ -20,6 +20,7 @@ Route::middleware(['auth'])
         Route::post('/perfil/actualizar', [ProfileController::class, 'update'])->name('profile.update');
         Route::post('/perfil/foto', [ProfileController::class, 'updatePhoto'])->name('profile.update.photo');
         Route::post('/perfil/password', [ProfileController::class, 'updatePassword'])->name('profile.update.password');
+        
     });
 
 Route::middleware(['auth', 'role:provider', 'active.provider'])

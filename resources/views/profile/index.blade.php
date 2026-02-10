@@ -24,10 +24,9 @@
 
             <!-- FOTO -->
             <div class="col-md-3 text-center">
-               <div style="width: 140px; height: 140px; overflow: hidden; margin: auto;" class="rounded-circle mb-3">
+                <div style="width: 140px; height: 140px; overflow: hidden; margin: auto;" class="rounded-circle mb-3">
                     <img src="{{ $user->profile_photo ? asset($user->profile_photo) : asset('assets/media/avatars/300-1.jpg') }}"
-                        style="width: 100%; height: 100%; object-fit: cover;"
-                        alt="Foto de perfil">
+                        style="width: 100%; height: 100%; object-fit: cover;" alt="Foto de perfil">
                 </div>
 
 
@@ -84,6 +83,28 @@
             </div>
         </div>
     </div>
+
+
+    @if(session('success'))
+        <script>
+            toastr.success("{{ session('success') }}");
+        </script>
+    @endif
+
+    @if(session('error'))
+        <script>
+            toastr.error("{{ session('error') }}");
+        </script>
+    @endif
+
+    @if ($errors->any())
+        <script>
+            @foreach ($errors->all() as $error)
+                toastr.error("{{ $error }}");
+            @endforeach
+        </script>
+    @endif
+
 
 
 @endsection

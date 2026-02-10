@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Mail;
 class ProfileController extends Controller
 {
-   public function index()
+    public function index()
     {
         $user = Auth::user();
         return view('profile.index', compact('user'));
@@ -24,7 +24,7 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         $request->validate([
-            'name'  => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
         ]);
 
@@ -33,7 +33,7 @@ class ProfileController extends Controller
         return back()->with('success', 'Perfil actualizado correctamente.');
     }
 
-   public function updatePhoto(Request $request)
+    public function updatePhoto(Request $request)
     {
         $request->validate([
             'profile_photo' => 'required|image|max:2048',
@@ -73,8 +73,8 @@ class ProfileController extends Controller
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'current_password'      => 'required',
-            'password'              => 'required|confirmed|min:8',
+            'current_password' => 'required',
+            'password' => 'required|confirmed|min:8',
         ]);
 
         $user = Auth::user();
@@ -87,6 +87,16 @@ class ProfileController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // 📧 NOTIFICACIÓN EMAIL
+        Mail::raw(
+            "Hola {$user->name},\n\nTu contraseña fue actualizada correctamente.\n\nSi tú no realizaste este cambio, contacta inmediatamente al soporte.",
+            function ($message) use ($user) {
+                $message->to($user->email)
+                    ->subject('Contraseña actualizada - Videre');
+            }
+        );
+
         return back()->with('success', 'Contraseña actualizada correctamente.');
     }
+
 }
