@@ -105,4 +105,29 @@ class AdminProviderController extends Controller
         }
     }
 
+
+    //mostrar el provedor en el modal ver en el registro de tablas de los provedores en el dashboard de admin.
+    public function show(Provider $provider)
+    {
+        $provider->load('user');
+
+        return response()->json([
+            'id' => $provider->id,
+            'provider_type' => $provider->provider_type,
+            'clinic_name' => $provider->clinic_name,
+            'contact_name' => $provider->contact_name,
+            'first_name' => $provider->first_name,
+            'last_name' => $provider->last_name,
+            'phone' => $provider->phone,
+            'email' => $provider->email,
+            'is_active' => $provider->is_active,
+
+            'user' => [
+                'name' => $provider->user->name,
+                'email' => $provider->user->email,
+            ],
+        ]);
+    }
+
+
 }

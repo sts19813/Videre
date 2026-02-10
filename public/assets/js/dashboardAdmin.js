@@ -3,7 +3,7 @@
 ========================================================= */
 let tablePatients = null;
 let tableProviders = null;
-
+let tableUsers = null;
 
 /* =========================================================
    DATATABLES
@@ -40,6 +40,23 @@ $(document).ready(function () {
             "<'row'<'col-12'tr>>" +
             "<'row mt-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'p>>",
     });
+
+    tableUsers = $('#usersTable').DataTable({
+        responsive: true,
+        pageLength: 10,
+        searching: true,
+        ordering: true,
+        lengthChange: false,
+        info: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-MX.json'
+        },
+        dom:
+            "<'row mb-3'<'col-12 d-flex justify-content-end'f>>" +
+            "<'row'<'col-12'tr>>" +
+            "<'row mt-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'p>>",
+    });
+
 
 });
 
@@ -416,6 +433,122 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 });
+
+//mostrar un provedor al hacer clic en ver en la tabla de proveedores desde el dashboard de admin.
+$('.btn-view-provider').on('click', function () {
+
+    const row = $(this).closest('tr');
+    const providerId = row.data('id');
+
+    $.get(`/admin/providers/${providerId}`, function (provider) {
+
+        $('#view_name').text(provider.user.name);
+        $('#view_email').text(provider.user.email);
+
+        $('#view_provider_type').text(
+            provider.provider_type === 'doctor' ? 'Doctor' : 'Óptica'
+        );
+
+        $('#view_clinic').text(provider.clinic_name ?? '—');
+        $('#view_phone').text(provider.phone ?? '—');
+
+        $('#view_status').html(
+            provider.is_active
+                ? '<span class="badge badge-light-success">Activo</span>'
+                : '<span class="badge badge-light-danger">Inactivo</span>'
+        );
+
+        new bootstrap.Modal(
+            document.getElementById('providerViewModal')
+        ).show();
+    })
+        .fail(() => {
+            toastr.error('No se pudo cargar el proveedor');
+        });
+});
+
+
+// Crear usuario administrador desde el dashboard de admin
+$(document).on('submit', '#createUserForm', function (e) {
+    e.preventDefault();
+
+    const form = $(this);
+
+    $.ajax({
+        url: '/admin/users',
+        method: 'POST',
+        data: form.serialize(),
+        success: function (res) {
+            toastr.success('Administrador creado correctamente');
+
+            tableUsers.row.add([
+                res.user.name,
+                res.user.email,
+                `<span class="badge badge-light-primary">Administrador</span>`
+            ]).draw(false);
+
+            $('#userCreateModal').modal('hide');
+            form[0].reset();
+        },
+        error: function (xhr) {
+            if (xhr.status === 422) {
+                Object.values(xhr.responseJSON.errors).forEach(messages => {
+                    messages.forEach(msg => toastr.error(msg));
+                });
+            } else {
+                toastr.error('Error al crear usuario');
+            }
+        }
+    });
+});
+
+
+//deshabilitar usuario administrador desde el dashboard de admin
+$(document).on('click', '#disableUserBtn', function () {
+
+    if (!selectedUserId) return;
+
+    if (!confirm('¿Estás seguro de deshabilitar este usuario?')) return;
+
+    $.ajax({
+        url: `/admin/users/${selectedUserId}/disable`,
+        method: 'PATCH',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (res) {
+            toastr.success(res.message);
+
+            // actualizar badge en DataTable
+            const row = $(`#usersTable tr[data-id="${selectedUserId}"]`);
+            row.find('td:eq(2)').html(
+                '<span class="badge badge-light-danger">Inactivo</span>'
+            );
+
+            $('#userViewModal').modal('hide');
+        },
+        error: function () {
+            toastr.error('No se pudo deshabilitar el usuario');
+        }
+    });
+});
+
+
+// Ver detalles de usuario al hacer clic en la tabla de usuarios desde el dashboard de admin.
+let selectedUserId = null;
+
+$('#usersTable tbody').on('click', 'tr', function () {
+    selectedUserId = $(this).data('id');
+
+    const data = tableUsers.row(this).data();
+
+    $('#viewUserName').text(data[0]);
+    $('#viewUserEmail').text(data[1]);
+
+    $('#userViewModal').modal('show');
+});
+
+
 
 
 /* =========================================================

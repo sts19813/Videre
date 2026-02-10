@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\AdminProviderController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\RootController;
 use App\Http\Controllers\Admin\AdminPatientController;
-
+use App\Http\Controllers\Admin\AdminUserController;
 
 Route::get('/', RootController::class)->name('root');
 Route::get('/lang/{lang}', [LocaleController::class, 'switch'])->name('lang.switch');
@@ -20,7 +20,6 @@ Route::middleware(['auth'])
         Route::post('/perfil/actualizar', [ProfileController::class, 'update'])->name('profile.update');
         Route::post('/perfil/foto', [ProfileController::class, 'updatePhoto'])->name('profile.update.photo');
         Route::post('/perfil/password', [ProfileController::class, 'updatePassword'])->name('profile.update.password');
-        
     });
 
 Route::middleware(['auth', 'role:provider', 'active.provider'])
@@ -48,6 +47,11 @@ Route::middleware(['auth', 'role:admin'])
         Route::put('/patients/{patient}/schedule', [AdminPatientController::class, 'schedule'])->name('patients.schedule');
         Route::put('/patients/{patient}/attend', [AdminPatientController::class, 'attend'])->name('patients.attend');
         Route::put('/patients/{patient}/cancel', [AdminPatientController::class, 'cancel'])->name('patients.cancel');
+
+        Route::get('/providers/{provider}', [AdminProviderController::class, 'show'])->name('admin.providers.show');
+
+        Route::post('/users', [AdminUserController::class, 'store'])->name('admin.users.store');
+        Route::patch('/users/{user}/disable', [AdminUserController::class, 'disable'])->name('admin.users.disable');
     });
 
 
