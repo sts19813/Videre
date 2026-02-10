@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Models\Provider;
 use Illuminate\Support\Facades\Log;
+use App\Mail\ProviderWelcomeMail;
 class RegisteredUserController extends Controller
 {
     /**
@@ -75,7 +76,7 @@ class RegisteredUserController extends Controller
                 'is_active' => true,
             ]);
 
-            Provider::create([
+             $provider = Provider::create([
                 'user_id' => $user->id,
                 'provider_type' => $request->provider_type,
                 'clinic_name' => $request->clinic_name,
@@ -87,10 +88,8 @@ class RegisteredUserController extends Controller
                 'is_active' => true,
             ]);
 
-            Mail::raw(
-                "Bienvenido a Videre.\n\nEmail: {$request->email}\nPassword: {$password}",
-                fn($message) =>
-                $message->to($request->email)->subject('Acceso a Videre')
+            Mail::to($user->email)->send(
+                new ProviderWelcomeMail($user, $provider, $password)
             );
 
             return redirect()

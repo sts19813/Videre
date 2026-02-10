@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-
+use App\Mail\ProviderWelcomeMail;
 class AdminProviderController extends Controller
 {
     public function index()
@@ -69,17 +69,11 @@ class AdminProviderController extends Controller
                 'is_active' => true,
             ]);
 
-            // 📧 Enviar credenciales
-            Mail::raw(
-                "Bienvenido a Videre\n\n" .
-                "Correo: {$request->email}\n" .
-                "Contraseña: {$request->password}\n\n" .
-                "Inicia sesión en: " . route('login'),
-                fn($message) =>
-                $message->to($request->email)
-                    ->subject('Acceso a Videre')
+            Mail::to($user->email)->send(
+                new ProviderWelcomeMail($user, $provider, $request->password)
             );
 
+            
             DB::commit();
 
             return response()->json([
