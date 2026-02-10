@@ -14,6 +14,7 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Models\Provider;
+use Illuminate\Support\Facades\Log;
 class RegisteredUserController extends Controller
 {
     /**
@@ -50,6 +51,8 @@ class RegisteredUserController extends Controller
         return redirect(route('dashboard', absolute: false));
     }
 
+
+
     public function storeVidere(Request $request)
     {
         $request->validate([
@@ -61,41 +64,49 @@ class RegisteredUserController extends Controller
             'email' => 'required|email|unique:users,email',
         ]);
 
-        // Password automático
-        $password = Str::random(10);
+        try {
+            $password = Str::random(10);
 
-        // Crear usuario
-        $user = User::create([
-            'name' => $request->first_name . ' ' . $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make($password),
-            'role' => 'provider',
-            'is_active' => true,
-        ]);
+            $user = User::create([
+                'name' => $request->first_name . ' ' . $request->last_name,
+                'email' => $request->email,
+                'password' => Hash::make($password),
+                'role' => 'provider',
+                'is_active' => true,
+            ]);
 
-        // Crear provider
-        Provider::create([
-            'user_id' => $user->id,
-            'provider_type' => $request->provider_type,
-            'clinic_name' => $request->clinic_name,
-            'contact_name' => $request->first_name . ' ' . $request->last_name,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'is_active' => true,
-        ]);
+            Provider::create([
+                'user_id' => $user->id,
+                'provider_type' => $request->provider_type,
+                'clinic_name' => $request->clinic_name,
+                'contact_name' => $request->first_name . ' ' . $request->last_name,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'is_active' => true,
+            ]);
 
-        // Enviar password por correo
-        Mail::raw(
-            "Bienvenido a Videre.\n\nTu acceso:\nEmail: {$request->email}\nPassword: {$password}",
-            function ($message) use ($request) {
-                $message->to($request->email)
-                    ->subject('Acceso a Videre');
-            }
-        );
+            Mail::raw(
+                "Bienvenido a Videre.\n\nEmail: {$request->email}\nPassword: {$password}",
+                fn($message) =>
+                $message->to($request->email)->subject('Acceso a Videre')
+            );
 
-        return redirect()->route('login')
-            ->with('success', 'Cuenta creada. Revisa tu correo.');
+            return redirect()
+                ->route('login')
+                ->with('success', 'Cuenta creada correctamente. Revisa tu correo.');
+
+        } catch (\Throwable $e) {
+
+            Log::error('Error registro Videre', [
+                'error' => $e->getMessage()
+            ]);
+
+
+            return redirect()
+                ->route('register')
+                ->with('error', 'Ocurrió un error al crear la cuenta. Intenta nuevamente.' . $e->getMessage());
+        }
     }
 }

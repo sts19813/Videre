@@ -72,7 +72,6 @@
     <script>var hostUrl = "/metronic/assets/";</script>
     <script src="/metronic/assets/plugins/global/plugins.bundle.js"></script>
     <script src="/metronic/assets/js/scripts.bundle.js"></script>
-    <script src="/metronic/assets/js/custom/authentication/sign-in/general.js"></script>
     @stack('scripts')
 </body>
 

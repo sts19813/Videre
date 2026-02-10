@@ -15,15 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
 
-
-
-
-
     Route::get('/register', fn() => view('auth.registervidere'))
         ->name('register');
 
     Route::post('/register', [RegisteredUserController::class, 'storeVidere'])
-        ->name('register.store');
+        ->name('register.storevidere');
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
