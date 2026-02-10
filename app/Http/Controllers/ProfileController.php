@@ -11,6 +11,7 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\PasswordUpdatedMail;
 class ProfileController extends Controller
 {
     public function index()
@@ -87,14 +88,12 @@ class ProfileController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // 📧 NOTIFICACIÓN EMAIL
-        Mail::raw(
-            "Hola {$user->name},\n\nTu contraseña fue actualizada correctamente.\n\nSi tú no realizaste este cambio, contacta inmediatamente al soporte.",
-            function ($message) use ($user) {
-                $message->to($user->email)
-                    ->subject('Contraseña actualizada - Videre');
-            }
+        // NOTIFICACIÓN EMAIL
+        Mail::to($user->email)->send(
+            new PasswordUpdatedMail($user)
         );
+
+
 
         return back()->with('success', 'Contraseña actualizada correctamente.');
     }

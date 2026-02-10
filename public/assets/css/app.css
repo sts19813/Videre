@@ -1,0 +1,60 @@
+    #patientCreateModal .form-control,
+    #patientCreateModal .form-select {
+        padding: 6px !important;
+        background-color: #F3F3F5 !important;
+    }
+
+    #patientCreateModal .modal-content {
+        max-width: 500px !important;
+        margin: auto;
+    }
+
+    .btn:not(.btn-outline):not(.btn-dashed):not(.btn-bordered):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon):not(.btn-hover-outline) {
+        padding: 5px 15px !important;
+        border-radius: 5px !important;
+    }
+
+
+/* ================================
+DATATABLES – ESTILO COMPACTO
+================================ */
+
+    /* Padding horizontal real en celdas */
+    .table> :not(caption)>*>th,
+    .table> :not(caption)>*>td {
+        padding: 0.45rem 0.75rem !important;
+        /* vertical | horizontal */
+        vertical-align: middle;
+    }
+
+    /* Quitar sensación de texto pegado */
+    .table td:first-child,
+    .table th:first-child {
+        padding-left: 1rem !important;
+    }
+
+    /* Filas más compactas */
+    .table tbody tr {
+        height: auto;
+    }
+
+    /* Texto un poco más compacto */
+    .table {
+        font-size: 0.9rem;
+    }
+
+    /* Badges centrados visualmente */
+    .table .badge {
+        padding: 0.35rem 0.65rem;
+        font-size: 0.75rem;
+    }
+
+    /* Quitar espacios extra de DataTables responsive */
+    .dataTables_wrapper .dataTables_filter {
+        margin-bottom: 0.5rem;
+    }
+
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_paginate {
+        margin-top: 0.5rem;
+    }

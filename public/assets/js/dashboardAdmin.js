@@ -31,7 +31,7 @@ $(document).ready(function () {
         pageLength: 10,
         searching: true,
         ordering: true,
-        lengthChange: false,
+        lengthChange: true,
         language: {
             url: '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-MX.json'
         },
@@ -46,7 +46,7 @@ $(document).ready(function () {
         pageLength: 10,
         searching: true,
         ordering: true,
-        lengthChange: false,
+        lengthChange: true,
         info: true,
         language: {
             url: '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-MX.json'
