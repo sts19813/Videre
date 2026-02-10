@@ -8,6 +8,14 @@
 
 <body style="font-family: Arial, sans-serif; background:#f5f5f5; padding:20px;">
     <div style="max-width:600px; margin:auto; background:#ffffff; padding:30px; border-radius:6px;">
+
+
+        {{-- LOGO --}}
+        <div style="text-align:center; margin-bottom:20px;">
+            <img src="{{ asset('assets/img/videre-logo.png') }}" alt="Videre" style="max-width:180px;">
+        </div>
+
+        
         <h2 style="color:#1e1e2d;">Bienvenido a Videre</h2>
 
         <p>Hola <strong>{{ $user->name }}</strong>,</p>
