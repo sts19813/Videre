@@ -64,6 +64,19 @@ class ProviderPatientController extends Controller
             'success' => true,
             'message' => 'Paciente agregado correctamente'
         ]);
+    }
 
+    public function show(Patient $patient)
+    {
+        // Seguridad: validar que el paciente pertenece al provider
+        if ($patient->provider_id !== auth()->user()->provider->id) {
+            abort(403);
+        }
+
+        $patient->load([
+            'provider.user'
+        ]);
+
+        return view('admin.patients.show', compact('patient'));
     }
 }

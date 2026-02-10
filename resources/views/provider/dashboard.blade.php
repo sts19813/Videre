@@ -113,7 +113,7 @@
 
                 <tbody>
                     @forelse($patients as $patient)
-                        <tr>
+                        <tr data-id="{{ $patient->id }}">
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <i class="ki-duotone ki-user fs-3 text-primary"></i>
@@ -128,6 +128,10 @@
                             <td class="text-muted">{{ $patient->observations }}</td>
 
                             <td class="text-center">
+
+                                <button class="btn btn-sm btn-light-primary btn-view-patient" title="Ver registro">
+                                    <i class="ki-outline ki-eye fs-5"></i>
+                                </button>
                                 @php
                                     $statusMap = [
                                         'pendiente' => ['warning', 'Pendiente'],
@@ -153,6 +157,22 @@
     </div>
 
     <x-patient-create-modal :is-admin="false" action="{{ route('provider.patients.store') }}" />
+
+    <div class="modal fade" id="patientDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalle del paciente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body" id="patientDetailContent">
+                    <div class="text-center py-10">Cargando...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 @endsection
 @push('scripts')
@@ -234,4 +254,5 @@
 
     @include('components.tipo-de-referido')
 
+    <script src="/assets/js/provider/patients.js"></script>
 @endpush

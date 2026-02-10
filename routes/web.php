@@ -28,6 +28,7 @@ Route::middleware(['auth', 'role:provider', 'active.provider'])
     ->group(function () {
         Route::get('/dashboard', [ProviderDashboardController::class, 'index'])->name('dashboard');
         Route::post('/patients', [ProviderPatientController::class, 'store'])->name('patients.store');
+        Route::get('patients/{patient}', [ProviderPatientController::class, 'show'])->name('patients.show');
     });
 
 
@@ -44,8 +45,8 @@ Route::middleware(['auth', 'role:admin'])
         Route::put('/patients/{patient}/status', [AdminPatientController::class, 'updateStatus'])->name('patients.status');
         Route::put('/providers/{provider}/status', [AdminProviderController::class, 'updateStatus'])->name('providers.status');
         Route::put('/patients/{patient}/schedule', [AdminPatientController::class, 'schedule'])->name('patients.schedule');
-        Route::put('/patients/{patient}/attend',[AdminPatientController::class, 'attend'])->name('patients.attend');
-        Route::put('/patients/{patient}/cancel',[AdminPatientController::class, 'cancel'])->name('patients.cancel');
+        Route::put('/patients/{patient}/attend', [AdminPatientController::class, 'attend'])->name('patients.attend');
+        Route::put('/patients/{patient}/cancel', [AdminPatientController::class, 'cancel'])->name('patients.cancel');
     });
 
 
