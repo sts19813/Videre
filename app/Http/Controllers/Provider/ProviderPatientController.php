@@ -60,8 +60,10 @@ class ProviderPatientController extends Controller
             'clinical_data' => $validated['clinical_data'] ?? [],
         ]);
 
-        return redirect()
-            ->route('provider.dashboard')
-            ->with('success', 'Paciente agregado correctamente');
+        return response()->json([
+            'success' => true,
+            'message' => 'Paciente agregado correctamente'
+        ]);
+
     }
 }

@@ -183,6 +183,55 @@
         });
     </script>
 
+
+
+    <script>
+        $(document).on('submit', '#createPatientForm', function (e) {
+            e.preventDefault();
+
+            const form = $(this);
+            const url = form.attr('action');
+            const formData = form.serialize();
+
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: formData,
+                beforeSend: function () {
+                    form.find('button[type="submit"]').prop('disabled', true);
+                },
+                success: function (res) {
+                    toastr.success('Paciente agregado correctamente');
+
+                    // cerrar modal
+                    $('#patientCreateModal').modal('hide');
+
+                    // reset form
+                    form[0].reset();
+
+                    // si tienes DataTable
+                    if (window.patientsTable) {
+                        location.reload();
+                    }
+                },
+                error: function (xhr) {
+                    if (xhr.status === 422) {
+                        const errors = xhr.responseJSON.errors;
+
+                        Object.values(errors).forEach(messages => {
+                            messages.forEach(msg => toastr.error(msg));
+                        });
+                    } else {
+                        toastr.error('Ocurrió un error al guardar el paciente');
+                    }
+                },
+                complete: function () {
+                    form.find('button[type="submit"]').prop('disabled', false);
+                }
+            });
+        });
+    </script>
+
     @include('components.tipo-de-referido')
 
 @endpush

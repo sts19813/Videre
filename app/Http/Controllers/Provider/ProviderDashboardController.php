@@ -10,13 +10,14 @@ class ProviderDashboardController extends Controller
 {
     public function index()
     {
-        /**
-         * ⚠️ SIN AUTH:
-         * Usamos provider_id fijo temporal
-         * Cuando implementes auth:
-         * $providerId = auth()->user()->provider->id;
-         */
-        $providerId = 1;
+        $user = auth()->user();
+
+        // Seguridad: solo proveedores
+        if (!$user->provider) {
+            abort(403, 'No autorizado');
+        }
+
+        $providerId = $user->provider->id;
 
         // Métricas
         $stats = [
@@ -35,11 +36,12 @@ class ProviderDashboardController extends Controller
                 ->count(),
         ];
 
-        // Listado de pacientes
+        // Listado
         $patients = Patient::where('provider_id', $providerId)
             ->latest()
             ->get();
 
         return view('provider.dashboard', compact('stats', 'patients'));
     }
+
 }
