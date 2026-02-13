@@ -1,7 +1,7 @@
 <div class="tab-pane fade" id="tab-providers">
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Proveedores</h5>
+            <h5 class="mb-0">Afiliados videre</h5>
             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#providerCreateModal">
                 <i class="ki-outline ki-plus me-1"></i> Agregar proveedor
             </button>

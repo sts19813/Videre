@@ -4,42 +4,88 @@
     <div class="col-md-6">
         <div class="card border h-100">
             <div class="card-body">
-                <h6 class="fw-bold mb-3">Información del paciente</h6>
+                <h6 class="fw-bold mb-4">Información del paciente</h6>
 
-                <div class="mb-2">
-                    <span class="text-muted">Nombre</span>
-                    <div class="fw-semibold">
-                        {{ $patient->first_name }} {{ $patient->last_name }}
+                <div class="row">
+
+                    {{-- COLUMNA IZQUIERDA --}}
+                    <div class="col-md-6">
+
+                        <div class="mb-4">
+                            <span class="text-muted d-block">Nombre</span>
+                            <span class="fw-semibold">
+                                {{ $patient->first_name }} {{ $patient->last_name }}
+                            </span>
+                        </div>
+
+                        <div class="mb-4">
+                            <span class="text-muted d-block">Teléfono</span>
+                            <span class="fw-semibold">
+                                {{ $patient->phone ?: '—' }}
+                            </span>
+                        </div>
+
+                        <div class="mb-4">
+                            <span class="text-muted d-block">Correo</span>
+                            <span class="fw-semibold">
+                                {{ $patient->email ?: '—' }}
+                            </span>
+                        </div>
+
+                        <div class="mb-4">
+                            <span class="text-muted d-block">Referido por</span>
+                            <span class="fw-semibold">
+                                {{ $patient->referrer ?: '—' }}
+                            </span>
+                        </div>
+
                     </div>
-                </div>
 
-                <div class="mb-2">
-                    <span class="text-muted">Teléfono</span>
-                    <div class="fw-semibold">{{ $patient->phone }}</div>
-                </div>
+                    {{-- COLUMNA DERECHA --}}
+                    <div class="col-md-6">
 
-                <div class="mb-2">
-                    <span class="text-muted">Correo</span>
-                    <div class="fw-semibold">{{ $patient->email }}</div>
-                </div>
+                        <div class="mb-4">
+                            <span class="text-muted d-block">Tipo de referencia</span>
+                            <span class="fw-semibold">
+                                {{ $patient->referral_type ?: '—' }}
+                            </span>
+                        </div>
 
-                <div class="mb-2">
-                    <span class="text-muted">Referido por</span>
-                    <div class="fw-semibold">{{ $patient->referrer ?: '—' }}</div>
-                </div>
+                        <div class="mb-4">
+                            <span class="text-muted d-block">Observaciones</span>
+                            <span class="fw-semibold">
+                                {{ $patient->observations ?: '—' }}
+                            </span>
+                        </div>
 
-                <div class="mb-2">
-                    <span class="text-muted">Tipo de referencia</span>
-                    <div class="fw-semibold">{{ $patient->referral_type ?: '—' }}</div>
-                </div>
+                        <div class="mb-4">
+                            <span class="text-muted d-block">Registrado en sistema el</span>
+                            <span class="fw-semibold">
+                                {{ optional($patient->created_at)->format('d/m/Y H:i') }}
+                            </span>
+                        </div>
 
-                <div class="mb-2">
-                    <span class="text-muted">Observaciones</span>
-                    <div class="fw-semibold">
-                        {{ $patient->observations ?: '—' }}
+                        <div class="mb-4">
+                            <span class="text-muted d-block">Estatus</span>
+                            @php
+                                $statusMap = [
+                                    'pendiente' => 'warning',
+                                    'cita_agendada' => 'info',
+                                    'atendido' => 'success',
+                                    'cancelado' => 'danger',
+                                ];
+                            @endphp
+
+                            <span class="badge badge-light-{{ $statusMap[$patient->status] ?? 'secondary' }}">
+                                {{ ucfirst(str_replace('_', ' ', $patient->status)) }}
+                            </span>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -48,8 +94,7 @@
     <div class="col-md-6">
         <div class="card border h-100">
             <div class="card-body">
-                <h6 class="fw-bold mb-3">Proveedor</h6>
-
+                <h6 class="fw-bold mb-3">Datos del Afiliado videre.</h6>
                 <div class="mb-2">
                     <span class="text-muted">Nombre</span>
                     <div class="fw-semibold">
@@ -63,29 +108,16 @@
                         {{ $patient->provider->user->email ?? '—' }}
                     </div>
                 </div>
-
                 <div class="mb-2">
-                    <span class="text-muted">Estatus</span>
-                    <div>
-                        @php
-                            $statusMap = [
-                                'pendiente' => 'warning',
-                                'cita_agendada' => 'info',
-                                'atendido' => 'success',
-                                'cancelado' => 'danger',
-                            ];
-                        @endphp
-
-                        <span class="badge badge-light-{{ $statusMap[$patient->status] ?? 'secondary' }}">
-                            {{ ucfirst(str_replace('_', ' ', $patient->status)) }}
-                        </span>
+                    <span class="text-muted">Número de contacto</span>
+                    <div class="fw-semibold">
+                        {{ $patient->provider->phone ?? '—' }}
                     </div>
                 </div>
-
                 <div class="mb-2">
-                    <span class="text-muted">Registrado</span>
+                    <span class="text-muted">Clinica</span>
                     <div class="fw-semibold">
-                        {{ $patient->created_at->format('d/m/Y H:i') }}
+                        {{ $patient->provider->clinic_name ?? '—' }}
                     </div>
                 </div>
             </div>
@@ -165,18 +197,12 @@
                     <h6 class="fw-bold mb-3">Atención</h6>
 
                     <div class="mb-2">
-                        <span class="text-muted">Fecha de atención</span>
+                        <span class="text-muted">Fecha y hora de atención</span>
                         <div class="fw-semibold">
                             {{ optional($patient->attention_date)->format('d/m/Y') ?: '—' }}
                         </div>
                     </div>
 
-                    <div class="mb-2">
-                        <span class="text-muted">Hora</span>
-                        <div class="fw-semibold">
-                            {{ $patient->attention_time ?: '—' }}
-                        </div>
-                    </div>
 
                     <div class="mb-2">
                         <span class="text-muted">Procedimiento</span>

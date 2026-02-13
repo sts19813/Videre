@@ -71,7 +71,7 @@
 
         <li class="nav-item flex-fill">
             <button class="nav-link w-100 fw-semibold" data-bs-toggle="pill" data-bs-target="#tab-providers">
-                <i class="ki-outline ki-people me-2"></i> Proveedores
+                <i class="ki-outline ki-people me-2"></i> Afiliados videre
             </button>
         </li>
 

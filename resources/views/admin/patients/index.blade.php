@@ -42,6 +42,11 @@
                                     <span class="badge {{ $badges[$patient->status] }}">
                                         {{ ucfirst(str_replace('_', ' ', $patient->status)) }}
                                     </span>
+
+                                    <small class="text-muted mt-1">
+                                        {{ $patient->status_date_time }}
+                                    </small>
+
                                 </td>
 
 
