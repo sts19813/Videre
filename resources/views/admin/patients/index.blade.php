@@ -57,6 +57,7 @@
                                         <i class="ki-outline ki-eye fs-5"></i>
                                     </button>
 
+
                                     {{-- PENDIENTE --}}
                                     @if ($patient->status === 'pendiente')
                                         <button class="btn btn-sm btn-primary btn-schedule-appointment">
@@ -66,7 +67,6 @@
 
                                         <button class="btn btn-sm btn-light-danger btn-cancel-patient">
                                             <i class="ki-outline ki-cross fs-5"></i>
-                                            Cancelar
                                         </button>
                                     @endif
 
@@ -81,8 +81,10 @@
                                             <i class="ki-outline ki-check fs-5"></i>
                                             Atender
                                         </button>
+                                        <button class="btn btn-sm btn-light-danger btn-cancel-patient">
+                                            <i class="ki-outline ki-cross fs-5"></i>
+                                        </button>
                                     @endif
-
                                 </td>
                             </tr>
                         @empty
