@@ -21,7 +21,7 @@
                         <i class="ki-outline ki-people fs-3 text-primary"></i>
                     </div>
                     <div>
-                        <div class="text-muted small">Proveedores</div>
+                        <div class="text-muted small">Afiliados</div>
                         <div class="fs-4 fw-semibold">{{ $stats['providers'] }}</div>
                     </div>
                 </div>
