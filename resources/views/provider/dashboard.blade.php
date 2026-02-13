@@ -6,7 +6,7 @@
 
     {{-- Page Header --}}
     <div class="mb-4">
-        <h1 class="h4 fw-semibold text-dark mb-1">Portal del Proveedor</h1>
+        <h1 class="h4 fw-semibold text-dark mb-1">Portal de Afiliados</h1>
         <p class="text-muted mb-0">Clínica Visual</p>
     </div>
 

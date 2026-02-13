@@ -108,6 +108,8 @@
 
                     <div class="dropdown-divider"></div>
 
+                    <!--
+
                     {{-- Language --}}
                     <div class="px-4 py-2">
                         <div class="fw-semibold text-muted mb-2">{{ __('messages.language') }}</div>
@@ -125,8 +127,11 @@
                             Español
                         </a>
                     </div>
+                    
 
                     <div class="dropdown-divider"></div>
+
+                -->
 
                     {{-- Logout --}}
                     <a href="#" class="dropdown-item text-danger px-4 py-2"
