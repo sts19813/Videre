@@ -85,12 +85,9 @@
 
                 <!--begin::Links-->
                 <div class="d-flex fw-semibold text-primary fs-base gap-5">
-                    <a href="#" target="_blank">Términos</a>
-                    <a href="#" target="_blank">Planes</a>
-                    <a href="#" target="_blank">Contáctanos</a>
+                  
                 </div>
-                <!--end::Links-->
-
+                <!--end::Links--> 
             </div>
             <!--end::Footer-->
         </div>

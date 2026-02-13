@@ -115,44 +115,13 @@
                         <span data-kt-element="current-lang-name" class="me-1">Español (MX)</span>
                         <i class="ki-outline ki-down fs-5 text-muted rotate-180 m-0"></i>
                     </button>
-                    <!--end::Toggle-->
-
-                    <!--begin::Menu-->
-                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-4 fs-7"
-                        data-kt-menu="true" id="kt_auth_lang_menu">
-
-                        <!-- Español (MX) -->
-                        <div class="menu-item px-3">
-                            <a href="#" class="menu-link d-flex px-5" data-kt-lang="es-mx">
-                                <span class="symbol symbol-20px me-4">
-                                    <img data-kt-element="lang-flag" class="rounded-1"
-                                        src="/metronic/assets/media/flags/mexico.svg" alt="MX" />
-                                </span>
-                                <span data-kt-element="lang-name">Español (MX)</span>
-                            </a>
-                        </div>
-
-                        <!-- Inglés -->
-                        <div class="menu-item px-3">
-                            <a href="#" class="menu-link d-flex px-5" data-kt-lang="en">
-                                <span class="symbol symbol-20px me-4">
-                                    <img data-kt-element="lang-flag" class="rounded-1"
-                                        src="/metronic/assets/media/flags/united-states.svg" alt="EN" />
-                                </span>
-                                <span data-kt-element="lang-name">English</span>
-                            </a>
-                        </div>
-                    </div>
-                    <!--end::Menu-->
+                    <!--end::Toggle--> 
                 </div>
                 <!--end::Languages-->
 
-
                 <!--begin::Links-->
                 <div class="d-flex fw-semibold text-primary fs-base gap-5">
-                    <a href="pages/team.html" target="_blank">Términos</a>
-                    <a href="pages/pricing/column.html" target="_blank">Planes</a>
-                    <a href="pages/contact.html" target="_blank">Contáctanos</a>
+                 
                 </div>
                 <!--end::Links-->
             </div>

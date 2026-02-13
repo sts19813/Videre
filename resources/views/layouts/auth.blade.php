@@ -49,23 +49,19 @@
                 <div class="d-flex flex-center flex-lg-start flex-column">
                     <!--begin::Logo-->
                     <a href="index.html" class="mb-7">
-                        <img width="250px" alt="Logo" src='{{ asset("assets/img/Videre-logo.svg") }}'/>
+                        <img width="250px" alt="Logo" src='{{ asset("assets/img/videre-logo-white.png") }}'/>
                     </a>
                     <!--end::Logo-->
                     <!--begin::Title-->
-                    <h2 class="text-white fw-normal m-0">Portal administrativo Videre</h2>
+                    <h2 class="text-white fw-normal m-0"></h2>
                     <!--end::Title-->
                 </div>
                 <!--begin::Aside-->
             </div>
             <!--begin::Aside-->
-
-
             {{-- Page Content --}}
             @yield('content')
-
         </div>
-
     </div>
 
     <script>var hostUrl = "/metronic/assets/";</script>

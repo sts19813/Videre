@@ -24,9 +24,12 @@
         <div class="d-flex align-items-center ms-auto">
 
             {{-- User dropdown --}}
-            <div class="dropdown">
+            <div class="dropdown d-flex align-items-center gap-3">
+
+                {{-- Avatar clickable --}}
                 <div class="cursor-pointer symbol symbol-circle symbol-40px" data-bs-toggle="dropdown"
                     aria-expanded="false">
+
                     @if ($user->profile_photo)
                         <img src="{{ asset($user->profile_photo) }}" alt="user" class="symbol-label"
                             style="object-fit: cover;">
@@ -37,6 +40,18 @@
                         </div>
                     @endif
                 </div>
+
+                {{-- Nombre visible siempre --}}
+                <span class="fw-semibold text-dark d-none d-md-inline">
+                    {{ $user->name }}
+                </span>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-white border fw-semibold text-dark">
+                        Salir
+                    </button>
+                </form>
 
                 {{-- Dropdown --}}
                 <div class="dropdown-menu dropdown-menu-end p-0 shadow-sm" style="width:280px">
