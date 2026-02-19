@@ -35,8 +35,9 @@
                     <div class="fv-row mb-8">
                         <select name="provider_type" class="form-select form-select-lg bg-transparent" required>
                             <option value="">Selecciona el tipo</option>
-                            <option value="doctor">Doctor</option>
-                            <option value="optica">Óptica</option>
+                            <option value="optometrista">Optometrista</option>
+                            <option value="oftalmologo">Oftalmólogo</option>
+                            <option value="medico">Médico</option>
                         </select>
                     </div>
 
