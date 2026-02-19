@@ -59,7 +59,7 @@ class AdminPatientController extends Controller
             'attention_time' => $data['attention_time'],
             'procedure' => $data['procedure'],
             'attention_observations' => $data['attention_observations'],
-            'status' => 'atendido',
+            'status' => 'en_consulta',
         ]);
 
         return response()->json(['success' => true]);
@@ -117,18 +117,117 @@ class AdminPatientController extends Controller
             'anterior_segment_findings' => 'nullable|string',
             'posterior_segment_findings' => 'nullable|string',
 
+
+            'files.*' => 'nullable|file|max:5120|mimes:jpg,jpeg,png,pdf,doc,docx',
             // Observaciones generales
             'observations' => 'nullable|string',
         ]);
 
         $data['status'] = 'pendiente';
 
-        Patient::create($data);
+        $patient = Patient::create($data);
+
+
+        if ($request->hasFile('files')) {
+
+            foreach ($request->file('files') as $file) {
+
+                $path = $file->store('patients/' . $patient->id, 'public');
+
+                $patient->files()->create([
+                    'file_name' => $file->getClientOriginalName(),
+                    'file_path' => $path,
+                    'file_type' => $file->getClientMimeType(),
+                    'file_size' => round($file->getSize() / 1024), // KB
+                ]);
+            }
+        }
 
         return response()->json([
             'success' => true,
             'message' => 'Paciente creado correctamente'
         ]);
     }
+
+    public function proposeSurgery(Request $request, Patient $patient)
+    {
+        if (
+            $patient->status !== 'en_consulta' &&
+            $patient->status !== 'estudios_complementarios' &&
+            $patient->status !== 'propuesta_tratamiento'
+        ) {
+            abort(403);
+        }
+
+        $data = $request->validate([
+            'surgery_type' => 'required|string',
+            'surgery_notes' => 'nullable|string',
+        ]);
+
+        $patient->update([
+            'procedure' => $data['surgery_type'],
+            'attention_observations' => $data['surgery_notes'],
+            'status' => 'propuesta_cirugia',
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function proposeTreatment(Request $request, Patient $patient)
+    {
+        if ($patient->status !== 'en_consulta') {
+            abort(403);
+        }
+
+        $data = $request->validate([
+            'treatment_plan' => 'required|string',
+            'treatment_notes' => 'nullable|string',
+        ]);
+
+        $patient->update([
+            'attention_observations' => $data['treatment_notes'],
+            'procedure' => $data['treatment_plan'],
+            'status' => 'propuesta_tratamiento',
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function requestStudies(Request $request, Patient $patient)
+    {
+        if ($patient->status !== 'en_consulta') {
+            abort(403);
+        }
+
+        $data = $request->validate([
+            'studies_requested' => 'required|string',
+            'studies_notes' => 'nullable|string',
+        ]);
+
+        $patient->update([
+            'attention_observations' => $data['studies_notes'],
+            'procedure' => $data['studies_requested'],
+            'status' => 'estudios_complementarios',
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+
+    public function counterReference(Request $request, Patient $patient)
+    {
+        $data = $request->validate([
+            'counter_reference_notes' => 'required|string',
+        ]);
+
+        $patient->update([
+            'attention_observations' => $data['counter_reference_notes'],
+            'status' => 'contrarreferencia',
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+
 
 }

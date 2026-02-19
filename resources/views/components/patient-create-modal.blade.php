@@ -33,35 +33,8 @@
                 <div class="modal-body">
                     <div class="row g-4">
 
-                        {{-- REFERENTE --}}
-                        <div class="col-12">
-                            <b>Información del referente</b>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">¿Quién refiere? *</label>
-                            <select name="referrer" class="form-select" required>
-                                <option value="">Selecciona</option>
-                                <option value="optometrista">Optometrista</option>
-                                <option value="oftalmologo">Oftalmólogo</option>
-                                <option value="medico_general">Médico general</option>
-                                <option value="otro">Otro</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Tipo de referido *</label>
-                            <select name="referral_type" id="referralType" class="form-select" required>
-                                <option value="">Selecciona</option>
-                                <option value="consulta_general">Consulta general</option>
-                                <option value="cirugia_refractiva">Cirugía refractiva</option>
-                                <option value="catarata_cristalino">Catarata / Cristalino</option>
-                                <option value="retina">Retina</option>
-                            </select>
-                        </div>
-
                         {{-- PACIENTE --}}
-                        <div class="col-12 mt-6">
+                        <div class="col-12 ">
                             <b>Información del paciente</b>
                         </div>
 
@@ -126,6 +99,35 @@
                             <input type="date" name="policy_date" class="form-control">
                         </div>
 
+                        {{-- REFERENTE --}}
+                        <div class="col-12">
+                            <b>Información del referente</b>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">¿Quién refiere? *</label>
+                            <select name="referrer" class="form-select" required>
+                                <option value="">Selecciona</option>
+                                <option value="optometrista">Optometrista</option>
+                                <option value="oftalmologo">Oftalmólogo</option>
+                                <option value="medico_general">Médico general</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Tipo de referido *</label>
+                            <select name="referral_type" id="referralType" class="form-select" required>
+                                <option value="">Selecciona</option>
+                                <option value="consulta_general">Consulta general</option>
+                                <option value="cirugia_refractiva">Cirugía refractiva</option>
+                                <option value="catarata_cristalino">Catarata / Cristalino</option>
+                                <option value="retina">Retina</option>
+                            </select>
+                        </div>
+
+                        
+
                         {{-- CLÍNICO DINÁMICO --}}
                         <div class="col-12" id="dynamicClinicalSection"></div>
 
@@ -170,8 +172,13 @@
                             ></textarea>
                         </div>
 
-                
-
+                        <div class="col-12">
+                            <label class="form-label">Archivos del expediente</label>
+                            <div class="dropzone" id="patientDropzone"></div>
+                            <small class="text-muted">
+                                Máximo 5 archivos (5MB cada uno). JPG, PNG, PDF, DOC, DOCX
+                            </small>
+                        </div>
                         {{-- OBSERVACIONES --}}
                         <div class="col-12">
                             <b>Observaciones</b>

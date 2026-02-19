@@ -119,8 +119,14 @@
 
     @include('admin.patients.attendPatientModal')
 
-@endsection
+    @include('admin.patients.studiesModal')
 
+    @include('admin.patients.surgeryModal')
+
+    @include('admin.patients.treatmentModal')
+    @include('admin.patients.counterReferenceModal')
+
+@endsection
 @push('scripts')
     <script src="/assets/js/dashboardAdmin.js"></script>
     @include('components.tipo-de-referido')

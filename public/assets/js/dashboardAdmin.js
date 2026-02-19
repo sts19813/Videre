@@ -4,6 +4,30 @@
 let tablePatients = null;
 let tableProviders = null;
 let tableUsers = null;
+Dropzone.autoDiscover = false;
+
+let uploadedFiles = [];
+
+let myDropzone = new Dropzone("#patientDropzone", {
+    url: "#",
+    autoProcessQueue: false,
+    uploadMultiple: false,
+    parallelUploads: 5,
+    maxFiles: 5,
+    maxFilesize: 5,
+    addRemoveLinks: true,
+    acceptedFiles: ".jpg,.jpeg,.png,.pdf,.doc,.docx",
+
+    init: function () {
+        this.on("addedfile", function (file) {
+            uploadedFiles.push(file);
+        });
+
+        this.on("removedfile", function (file) {
+            uploadedFiles = uploadedFiles.filter(f => f !== file);
+        });
+    }
+});
 
 /* =========================================================
    DATATABLES
@@ -175,22 +199,27 @@ $(document).on('click', '.btn-view-patient', function () {
 $('#createPatientForm').on('submit', function (e) {
     e.preventDefault();
 
-    const form = $(this);
+    let form = this;
+    let formData = new FormData(form);
+
+    uploadedFiles.forEach((file) => {
+        formData.append("files[]", file);
+    });
 
     $.ajax({
         url: '/admin/patients',
         method: 'POST',
-        data: form.serialize(),
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function () {
 
-            // Cerrar modal
             bootstrap.Modal.getInstance(
                 document.getElementById('patientCreateModal')
             ).hide();
 
             toastr.success('Paciente creado correctamente');
 
-            // Mantener tab de pacientes
             localStorage.setItem('adminActiveTab', 'tab-patients');
 
             setTimeout(() => {
@@ -198,6 +227,7 @@ $('#createPatientForm').on('submit', function (e) {
             }, 400);
         },
         error: function (xhr) {
+
             let msg = 'Error al guardar paciente';
 
             if (xhr.responseJSON?.message) {
@@ -548,6 +578,174 @@ $('#usersTable tbody').on('click', 'tr', function () {
     $('#userViewModal').modal('show');
 });
 
+
+
+$(document).on('click', '.btn-counter-reference', function () {
+    const patientId = $(this).closest('tr').data('id');
+
+    $('#counterReferencePatientId').val(patientId);
+    $('#counterReferenceNotes').val('');
+
+    $('#counterReferenceModal').modal('show');
+});
+
+$(document).on('click', '.btn-propose-surgery', function () {
+    const patientId = $(this).closest('tr').data('id');
+    $('#surgeryPatientId').val(patientId);
+    $('#surgeryModal').modal('show');
+});
+
+
+$(document).on('click', '.btn-propose-treatment', function () {
+    const patientId = $(this).closest('tr').data('id');
+
+    $('#treatmentPatientId').val(patientId);
+    $('#treatmentPlan').val('');
+    $('#treatmentNotes').val('');
+
+    $('#treatmentModal').modal('show');
+});
+$(document).on('click', '.btn-request-studies', function () {
+    const patientId = $(this).closest('tr').data('id');
+
+    $('#studiesPatientId').val(patientId);
+    $('#studiesRequested').val('');
+    $('#studiesNotes').val('');
+
+    $('#studiesModal').modal('show');
+});
+
+
+$('#saveSurgeryProposal').on('click', function () {
+
+    const patientId = $('#surgeryPatientId').val();
+    const type = $('#surgeryType').val();
+    const notes = $('#surgeryNotes').val();
+
+    if (!type) {
+        toastr.error('Selecciona el tipo de cirugía');
+        return;
+    }
+
+    $.ajax({
+        url: `/admin/patients/${patientId}/propose-surgery`,
+        method: 'PUT',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            surgery_type: type,
+            surgery_notes: notes
+        },
+        success: function () {
+            toastr.success('Cirugía propuesta');
+            location.reload();
+        },
+        error: function () {
+            toastr.error('No se pudo registrar');
+        }
+    });
+});
+
+
+
+
+$('#saveCounterReference').on('click', function () {
+
+    const patientId = $('#counterReferencePatientId').val();
+    const notes = $('#counterReferenceNotes').val();
+
+    if (!notes) {
+        toastr.error('Debes agregar una nota de contrarreferencia');
+        return;
+    }
+
+    $.ajax({
+        url: `/admin/patients/${patientId}/counter-reference`,
+        method: 'PUT',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            counter_reference_notes: notes
+        },
+        success: function () {
+
+            toastr.success('Paciente enviado a contrarreferencia');
+
+            localStorage.setItem('adminActiveTab', 'tab-patients');
+            location.reload();
+        },
+        error: function () {
+            toastr.error('Error al registrar contrarreferencia');
+        }
+    });
+});
+
+$(document).on('click', '#saveStudies', function () {
+
+    const patientId = $('#studiesPatientId').val();
+    const studies = $('#studiesRequested').val();
+    const notes = $('#studiesNotes').val();
+
+    if (!studies) {
+        toastr.error('Debes indicar los estudios solicitados');
+        return;
+    }
+
+    $.ajax({
+        url: `/admin/patients/${patientId}/request-studies`,
+        method: 'PUT',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            studies_requested: studies,
+            studies_notes: notes
+        },
+        success: function () {
+            toastr.success('Estudios solicitados correctamente');
+            location.reload();
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            toastr.error('Error al solicitar estudios');
+        }
+    });
+});
+
+
+$(document).on('click', '#saveTreatment', function () {
+
+    const patientId = $('#treatmentPatientId').val();
+    const plan = $('#treatmentPlan').val();
+    const notes = $('#treatmentNotes').val();
+
+    if (!plan) {
+        toastr.error('Debes escribir el plan terapéutico');
+        return;
+    }
+
+    $.ajax({
+        url: `/admin/patients/${patientId}/propose-treatment`,
+        method: 'PUT',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            treatment_plan: plan,
+            treatment_notes: notes
+        },
+        success: function () {
+            toastr.success('Tratamiento registrado correctamente');
+            location.reload();
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            toastr.error('Error al guardar tratamiento');
+        }
+    });
+});
 
 
 

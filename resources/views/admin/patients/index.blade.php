@@ -34,58 +34,152 @@
                                         $badges = [
                                             'pendiente' => 'badge-light-warning',
                                             'cita_agendada' => 'badge-light-primary',
-                                            'atendido' => 'badge-light-success',
+                                            'en_consulta' => 'badge-light-info',
+                                            'propuesta_cirugia' => 'badge-light-danger',
+                                            'propuesta_tratamiento' => 'badge-light-success',
+                                            'estudios_complementarios' => 'badge-light-warning',
+                                            'en_seguimiento' => 'badge-light-dark',
+                                            'contrarreferencia' => 'badge-light-success',
                                             'cancelado' => 'badge-light-danger',
                                         ];
+
+                                        $labels = [
+                                            'pendiente' => 'Pendiente',
+                                            'cita_agendada' => 'Cita agendada',
+                                            'en_consulta' => 'En consulta',
+                                            'propuesta_cirugia' => 'Cirugía propuesta',
+                                            'propuesta_tratamiento' => 'Tratamiento propuesto',
+                                            'estudios_complementarios' => 'Estudios solicitados',
+                                            'en_seguimiento' => 'En seguimiento',
+                                            'contrarreferencia' => 'Contrarreferencia',
+                                            'cancelado' => 'Cancelado',
+                                        ];
+
+                                        $badgeClass = $badges[$patient->status] ?? 'badge-light';
+                                        $label = $labels[$patient->status] ?? ucfirst(str_replace('_', ' ', $patient->status));
                                     @endphp
 
-                                    <span class="badge {{ $badges[$patient->status] }}">
-                                        {{ ucfirst(str_replace('_', ' ', $patient->status)) }}
+                                    <span class="badge {{ $badgeClass }} fw-semibold">
+                                        {{ $label }}
                                     </span>
 
-                                    <small class="text-muted mt-1">
-                                        {{ $patient->status_date_time }}
-                                    </small>
-
+                                    <div class="text-muted fs-8 mt-1">
+                                        {{ $patient->status_date_time ?? '' }}
+                                    </div>
                                 </td>
+
+
 
 
                                 <td class="text-center">
-
-                                    {{-- VER REGISTRO (SIEMPRE) --}}
-                                    <button class="btn btn-sm btn-light-primary btn-view-patient" title="Ver registro">
-                                        <i class="ki-outline ki-eye fs-5"></i>
-                                    </button>
-
-
-                                    {{-- PENDIENTE --}}
-                                    @if ($patient->status === 'pendiente')
-                                        <button class="btn btn-sm btn-primary btn-schedule-appointment">
-                                            <i class="ki-outline ki-calendar fs-5"></i>
-                                            Agendar cita
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-light btn-active-light-primary"
+                                            data-bs-toggle="dropdown">
+                                            Acciones
+                                            <i class="ki-outline ki-down fs-6 ms-1"></i>
                                         </button>
 
-                                        <button class="btn btn-sm btn-light-danger btn-cancel-patient">
-                                            <i class="ki-outline ki-cross fs-5"></i>
-                                        </button>
-                                    @endif
+                                        <div class="dropdown-menu dropdown-menu-end min-w-200px">
 
-                                    {{-- CITA AGENDADA --}}
-                                    @if ($patient->status === 'cita_agendada')
-                                        <button class="btn btn-sm btn-warning btn-reschedule-appointment">
-                                            <i class="ki-outline ki-refresh fs-5"></i>
-                                            Reagendar
-                                        </button>
+                                            {{-- Siempre disponible --}}
+                                            <a class="dropdown-item btn-view-patient">
+                                                <i class="ki-outline ki-eye me-2"></i>
+                                                Ver registro
+                                            </a>
 
-                                        <button class="btn btn-sm btn-success btn-attend-patient">
-                                            <i class="ki-outline ki-check fs-5"></i>
-                                            Atender
-                                        </button>
-                                        <button class="btn btn-sm btn-light-danger btn-cancel-patient">
-                                            <i class="ki-outline ki-cross fs-5"></i>
-                                        </button>
-                                    @endif
+                                            {{-- ========================= --}}
+                                            {{-- PENDIENTE --}}
+                                            {{-- ========================= --}}
+                                            @if($patient->status === 'pendiente')
+                                                <a class="dropdown-item btn-schedule-appointment">
+                                                    <i class="ki-outline ki-calendar me-2"></i>
+                                                    Agendar cita
+                                                </a>
+
+                                                <a class="dropdown-item text-danger btn-cancel-patient">
+                                                    <i class="ki-outline ki-cross me-2"></i>
+                                                    Cancelar
+                                                </a>
+                                            @endif
+
+
+                                            {{-- ========================= --}}
+                                            {{-- CITA AGENDADA --}}
+                                            {{-- ========================= --}}
+                                            @if($patient->status === 'cita_agendada')
+                                                <a class="dropdown-item btn-attend-patient">
+                                                    <i class="ki-outline ki-check me-2"></i>
+                                                    Iniciar consulta
+                                                </a>
+
+                                                <a class="dropdown-item btn-reschedule-appointment">
+                                                    <i class="ki-outline ki-refresh me-2"></i>
+                                                    Reagendar
+                                                </a>
+                                            @endif
+
+
+                                            {{-- ========================= --}}
+                                            {{-- EN CONSULTA (DECISIÓN) --}}
+                                            {{-- ========================= --}}
+                                            @if($patient->status === 'en_consulta')
+                                                <div class="dropdown-divider"></div>
+
+                                                <a class="dropdown-item btn-propose-surgery">
+                                                    <i class="ki-outline ki-plus-square me-2"></i>
+                                                    Proponer cirugía
+                                                </a>
+
+                                                <a class="dropdown-item btn-propose-treatment">
+                                                    <i class="ki-outline ki-capsule me-2"></i>
+                                                    Proponer tratamiento
+                                                </a>
+
+                                                <a class="dropdown-item btn-request-studies">
+                                                    <i class="ki-outline ki-file-added me-2"></i>
+                                                    Solicitar estudios
+                                                </a>
+                                            @endif
+
+
+                                            {{-- ========================= --}}
+                                            {{-- TRATAMIENTO / ESTUDIOS → PUEDEN ESCALAR --}}
+                                            {{-- ========================= --}}
+                                            @if(in_array($patient->status, ['propuesta_tratamiento', 'estudios_complementarios']))
+                                                <div class="dropdown-divider"></div>
+
+                                                <a class="dropdown-item btn-propose-surgery">
+                                                    <i class="ki-outline ki-arrow-up me-2"></i>
+                                                    Escalar a cirugía
+                                                </a>
+                                            @endif
+
+
+                                            {{-- ========================= --}}
+                                            {{-- CIERRE CLÍNICO --}}
+                                            {{-- ========================= --}}
+                                            @if(
+                                                    in_array($patient->status, [
+                                                        'propuesta_cirugia',
+                                                        'propuesta_tratamiento',
+                                                        'estudios_complementarios',
+                                                        'en_seguimiento'
+                                                    ])
+                                                )
+                                                <div class="dropdown-divider"></div>
+
+                                                <a class="dropdown-item text-primary fw-semibold btn-counter-reference">
+                                                    <i class="ki-outline ki-abstract-26 me-2"></i>
+                                                    Cerrar en contrarreferencia
+                                                </a>
+                                            @endif
+
+                                        </div>
+                                    </div>
                                 </td>
+
+
+
                             </tr>
                         @empty
                             <tr>

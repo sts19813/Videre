@@ -66,4 +66,10 @@ class Patient extends Model
         return '-';
     }
 
+    public function files()
+    {
+        return $this->hasMany(PatientFile::class);
+    }
+
+
 }

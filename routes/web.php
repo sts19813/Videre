@@ -52,6 +52,14 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::post('/users', [AdminUserController::class, 'store'])->name('admin.users.store');
         Route::patch('/users/{user}/disable', [AdminUserController::class, 'disable'])->name('admin.users.disable');
+
+        Route::put('/patients/{patient}/counter-reference', [AdminPatientController::class, 'counterReference']);
+
+        Route::put('/patients/{patient}/propose-surgery', [AdminPatientController::class, 'proposeSurgery']);
+
+        Route::put('/patients/{patient}/propose-treatment', [AdminPatientController::class, 'proposeTreatment']);
+
+        Route::put('/patients/{patient}/request-studies', [AdminPatientController::class, 'requestStudies']);
     });
 
 
