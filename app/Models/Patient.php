@@ -71,5 +71,33 @@ class Patient extends Model
         return $this->hasMany(PatientFile::class);
     }
 
+    public function histories()
+    {
+        return $this->hasMany(PatientHistory::class)
+            ->latest();
+    }
+
+    protected static function booted()
+    {
+        static::updating(function ($patient) {
+
+            $changes = $patient->getDirty();
+
+            foreach ($changes as $field => $newValue) {
+
+                $oldValue = $patient->getOriginal($field);
+
+                \App\Models\PatientHistory::create([
+                    'patient_id' => $patient->id,
+                    'user_id' => auth()->id(),
+                    'event' => 'updated',
+                    'field' => $field,
+                    'old_value' => $oldValue,
+                    'new_value' => $newValue,
+                    'snapshot' => null,
+                ]);
+            }
+        });
+    }
 
 }

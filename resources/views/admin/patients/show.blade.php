@@ -210,99 +210,134 @@
         </div>
 
 
-        {{-- 4️⃣ SEGUIMIENTO --}}
         <div class="card shadow-sm">
-            <div class="card-header border-0">
-                <h3 class="card-title fw-bold text-dark">
-                    Seguimiento
-                </h3>
+            <div class="card-header border-0 pt-6">
+                <div class="card-title">
+                    <h3 class="fw-bold">Seguimiento clínico</h3>
+                </div>
+
+                <div class="card-toolbar">
+                    <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#tab_seguimiento">
+                                Seguimiento
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#tab_historial">
+                                Historial
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="card-body pt-0">
+            <div class="card-body pt-5">
 
-                <div class="mb-5">
-                    <label class="text-muted fw-semibold fs-7">Cita</label>
-                    <div class="fw-bold fs-6">
-                        {{ optional($patient->appointment_date)->format('d/m/Y') ?: '—' }}
-                        {{ $patient->appointment_time ?: '' }}
-                    </div>
-                </div>
+                <div class="tab-content">
 
-                <div class="mb-5">
-                    <label class="text-muted fw-semibold fs-7">
-                        Fecha de atención
-                    </label>
-                    <div class="fw-bold fs-6">
-                        {{ optional($patient->attention_date)->format('d/m/Y') ?: '—' }}
-                    </div>
-                </div>
+                    {{-- ========================= --}}
+                    {{-- TAB SEGUIMIENTO --}}
+                    {{-- ========================= --}}
+                    <div class="tab-pane fade show active" id="tab_seguimiento">
 
-                @if($patient->procedure || $patient->attention_observations)
-                    <div class="separator my-5"></div>
-
-                    <h5 class="fw-bold mb-4">Decisión Clínica</h5>
-
-                    @if($patient->procedure)
-                        <div class="mb-4">
-                            <label class="text-muted fw-semibold fs-7">
-                                Procedimiento / Plan
-                            </label>
-                            <div class="fw-bold fs-6 text-dark">
-                                {{ $patient->procedure }}
+                        <div class="mb-5">
+                            <label class="text-muted fw-semibold fs-7">Cita</label>
+                            <div class="fw-bold fs-6">
+                                {{ optional($patient->appointment_date)->format('d/m/Y') ?: '—' }}
+                                {{ $patient->appointment_time ?: '' }}
                             </div>
                         </div>
-                    @endif
 
-                    @if($patient->attention_observations)
-                        <div>
+                        <div class="mb-5">
                             <label class="text-muted fw-semibold fs-7">
-                                Observaciones médicas
+                                Fecha de atención
                             </label>
-                            <div class="fw-semibold fs-7 text-gray-700">
-                                {{ $patient->attention_observations }}
+                            <div class="fw-bold fs-6">
+                                {{ optional($patient->attention_date)->format('d/m/Y') ?: '—' }}
                             </div>
                         </div>
-                    @endif
-                @endif
 
+                        @if($patient->procedure || $patient->attention_observations)
+                            <div class="separator my-5"></div>
 
-                <div>
-                    <label class="text-muted fw-semibold fs-7">
-                        Estatus
-                    </label>
+                            <h5 class="fw-bold mb-4">Decisión Clínica</h5>
 
-                    @php
-                        $statusMap = [
-                            'pendiente' => 'warning',
-                            'cita_agendada' => 'primary',
-                            'en_consulta' => 'info',
-                            'propuesta_cirugia' => 'danger',
-                            'propuesta_tratamiento' => 'success',
-                            'estudios_complementarios' => 'warning',
-                            'en_seguimiento' => 'primary',
-                            'contrarreferencia' => 'success',
-                            'cancelado' => 'danger',
-                        ];
+                            @if($patient->procedure)
+                                <div class="mb-4">
+                                    <label class="text-muted fw-semibold fs-7">
+                                        Procedimiento / Plan
+                                    </label>
+                                    <div class="fw-bold fs-6 text-dark">
+                                        {{ $patient->procedure }}
+                                    </div>
+                                </div>
+                            @endif
 
-                        $labels = [
-                            'en_consulta' => 'En consulta',
-                            'propuesta_cirugia' => 'Cirugía propuesta',
-                            'propuesta_tratamiento' => 'Tratamiento propuesto',
-                            'estudios_complementarios' => 'Estudios solicitados',
-                            'en_seguimiento' => 'En seguimiento',
-                            'contrarreferencia' => 'Contrarreferencia',
-                        ];
-                    @endphp
+                            @if($patient->attention_observations)
+                                <div>
+                                    <label class="text-muted fw-semibold fs-7">
+                                        Observaciones médicas
+                                    </label>
+                                    <div class="fw-semibold fs-7 text-gray-700">
+                                        {{ $patient->attention_observations }}
+                                    </div>
+                                </div>
+                            @endif
+                        @endif
 
-                    <div class="mt-2">
-                        <span class="badge badge-light-{{ $statusMap[$patient->status] ?? 'secondary' }}">
-                            {{ $labels[$patient->status] ?? ucfirst(str_replace('_', ' ', $patient->status)) }}
-                        </span>
                     </div>
+
+                    {{-- ========================= --}}
+                    {{-- TAB HISTORIAL --}}
+                    {{-- ========================= --}}
+                    <div class="tab-pane fade" id="tab_historial">
+
+                        <div style="max-height: 350px; overflow-y: auto; padding-right: 10px;">
+
+                            @forelse($patient->histories as $history)
+                                <div class="d-flex mb-4">
+                                    <div class="me-3">
+                                        <i class="ki-outline ki-time text-primary fs-3"></i>
+                                    </div>
+
+                                    <div>
+                                        <div class="fw-semibold">
+                                            <span class="text-dark">
+                                                {{ ucfirst($history->field) }}
+                                            </span>
+                                            cambió de
+                                            <span class="text-muted">
+                                                {{ $history->old_value ?? '—' }}
+                                            </span>
+                                            a
+                                            <span class="text-dark">
+                                                {{ $history->new_value ?? '—' }}
+                                            </span>
+                                        </div>
+
+                                        <div class="text-muted fs-8">
+                                            {{ $history->created_at->format('d/m/Y H:i') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="text-muted">
+                                    No hay movimientos registrados.
+                                </div>
+                            @endforelse
+
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
         </div>
+
+
+
 
     </div>
 
