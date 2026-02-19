@@ -57,7 +57,7 @@ class RegisteredUserController extends Controller
     public function storeVidere(Request $request)
     {
         $request->validate([
-            'provider_type' => 'required|in:doctor,optica',
+            'provider_type' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'clinic_name' => 'required|string|max:255',
