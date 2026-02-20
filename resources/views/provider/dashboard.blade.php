@@ -166,13 +166,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
-                <div class="modal-body" id="patientDetailContent">
+                <div class="modal-body pt-0" id="patientDetailContent">
                     <div class="text-center py-10">Cargando...</div>
                 </div>
             </div>
         </div>
     </div>
-
 
 @endsection
 @push('scripts')

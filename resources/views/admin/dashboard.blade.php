@@ -104,7 +104,7 @@
                         <i class="ki-outline ki-cross fs-2"></i>
                     </button>
                 </div>
-                <div class="modal-body" id="patientDetailContent">
+                <div class="modal-body pt-0" id="patientDetailContent">
                     <div class="text-center text-muted py-10">Cargando...</div>
                 </div>
             </div>
