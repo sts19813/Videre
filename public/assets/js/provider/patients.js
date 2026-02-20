@@ -1,8 +1,8 @@
-/* =========================================================
-   PROVIDER – VER PACIENTE
-========================================================= */
 $(document).on('click', '.btn-view-patient', function () {
-    const patientId = $(this).closest('tr').data('id');
+
+    const patientId = $(this).data('id');
+
+    console.log(patientId); // verifica
 
     $('#patientDetailModal').modal('show');
     $('#patientDetailContent').html(
@@ -12,4 +12,5 @@ $(document).on('click', '.btn-view-patient', function () {
     $.get(`/provider/patients/${patientId}`, function (html) {
         $('#patientDetailContent').html(html);
     });
+
 });

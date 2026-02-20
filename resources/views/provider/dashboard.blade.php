@@ -94,7 +94,8 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Listado de pacientes</h5>
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#patientCreateModal">
+            <button type="button" class="btn btn-primary btn-add-patient" data-bs-toggle="modal"
+                data-bs-target="#patientCreateModal">
                 Agregar paciente
             </button>
         </div>
@@ -128,8 +129,13 @@
                             <td class="text-muted">{{ $patient->observations }}</td>
 
                             <td class="text-center">
+                                <button class="btn btn-sm btn-light-warning btn-edit-patient" data-id="{{ $patient->id }}"
+                                    title="Editar">
+                                    <i class="ki-outline ki-pencil fs-5"></i>
+                                </button>
 
-                                <button class="btn btn-sm btn-light-primary btn-view-patient" title="Ver registro">
+                                <button class="btn btn-sm btn-light-primary btn-view-patient" data-id="{{ $patient->id }}"
+                                    title="Ver registro">
                                     <i class="ki-outline ki-eye fs-5"></i>
                                 </button>
                                 @php
@@ -176,82 +182,243 @@
 @endsection
 @push('scripts')
     <script>
+        let uploadedFiles = [];
+        Dropzone.autoDiscover = false;
+
+        let myDropzone = new Dropzone("#patientDropzone", {
+            url: "#",
+            autoProcessQueue: false,
+            uploadMultiple: false,
+            parallelUploads: 5,
+            maxFiles: 5,
+            maxFilesize: 5,
+            addRemoveLinks: true,
+            acceptedFiles: ".jpg,.jpeg,.png,.pdf,.doc,.docx",
+
+            init: function () {
+
+                this.on("addedfile", function (file) {
+                    if (!file.existing) {
+                        uploadedFiles.push(file);
+                    }
+                });
+
+                this.on("removedfile", function (file) {
+                    uploadedFiles = uploadedFiles.filter(f => f !== file);
+                });
+            }
+        });
+
         $(document).ready(function () {
 
-            let table = $('#patientsTable').DataTable({
+            $('#patientsTable').DataTable({
                 responsive: true,
                 pageLength: 10,
-                paging: true,
                 lengthChange: true,
+                searching: true,
                 ordering: true,
                 info: true,
-                searching: true,
-                "language": {
+                language: {
                     url: '//cdn.datatables.net/plug-ins/2.3.2/i18n/es-MX.json',
                     emptyTable: 'No hay pacientes registrados'
                 },
-                dom: "<'row mb-3'<'col-12 d-flex justify-content-end'f>>" +
+                dom:
+                    "<'row mb-3'<'col-12 d-flex justify-content-end'f>>" +
                     "<'row'<'col-12'tr>>" +
                     "<'row mt-3'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'p>>",
             });
 
-            $('#patientsSearch').on('keyup', function () {
-                table.search(this.value).draw();
-            });
-
         });
-    </script>
 
+        /* ===============================
+           SUBMIT CREAR / EDITAR
+        =============================== */
+        $(document).on('submit', '#patientForm', function (e) {
 
-
-    <script>
-        $(document).on('submit', '#createPatientForm', function (e) {
             e.preventDefault();
 
-            const form = $(this);
-            const url = form.attr('action');
-            const formData = form.serialize();
+            let form = this;
+            let actionUrl = $(form).attr('action');
+            let formData = new FormData(form);
+
+            uploadedFiles.forEach((file) => {
+                formData.append("files[]", file);
+            });
 
             $.ajax({
-                url: url,
-                method: 'POST',
+                url: actionUrl,
+                method: 'POST', // Laravel detecta _method si es PUT
                 data: formData,
-                beforeSend: function () {
-                    form.find('button[type="submit"]').prop('disabled', true);
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                success: function (res) {
-                    toastr.success('Paciente agregado correctamente');
+                success: function () {
 
-                    // cerrar modal
-                    $('#patientCreateModal').modal('hide');
+                    bootstrap.Modal.getInstance(
+                        document.getElementById('patientCreateModal')
+                    ).hide();
 
-                    // reset form
-                    form[0].reset();
+                    toastr.success('Paciente guardado correctamente');
 
-                    // si tienes DataTable
-                    if (window.patientsTable) {
-                        location.reload();
-                    }
+                    setTimeout(() => location.reload(), 400);
                 },
                 error: function (xhr) {
-                    if (xhr.status === 422) {
-                        const errors = xhr.responseJSON.errors;
 
-                        Object.values(errors).forEach(messages => {
+                    if (xhr.status === 422) {
+
+                        Object.values(xhr.responseJSON.errors).forEach(messages => {
                             messages.forEach(msg => toastr.error(msg));
                         });
+
                     } else {
-                        toastr.error('Ocurrió un error al guardar el paciente');
+                        toastr.error('Error al guardar paciente');
                     }
-                },
-                complete: function () {
-                    form.find('button[type="submit"]').prop('disabled', false);
                 }
             });
         });
+
+
+        /* ===============================
+           EDITAR PACIENTE
+        =============================== */
+        $(document).on('click', '.btn-edit-patient', function () {
+
+            const patientId = $(this).data('id');
+
+            resetPatientModal();
+
+            $.get(`/provider/patients/${patientId}/edit`, function (data) {
+
+                const form = $('#patientForm');
+
+                $('#patientModalTitle').text('Editar paciente');
+
+                form.attr('action', `/provider/patients/${patientId}`);
+
+                if (!form.find('input[name="_method"]').length) {
+                    form.append('<input type="hidden" name="_method" value="PUT">');
+                }
+
+                form.find('[name="first_name"]').val(data.first_name);
+                form.find('[name="last_name"]').val(data.last_name);
+                form.find('[name="phone"]').val(data.phone);
+                form.find('[name="email"]').val(data.email);
+                form.find('[name="provider_id"]').val(data.provider_id);
+                form.find('[name="insurance"]').val(data.insurance);
+                form.find('[name="referrer"]').val(data.referrer);
+                if (data.policy_date) {
+                    const date = data.policy_date.split('T')[0];
+                    form.find('[name="policy_date"]').val(date);
+                }
+
+                form.find('[name="referral_type"]').val(data.referral_type);
+
+                renderClinicalForm(data.referral_type);
+
+                if (data.clinical_data) {
+                    Object.keys(data.clinical_data).forEach(key => {
+
+                        const value = data.clinical_data[key];
+                        const field = form.find(`[name="clinical_data[${key}]"]`);
+
+                        if (field.attr('type') === 'radio') {
+                            form.find(`[name="clinical_data[${key}]"][value="${value}"]`)
+                                .prop('checked', true);
+                        } else {
+                            field.val(value);
+                        }
+
+                    });
+                }
+
+                form.find('[name="refraction"]').val(data.refraction);
+                form.find('[name="anterior_segment_findings"]').val(data.anterior_segment_findings);
+                form.find('[name="posterior_segment_findings"]').val(data.posterior_segment_findings);
+                form.find('[name="observations"]').val(data.observations);
+
+                // Limpiar Dropzone antes de cargar archivos
+                if (myDropzone) {
+                    myDropzone.removeAllFiles(true);
+                    uploadedFiles = [];
+
+                    if (data.files) {
+                        data.files.forEach(file => {
+
+                            let mockFile = {
+                                name: file.file_name,
+                                size: file.file_size * 1024,
+                                existing: true
+                            };
+
+                            mockFile.accepted = true;
+                            mockFile.status = Dropzone.SUCCESS;
+
+                            myDropzone.emit("addedfile", mockFile);
+                            myDropzone.emit("thumbnail", mockFile, "/storage/" + file.file_path);
+                            myDropzone.emit("complete", mockFile);
+
+                            // MUY IMPORTANTE:
+                            myDropzone.files.push(mockFile);
+
+
+
+                            mockFile.previewElement.classList.add("dz-success");
+                            mockFile.previewElement.classList.add("dz-complete");
+                        });
+                    }
+                }
+
+                $('#patientCreateModal').modal('show');
+
+            });
+        });
+
+        $(document).on('click', '.btn-add-patient', function () {
+            resetPatientModal();
+        });
+
+        /* ===============================
+           RESET MODAL
+        =============================== */
+        function resetPatientModal() {
+
+            const form = $('#patientForm');
+
+            form.trigger('reset');
+            form.find('input[name="_method"]').remove();
+
+            form.attr('action', "{{ route('provider.patients.store') }}");
+
+            $('#patientModalTitle').text('Agregar paciente');
+
+            $('#dynamicClinicalSection').html('');
+
+            uploadedFiles = [];
+
+            if (myDropzone) {
+                myDropzone.removeAllFiles(true);
+            }
+        }
+         $(document).on('click', '.btn-view-patient', function () {
+
+            const patientId = $(this).data('id');
+
+            console.log(patientId); // verifica
+
+            $('#patientDetailModal').modal('show');
+            $('#patientDetailContent').html(
+                '<div class="text-center py-10">Cargando...</div>'
+            );
+
+            $.get(`/provider/patients/${patientId}`, function (html) {
+                $('#patientDetailContent').html(html);
+            });
+
+        });
+
     </script>
 
     @include('components.tipo-de-referido')
-
-    <script src="/assets/js/provider/patients.js"></script>
 @endpush

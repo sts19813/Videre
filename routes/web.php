@@ -29,6 +29,9 @@ Route::middleware(['auth', 'role:provider', 'active.provider'])
         Route::get('/dashboard', [ProviderDashboardController::class, 'index'])->name('dashboard');
         Route::post('/patients', [ProviderPatientController::class, 'store'])->name('patients.store');
         Route::get('patients/{patient}', [ProviderPatientController::class, 'show'])->name('patients.show');
+        Route::put('/patients/{patient}', [ProviderPatientController::class, 'update'])->name('patients.update');
+        Route::get('patients/{patient}/edit', [ProviderPatientController::class, 'edit'])
+            ->name('patients.edit');
     });
 
 
@@ -52,7 +55,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::delete('/admin/patient-files/{file}', [AdminPatientController::class, 'deleteFile']);
 
         Route::get('/patients/{patient}/edit', [AdminPatientController::class, 'edit'])->name('patients.edit');
-        
+
         Route::get('/providers/{provider}', [AdminProviderController::class, 'show'])->name('admin.providers.show');
 
         Route::post('/users', [AdminUserController::class, 'store'])->name('admin.users.store');
