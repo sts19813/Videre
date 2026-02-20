@@ -40,51 +40,7 @@ class PatientHistory extends Model
         };
     }
 
-    public function getOldValueFormattedAttribute()
-    {
-        return $this->formatValue($this->old_value);
-    }
 
-    public function getNewValueFormattedAttribute()
-    {
-        return $this->formatValue($this->new_value);
-    }
-
-    private function formatValue($value)
-    {
-        if (!$value) {
-            return '—';
-        }
-
-        // Traducir status
-        $statusMap = [
-            'pendiente' => 'Pendiente',
-            'cita_agendada' => 'Cita agendada',
-            'en_consulta' => 'En consulta',
-            'propuesta_cirugia' => 'Cirugía propuesta',
-            'propuesta_tratamiento' => 'Tratamiento propuesto',
-            'estudios_complementarios' => 'Estudios solicitados',
-            'en_seguimiento' => 'En seguimiento',
-            'contrarreferencia' => 'Contrarreferencia',
-            'cancelado' => 'Cancelado',
-        ];
-
-        if (isset($statusMap[$value])) {
-            return $statusMap[$value];
-        }
-
-        // Formatear fechas
-        if ($this->isDateField()) {
-            return \Carbon\Carbon::parse($value)->format('d/m/Y');
-        }
-
-        // Formatear horas AM/PM
-        if ($this->isTimeField()) {
-            return \Carbon\Carbon::parse($value)->format('h:i A');
-        }
-
-        return $value;
-    }
 
     private function isDateField()
     {
@@ -102,4 +58,83 @@ class PatientHistory extends Model
         ]);
     }
 
+    public function getOldValueFormattedAttribute()
+    {
+        return $this->formatValue($this->old_value);
+    }
+
+    public function getNewValueFormattedAttribute()
+    {
+        return $this->formatValue($this->new_value);
+    }
+
+    private function formatValue($value)
+    {
+        if (!$value) {
+            return '—';
+        }
+
+        // ===============================
+        // 1️⃣ Intentar detectar JSON
+        // ===============================
+        $decoded = json_decode($value, true);
+
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+
+            $html = '<ul class="mb-0 ps-4">';
+
+            foreach ($decoded as $key => $val) {
+
+                $label = ucfirst(str_replace('_', ' ', $key));
+
+                // Traducir si/no
+                $val = match ($val) {
+                    'si' => 'Sí',
+                    'no' => 'No',
+                    default => $val
+                };
+
+                $html .= "<li><strong>{$label}:</strong> {$val}</li>";
+            }
+
+            $html .= '</ul>';
+
+            return $html;
+        }
+
+        // ===============================
+        // 2️⃣ Traducir status
+        // ===============================
+        $statusMap = [
+            'pendiente' => 'Pendiente',
+            'cita_agendada' => 'Cita agendada',
+            'en_consulta' => 'En consulta',
+            'propuesta_cirugia' => 'Cirugía propuesta',
+            'propuesta_tratamiento' => 'Tratamiento propuesto',
+            'estudios_complementarios' => 'Estudios solicitados',
+            'en_seguimiento' => 'En seguimiento',
+            'contrarreferencia' => 'Contrarreferencia',
+            'cancelado' => 'Cancelado',
+        ];
+
+        if (isset($statusMap[$value])) {
+            return $statusMap[$value];
+        }
+
+        // ===============================
+        // 3️⃣ Formatear fechas
+        // ===============================
+        if ($this->isDateField()) {
+            return \Carbon\Carbon::parse($value)->format('d/m/Y');
+        }
+
+        // ===============================
+        // 4️⃣ Formatear horas
+        // ===============================
+        if ($this->isTimeField()) {
+            return \Carbon\Carbon::parse($value)->format('h:i A');
+        }
+
+        return $value;
+    }
 }

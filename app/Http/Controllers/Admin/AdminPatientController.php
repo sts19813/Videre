@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Provider;
 use App\Models\Patient;
 use Illuminate\Http\Request;
+use App\Models\PatientFile;
 
 class AdminPatientController extends Controller
 {
@@ -228,6 +229,65 @@ class AdminPatientController extends Controller
         return response()->json(['success' => true]);
     }
 
+
+    public function deleteFile(PatientFile $file)
+    {
+        \Storage::disk('public')->delete($file->file_path);
+        $file->delete();
+
+        return response()->json(['success' => true]);
+    }
+    public function edit(Patient $patient)
+    {
+        return response()->json($patient->load('files'));
+    }
+
+    public function update(Request $request, Patient $patient)
+    {
+        $data = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'nullable|email',
+            'phone' => 'required|string|max:50',
+            'provider_id' => 'required|exists:providers,id',
+
+            'referrer' => 'required|in:optometrista,oftalmologo,medico_general,otro',
+            'referral_type' => 'required|in:consulta_general,cirugia_refractiva,catarata_cristalino,retina',
+
+            'insurance' => 'nullable|in:axxa,allianz,gnp,metlife,atlas,inbursa,sura,ve_por_mas,seguros_monterrey,seguros_banorte,mapfre,zurich,otro',
+            'policy_date' => 'nullable|date',
+
+            'clinical_data' => 'nullable|array',
+
+            'refraction' => 'nullable|string',
+            'anterior_segment_findings' => 'nullable|string',
+            'posterior_segment_findings' => 'nullable|string',
+
+            'files.*' => 'nullable|file|max:5120|mimes:jpg,jpeg,png,pdf,doc,docx',
+            'observations' => 'nullable|string',
+        ]);
+
+        $patient->update($data);
+
+        // Subir nuevos archivos si hay
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $path = $file->store('patients/' . $patient->id, 'public');
+
+                $patient->files()->create([
+                    'file_name' => $file->getClientOriginalName(),
+                    'file_path' => $path,
+                    'file_type' => $file->getClientMimeType(),
+                    'file_size' => round($file->getSize() / 1024),
+                ]);
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Paciente actualizado correctamente'
+        ]);
+    }
 
 
 }

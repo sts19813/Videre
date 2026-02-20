@@ -92,8 +92,8 @@ class Patient extends Model
                     'user_id' => auth()->id(),
                     'event' => 'updated',
                     'field' => $field,
-                    'old_value' => $oldValue,
-                    'new_value' => $newValue,
+                    'old_value' => is_array($oldValue) ? json_encode($oldValue) : $oldValue,
+                    'new_value' => is_array($newValue) ? json_encode($newValue) : $newValue,
                     'snapshot' => null,
                 ]);
             }

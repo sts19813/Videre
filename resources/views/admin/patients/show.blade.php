@@ -347,13 +347,12 @@
                                 <div class="text-muted fs-7 mb-1">
                                     De:
                                     <span class="text-dark">
-                                        {{ $history->old_value_formatted }}
-
+                                        {!! $history->old_value_formatted !!}
 
                                     </span>
                                     →
                                     <span class="text-dark fw-semibold">
-                                        {{ $history->new_value_formatted }}
+                                        {!! $history->new_value_formatted !!}
                                     </span>
                                 </div>
 

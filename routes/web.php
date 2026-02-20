@@ -48,6 +48,11 @@ Route::middleware(['auth', 'role:admin'])
         Route::put('/patients/{patient}/attend', [AdminPatientController::class, 'attend'])->name('patients.attend');
         Route::put('/patients/{patient}/cancel', [AdminPatientController::class, 'cancel'])->name('patients.cancel');
 
+        Route::put('/patients/{patient}', [AdminPatientController::class, 'update'])->name('admin.patients.update');
+        Route::delete('/admin/patient-files/{file}', [AdminPatientController::class, 'deleteFile']);
+
+        Route::get('/patients/{patient}/edit', [AdminPatientController::class, 'edit'])->name('patients.edit');
+        
         Route::get('/providers/{provider}', [AdminProviderController::class, 'show'])->name('admin.providers.show');
 
         Route::post('/users', [AdminUserController::class, 'store'])->name('admin.users.store');

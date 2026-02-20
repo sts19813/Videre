@@ -6,7 +6,10 @@ let tableProviders = null;
 let tableUsers = null;
 Dropzone.autoDiscover = false;
 
+
 let uploadedFiles = [];
+Dropzone.autoDiscover = false;
+
 
 let myDropzone = new Dropzone("#patientDropzone", {
     url: "#",
@@ -20,7 +23,9 @@ let myDropzone = new Dropzone("#patientDropzone", {
 
     init: function () {
         this.on("addedfile", function (file) {
-            uploadedFiles.push(file);
+            if (!file.existing) {
+                uploadedFiles.push(file);
+            }
         });
 
         this.on("removedfile", function (file) {
@@ -196,19 +201,23 @@ $(document).on('click', '.btn-view-patient', function () {
 /* =========================================================
    PACIENTES – CREAR
 ========================================================= */
-$('#createPatientForm').on('submit', function (e) {
+$(document).on('submit', '#patientForm', function (e) {
     e.preventDefault();
 
     let form = this;
     let formData = new FormData(form);
+    let actionUrl = $(form).attr('action');
+    let method = $(form).find('input[name="_method"]').val() || 'POST';
 
-    uploadedFiles.forEach((file) => {
-        formData.append("files[]", file);
-    });
+    if (myDropzone) {
+        uploadedFiles.forEach((file) => {
+            formData.append("files[]", file);
+        });
+    }
 
     $.ajax({
-        url: '/admin/patients',
-        method: 'POST',
+        url: actionUrl,
+        method: method === 'PUT' ? 'POST' : method, // Laravel necesita POST + _method
         data: formData,
         processData: false,
         contentType: false,
@@ -218,7 +227,11 @@ $('#createPatientForm').on('submit', function (e) {
                 document.getElementById('patientCreateModal')
             ).hide();
 
-            toastr.success('Paciente creado correctamente');
+            toastr.success(
+                method === 'PUT'
+                    ? 'Paciente actualizado correctamente'
+                    : 'Paciente creado correctamente'
+            );
 
             localStorage.setItem('adminActiveTab', 'tab-patients');
 
@@ -748,6 +761,127 @@ $(document).on('click', '#saveTreatment', function () {
 });
 
 
+$(document).on('click', '.btn-edit-patient', function () {
+
+    resetPatientModal(); // limpia primero SIEMPRE
+
+    const patientId = $(this).data('id');
+
+    $('#patientCreateModal').data('editing', true);
+
+    $.get(`/admin/patients/${patientId}/edit`, function (data) {
+
+        const form = $('#patientForm');
+
+        $('#patientModalTitle').text('Editar paciente');
+
+        form.attr('action', `/admin/patients/${patientId}`);
+
+        if (!form.find('input[name="_method"]').length) {
+            form.append('<input type="hidden" name="_method" value="PUT">');
+        }
+
+        form.find('[name="first_name"]').val(data.first_name);
+        form.find('[name="last_name"]').val(data.last_name);
+        form.find('[name="phone"]').val(data.phone);
+        form.find('[name="email"]').val(data.email);
+        form.find('[name="provider_id"]').val(data.provider_id);
+        form.find('[name="insurance"]').val(data.insurance);
+        form.find('[name="referrer"]').val(data.referrer);
+        if (data.policy_date) {
+            const date = data.policy_date.split('T')[0];
+            form.find('[name="policy_date"]').val(date);
+        }
+
+        form.find('[name="referral_type"]').val(data.referral_type);
+
+        renderClinicalForm(data.referral_type);
+
+        if (data.clinical_data) {
+            Object.keys(data.clinical_data).forEach(key => {
+
+                const value = data.clinical_data[key];
+                const field = form.find(`[name="clinical_data[${key}]"]`);
+
+                if (field.attr('type') === 'radio') {
+                    form.find(`[name="clinical_data[${key}]"][value="${value}"]`)
+                        .prop('checked', true);
+                } else {
+                    field.val(value);
+                }
+
+            });
+        }
+
+        form.find('[name="refraction"]').val(data.refraction);
+        form.find('[name="anterior_segment_findings"]').val(data.anterior_segment_findings);
+        form.find('[name="posterior_segment_findings"]').val(data.posterior_segment_findings);
+        form.find('[name="observations"]').val(data.observations);
+
+        // Limpiar Dropzone antes de cargar archivos
+        if (myDropzone) {
+            myDropzone.removeAllFiles(true);
+            uploadedFiles = [];
+
+            if (data.files) {
+                data.files.forEach(file => {
+
+                    let mockFile = {
+                        name: file.file_name,
+                        size: file.file_size * 1024,
+                        existing: true
+                    };
+
+                    mockFile.accepted = true;
+                    mockFile.status = Dropzone.SUCCESS;
+
+                    myDropzone.emit("addedfile", mockFile);
+                    myDropzone.emit("thumbnail", mockFile, "/storage/" + file.file_path);
+                    myDropzone.emit("complete", mockFile);
+
+                    // MUY IMPORTANTE:
+                    myDropzone.files.push(mockFile);
+
+
+
+                    mockFile.previewElement.classList.add("dz-success");
+                    mockFile.previewElement.classList.add("dz-complete");
+                });
+            }
+        }
+
+        $('#patientCreateModal').modal('show');
+
+    });
+
+});
+$(document).on('click', '.btn-delete-file', function () {
+
+    const id = $(this).data('id');
+    const container = $(this).closest('.col-12');
+
+    if (!confirm('¿Eliminar este archivo?')) return;
+
+    $.ajax({
+        url: '/admin/patient-files/' + id,
+        type: 'DELETE',
+        data: {
+            _token: '{{ csrf_token() }}'
+        },
+        success: function () {
+            container.remove();
+        }
+    });
+});
+
+$('#patientCreateModal').on('show.bs.modal', function () {
+
+    if (!$(this).data('editing')) {
+        resetPatientModal();
+    }
+
+});
+
 
 /* =========================================================
    UTILIDADES
@@ -757,4 +891,33 @@ function openAppointmentModal(patientId) {
     $('#appointmentDate').val('');
     $('#appointmentTime').val('');
     $('#appointmentModal').modal('show');
+}
+
+
+function resetPatientModal() {
+
+    const form = $('#patientForm');
+
+    // Reset form normal
+    form.trigger('reset');
+
+    // Quitar método PUT si existe
+    form.find('input[name="_method"]').remove();
+
+    // Reset action a crear
+    form.attr('action', '/admin/patients');
+
+    // Reset título
+    $('#patientModalTitle').text('Agregar paciente');
+
+    // Limpiar sección dinámica
+    $('#dynamicClinicalSection').html('');
+
+    // Reset array de archivos
+    uploadedFiles = [];
+
+    // Limpiar Dropzone visualmente
+    if (myDropzone) {
+        myDropzone.removeAllFiles(true);
+    }
 }

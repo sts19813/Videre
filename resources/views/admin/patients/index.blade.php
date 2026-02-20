@@ -81,6 +81,13 @@
 
                                         <div class="dropdown-menu dropdown-menu-end min-w-200px">
 
+                                            {{-- EDITAR --}}
+                                            <a href="#"  class="dropdown-item btn-edit-patient"
+                                                data-id="{{ $patient->id }}">
+                                                <i class="ki-outline ki-pencil me-2"></i>
+                                                Editar
+                                            </a>
+
                                             {{-- Siempre disponible --}}
                                             <a class="dropdown-item btn-view-patient">
                                                 <i class="ki-outline ki-eye me-2"></i>
