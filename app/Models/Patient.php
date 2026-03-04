@@ -15,6 +15,7 @@ class Patient extends Model
         'last_name',
         'phone',
         'email',
+        'birth_date',
 
         // NUEVOS
         'referrer',
@@ -40,6 +41,7 @@ class Patient extends Model
     ];
 
     protected $casts = [
+        'birth_date' => 'date',
         'policy_date' => 'date',
         'clinical_data' => 'array',
         'appointment_date' => 'date',

@@ -37,8 +37,8 @@ class ProviderPatientController extends Controller
             'email' => 'nullable|email|max:255',
             'observations' => 'nullable|string',
             // Referente
-            'referrer' => 'required|in:optometrista,oftalmologo,medico_general,otro',
-
+            'referrer' => 'nullable|in:optometrista,oftalmologo,medico_general,otro',
+            'birth_date' => 'nullable|date',
             // Tipo de referido
             'referral_type' => 'required|in:consulta_general,cirugia_refractiva,catarata_cristalino,retina',
 
@@ -100,9 +100,9 @@ class ProviderPatientController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'nullable|email',
             'phone' => 'required|string|max:50',
-
-            'referrer' => 'required|in:optometrista,oftalmologo,medico_general,otro',
-            'referral_type' => 'required|in:consulta_general,cirugia_refractiva,catarata_cristalino,retina',
+            'birth_date' => 'nullable|date',
+            'referrer' => 'nullable|in:optometrista,oftalmologo,medico_general,otro',
+            'referral_type' => 'nullable|in:consulta_general,cirugia_refractiva,catarata_cristalino,retina',
 
             'insurance' => 'nullable|in:axxa,allianz,gnp,metlife,atlas,inbursa,sura,ve_por_mas,seguros_monterrey,seguros_banorte,mapfre,zurich,otro',
             'policy_date' => 'nullable|date',

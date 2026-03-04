@@ -100,10 +100,10 @@ class AdminPatientController extends Controller
             'email' => 'nullable|email',
             'phone' => 'required|string|max:50',
             'provider_id' => 'required|exists:providers,id',
+            'birth_date' => 'nullable|date',
 
             // Referente
-            'referrer' => 'required|in:optometrista,oftalmologo,medico_general,otro',
-
+            'referrer' => 'nullable|in:optometrista,oftalmologo,medico_general,otro',
             // Tipo de referido
             'referral_type' => 'required|in:consulta_general,cirugia_refractiva,catarata_cristalino,retina',
 
@@ -250,8 +250,9 @@ class AdminPatientController extends Controller
             'email' => 'nullable|email',
             'phone' => 'required|string|max:50',
             'provider_id' => 'required|exists:providers,id',
+            'birth_date' => 'nullable|date',
 
-            'referrer' => 'required|in:optometrista,oftalmologo,medico_general,otro',
+            'referrer' => 'nullable|in:optometrista,oftalmologo,medico_general,otro',
             'referral_type' => 'required|in:consulta_general,cirugia_refractiva,catarata_cristalino,retina',
 
             'insurance' => 'nullable|in:axxa,allianz,gnp,metlife,atlas,inbursa,sura,ve_por_mas,seguros_monterrey,seguros_banorte,mapfre,zurich,otro',
@@ -288,6 +289,4 @@ class AdminPatientController extends Controller
             'message' => 'Paciente actualizado correctamente'
         ]);
     }
-
-
 }

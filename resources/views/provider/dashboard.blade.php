@@ -109,6 +109,7 @@
                         <th>Correo</th>
                         <th>Observaciones</th>
                         <th class="text-center">Estatus</th>
+                        <th class="text-center" width="250">Acciones</th>
                     </tr>
                 </thead>
 
@@ -127,6 +128,27 @@
                             <td>{{ $patient->phone }}</td>
                             <td>{{ $patient->email }}</td>
                             <td class="text-muted">{{ $patient->observations }}</td>
+                            <td class="text-center">
+                                @php
+                                    $statusMap = [
+                                        'pendiente' => ['warning', 'Pendiente'],
+                                        'cita_agendada' => ['primary', 'Cita agendada'],
+                                        'en_consulta' => ['info', 'En consulta'],
+                                        'propuesta_cirugia' => ['danger', 'Cirugía propuesta'],
+                                        'propuesta_tratamiento' => ['success', 'Tratamiento propuesto'],
+                                        'estudios_complementarios' => ['warning', 'Estudios solicitados'],
+                                        'en_seguimiento' => ['dark', 'En seguimiento'],
+                                        'contrarreferencia' => ['success', 'Contrarreferencia'],
+                                        'cancelado' => ['danger', 'Cancelado'],
+                                    ];
+
+                                    [$color, $label] = $statusMap[$patient->status] ?? ['secondary', ucfirst(str_replace('_', ' ', $patient->status))];
+                                @endphp
+
+                                <span class="badge badge-light-{{ $color }} fw-bold px-4 py-2">
+                                    {{ $label }}
+                                </span>
+                            </td>
 
                             <td class="text-center">
                                 <button class="btn btn-sm btn-light-warning btn-edit-patient" data-id="{{ $patient->id }}"
@@ -138,19 +160,7 @@
                                     title="Ver registro">
                                     <i class="ki-outline ki-eye fs-5"></i>
                                 </button>
-                                @php
-                                    $statusMap = [
-                                        'pendiente' => ['warning', 'Pendiente'],
-                                        'cita_agendada' => ['info', 'Con cita'],
-                                        'atendido' => ['success', 'Atendido'],
-                                        'cancelado' => ['danger', 'Cancelado'],
-                                    ];
-                                    [$color, $label] = $statusMap[$patient->status] ?? ['secondary', 'Desconocido'];
-                                @endphp
 
-                                <span class="badge badge-light-{{ $color }} fw-bold px-4 py-2">
-                                    {{ $label }}
-                                </span>
                             </td>
                         </tr>
                     @empty
@@ -312,6 +322,10 @@
                     const date = data.policy_date.split('T')[0];
                     form.find('[name="policy_date"]').val(date);
                 }
+                if (data.birth_date) {
+                    const date = data.birth_date.split('T')[0];
+                    form.find('[name="birth_date"]').val(date);
+                }
 
                 form.find('[name="referral_type"]').val(data.referral_type);
 
@@ -401,7 +415,7 @@
                 myDropzone.removeAllFiles(true);
             }
         }
-         $(document).on('click', '.btn-view-patient', function () {
+        $(document).on('click', '.btn-view-patient', function () {
 
             const patientId = $(this).data('id');
 

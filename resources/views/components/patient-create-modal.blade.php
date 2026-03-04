@@ -69,6 +69,14 @@
                                    value="{{ old('email', $patient->email ?? '') }}">
                         </div>
 
+                        <div class="col-md-6">
+                            <label class="form-label">Fecha de nacimiento</label>
+                            <input type="date"
+                                name="birth_date"
+                                class="form-control"
+                                value="{{ old('birth_date', optional($patient->birth_date ?? null)->format('Y-m-d')) }}">
+                        </div>
+
                         {{-- ADMIN --}}
                         @if($isAdmin)
                             <div class="col-md-12">
@@ -85,7 +93,53 @@
                             </div>
                         @endif
 
-                        {{-- SEGURO --}}
+                       
+
+                        {{-- REFERENTE --}}
+                        <div class="col-12">
+                            <b>Información del referente</b>
+                        </div>
+
+
+                        {{-- 
+
+                        <div class="col-md-6">
+                            <label class="form-label">¿Quién refiere? *</label>
+                            <select name="referrer" class="form-select" required>
+                                <option value="">Selecciona</option>
+                                @foreach(['optometrista','oftalmologo','medico_general','otro'] as $ref)
+                                    <option value="{{ $ref }}"
+                                        {{ old('referrer', $patient->referrer ?? '') == $ref ? 'selected' : '' }}>
+                                        {{ ucfirst(str_replace('_',' ',$ref)) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                         --}}
+
+                        @php
+                        $referralTypes = [
+                            'consulta_general' => 'Consulta oftalmológica',
+                            'cirugia_refractiva' => 'Cirugía refractiva',
+                            'catarata_cristalino' => 'Catarata cristalino',
+                            'retina' => 'Retina'
+                        ];
+                        @endphp
+
+                        <div class="col-md-12">
+                            <label class="form-label">Tipo de referido *</label>
+                            <select name="referral_type" id="referralType" class="form-select" required>
+                                @foreach($referralTypes as $value => $label)
+                                    <option value="{{ $value }}"
+                                        {{ old('referral_type', $patient->referral_type ?? '') == $value ? 'selected' : '' }}>
+                                        {{ $label }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                     <div id="insuranceSection" class="row g-4">
+
                         <div class="col-md-6">
                             <label class="form-label">Seguro</label>
                             <select name="insurance" class="form-select">
@@ -102,38 +156,10 @@
                         <div class="col-md-6">
                             <label class="form-label">Fecha de póliza</label>
                             <input type="date" name="policy_date" class="form-control"
-                                   value="{{ old('policy_date', optional($patient->policy_date ?? null)->format('Y-m-d')) }}">
+                                value="{{ old('policy_date', optional($patient->policy_date ?? null)->format('Y-m-d')) }}">
                         </div>
 
-                        {{-- REFERENTE --}}
-                        <div class="col-12">
-                            <b>Información del referente</b>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">¿Quién refiere? *</label>
-                            <select name="referrer" class="form-select" required>
-                                <option value="">Selecciona</option>
-                                @foreach(['optometrista','oftalmologo','medico_general','otro'] as $ref)
-                                    <option value="{{ $ref }}"
-                                        {{ old('referrer', $patient->referrer ?? '') == $ref ? 'selected' : '' }}>
-                                        {{ ucfirst(str_replace('_',' ',$ref)) }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Tipo de referido *</label>
-                            <select name="referral_type" id="referralType" class="form-select" required>
-                                @foreach(['consulta_general','cirugia_refractiva','catarata_cristalino','retina'] as $type)
-                                    <option value="{{ $type }}"
-                                        {{ old('referral_type', $patient->referral_type ?? '') == $type ? 'selected' : '' }}>
-                                        {{ ucfirst(str_replace('_',' ',$type)) }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                    </div>
                         {{-- CLÍNICO DINÁMICO --}}
                         <div class="col-12" id="dynamicClinicalSection"></div>
 
@@ -217,3 +243,25 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+    const referralType = document.getElementById("referralType");
+    const insuranceSection = document.getElementById("insuranceSection");
+
+    function toggleInsurance() {
+        if (referralType.value === "consulta_general") {
+            insuranceSection.style.display = "none";
+        } else {
+            insuranceSection.style.display = "flex";
+        }
+    }
+
+    toggleInsurance();
+
+    referralType.addEventListener("change", toggleInsurance);
+
+});
+</script>

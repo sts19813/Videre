@@ -20,7 +20,10 @@ let myDropzone = new Dropzone("#patientDropzone", {
     maxFilesize: 5,
     addRemoveLinks: true,
     acceptedFiles: ".jpg,.jpeg,.png,.pdf,.doc,.docx",
-
+    dictDefaultMessage: "Arrastra los archivos aquí o haz clic para subirlos",
+    dictRemoveFile: "Eliminar archivo",
+    dictMaxFilesExceeded: "Solo puedes subir 5 archivos",
+    dictFileTooBig: "El archivo es demasiado grande ({{filesize}}MB). Máx: {{maxFilesize}}MB",
     init: function () {
         this.on("addedfile", function (file) {
             if (!file.existing) {
