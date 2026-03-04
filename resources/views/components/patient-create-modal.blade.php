@@ -70,11 +70,11 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Fecha de nacimiento</label>
+                            <label class="form-label">Fecha de nacimiento *</label>
                             <input type="date"
                                 name="birth_date"
                                 class="form-control"
-                                value="{{ old('birth_date', optional($patient->birth_date ?? null)->format('Y-m-d')) }}">
+                                value="{{ old('birth_date', optional($patient->birth_date ?? null)->format('Y-m-d')) }}" required>
                         </div>
 
                         {{-- ADMIN --}}

@@ -62,11 +62,12 @@ class ProviderPatientController extends Controller
             'email' => $validated['email'],
             'observations' => $validated['observations'],
             'status' => 'pendiente',
-            'referrer' => $validated['referrer'],
+            'referrer' => $validated['referrer'] ?? 'otro',
             'referral_type' => $validated['referral_type'],
             'insurance' => $validated['insurance'],
             'policy_date' => $validated['policy_date'],
             'clinical_data' => $validated['clinical_data'] ?? [],
+            'birth_date' => $validated['birth_date'],
         ]);
 
         return response()->json([
