@@ -5,7 +5,6 @@
             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#patientCreateModal">
                 <i class="ki-outline ki-plus me-1"></i> Agregar paciente
             </button>
-
         </div>
 
         <div class="card-body p-0">
@@ -67,10 +66,6 @@
                                         {{ $patient->status_date_time ?? '' }}
                                     </div>
                                 </td>
-
-
-
-
                                 <td class="text-center">
                                     <div class="dropdown">
                                         <button class="btn btn-sm btn-light btn-active-light-primary"
@@ -109,7 +104,6 @@
                                                 </a>
                                             @endif
 
-
                                             {{-- ========================= --}}
                                             {{-- CITA AGENDADA --}}
                                             {{-- ========================= --}}
@@ -124,8 +118,6 @@
                                                     Reagendar
                                                 </a>
                                             @endif
-
-
                                             {{-- ========================= --}}
                                             {{-- EN CONSULTA (DECISIÓN) --}}
                                             {{-- ========================= --}}
@@ -147,8 +139,6 @@
                                                     Solicitar estudios
                                                 </a>
                                             @endif
-
-
                                             {{-- ========================= --}}
                                             {{-- TRATAMIENTO / ESTUDIOS → PUEDEN ESCALAR --}}
                                             {{-- ========================= --}}
@@ -160,8 +150,6 @@
                                                     Escalar a cirugía
                                                 </a>
                                             @endif
-
-
                                             {{-- ========================= --}}
                                             {{-- CIERRE CLÍNICO --}}
                                             {{-- ========================= --}}
@@ -184,9 +172,6 @@
                                         </div>
                                     </div>
                                 </td>
-
-
-
                             </tr>
                         @empty
                             <tr>

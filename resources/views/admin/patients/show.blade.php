@@ -1,9 +1,6 @@
 <div class="col-12">
-
-
     {{-- ================= HEADER GLOBAL ================= --}}
     <div class="card-header border-0 pt-6">
-
         <div class="card-toolbar mb-6">
             <ul class="nav nav-tabs nav-line-tabs nav-stretch fs-6 border-0">
                 <li class="nav-item">
@@ -18,7 +15,6 @@
                 </li>
             </ul>
         </div>
-
     </div>
 
     <div class="card-body">
@@ -316,7 +312,6 @@
                                         </div>
                                     @endif
                                 @endif
-
                             </div>
                         </div>
                     </div>
@@ -355,35 +350,23 @@
                                         {!! $history->new_value_formatted !!}
                                     </span>
                                 </div>
-
                                 <div class="text-muted fs-8">
                                     {{ $history->created_at->format('d/m/Y H:i') }}
                                     @if($history->user)
                                         · {{ $history->user->name }}
                                     @endif
                                 </div>
-
                             </div>
-
                         </div>
-
                         <div class="separator my-4"></div>
-
                     @empty
-
                         <div class="text-muted">
                             No hay movimientos registrados.
                         </div>
 
                     @endforelse
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
-
 </div>
