@@ -13,7 +13,7 @@
                     <thead class="table-light">
                         <tr class="fw-bold text-muted">
                             <th>Nombre</th>
-                            <th>Proveedor</th>
+                            <th>Afiliado</th>
                             <th>Teléfono</th>
                             <th>Correo</th>
                             <th class="text-center">Estatus</th>

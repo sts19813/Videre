@@ -57,10 +57,10 @@ class RegisteredUserController extends Controller
     public function storeVidere(Request $request)
     {
         $request->validate([
-            'provider_type' => 'required|string|max:255',
+            'provider_type' => 'required|in:optometrista,oftalmologo,medicos,otros',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'clinic_name' => 'required|string|max:255',
+            'clinic_name' => 'nullable|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'required|email|unique:users,email',
         ]);
@@ -79,7 +79,7 @@ class RegisteredUserController extends Controller
              $provider = Provider::create([
                 'user_id' => $user->id,
                 'provider_type' => $request->provider_type,
-                'clinic_name' => $request->clinic_name,
+                'clinic_name' => $request->filled('clinic_name') ? $request->clinic_name : null,
                 'contact_name' => $request->first_name . ' ' . $request->last_name,
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,

@@ -80,9 +80,9 @@
                         {{-- ADMIN --}}
                         @if($isAdmin)
                             <div class="col-md-12">
-                                <label class="form-label">Proveedor *</label>
+                                <label class="form-label">Afiliado *</label>
                                 <select name="provider_id" class="form-select" required>
-                                    <option value="">Selecciona proveedor</option>
+                                    <option value="">Selecciona afiliado</option>
                                     @foreach($providers as $provider)
                                         <option value="{{ $provider->id }}"
                                             {{ old('provider_id', $patient->provider_id ?? '') == $provider->id ? 'selected' : '' }}>

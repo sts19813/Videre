@@ -26,31 +26,30 @@
                             Crear cuenta
                         </h1>
                         <div class="text-gray-500 fw-semibold fs-6">
-                            Únete a la red de proveedores Videre
+                            Únete a la red de afiliados Videre
                         </div>
                     </div>
-
-                
-
-                
 
                     <div class="row g-5 mb-4">
                         <div class="col-md-6 fv-row">
                             <label class="form-label fw-semibold text-gray-700 mb-2">
-                                Tipo de proveedor <span class="text-danger">*</span>
+                                Selecciona una opción <span class="text-danger">*</span>
                             </label>
                             <select name="provider_type"
                                 class="form-select form-select-lg bg-transparent @error('provider_type') is-invalid @enderror"
                                 required>
-                                <option value="">Selecciona una opción</option>
+                                <option value="">Seleccionar</option>
                                 <option value="optometrista" @selected(old('provider_type') === 'optometrista')>
                                     Optometrista
                                 </option>
                                 <option value="oftalmologo" @selected(old('provider_type') === 'oftalmologo')>
-                                    Oftalmólogo
+                                    Oftalmologo
                                 </option>
-                                <option value="medico" @selected(old('provider_type') === 'medico')>
-                                    Médico
+                                <option value="medicos" @selected(old('provider_type') === 'medicos')>
+                                    Medicos
+                                </option>
+                                <option value="otros" @selected(old('provider_type') === 'otros')>
+                                    Otros
                                 </option>
                             </select>
                             @error('provider_type')
@@ -60,11 +59,11 @@
 
                         <div class="col-md-6 fv-row">
                             <label class="form-label fw-semibold text-gray-700 mb-2">
-                                Empresa / Consultorio <span class="text-danger">*</span>
+                                Empresa / Consultorio 
                             </label>
                             <input type="text" name="clinic_name" value="{{ old('clinic_name') }}"
                                 class="form-control form-control-lg bg-transparent @error('clinic_name') is-invalid @enderror"
-                                placeholder="Ej. Clínica Visión Norte" required />
+                                placeholder="Ej. Clínica Visión Norte" />
                             @error('clinic_name')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
@@ -137,3 +136,4 @@
         </div>
     </div>
 @endsection
+

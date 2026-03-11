@@ -3,7 +3,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">Detalle del Proveedor</h5>
+                <h5 class="modal-title">Detalle del Afiliado</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -22,7 +22,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="fw-semibold text-muted">Tipo proveedor</label>
+                        <label class="fw-semibold text-muted">Tipo Afiliado</label>
                         <div id="view_provider_type"></div>
                     </div>
 

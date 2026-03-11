@@ -27,7 +27,7 @@
         <p><strong>Datos de tu cuenta:</strong></p>
 
         <ul>
-            <li><b>Clínica:</b> {{ $provider->clinic_name }}</li>
+            <li><b>Clínica:</b> {{ $provider->clinic_name ?? 'No especificado' }}</li>
             <li><b>Correo:</b> {{ $user->email }}</li>
             <li><b>Contraseña:</b> {{ $password }}</li>
         </ul>

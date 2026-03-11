@@ -20,7 +20,7 @@ class ActiveProviderMiddleware
         if ($user->role === 'provider') {
             if (!$user->is_active || !$user->provider || !$user->provider->is_active) {
                 auth()->logout();
-                abort(403, 'Proveedor deshabilitado');
+                abort(403, 'Afiliado deshabilitado');
             }
         }
 

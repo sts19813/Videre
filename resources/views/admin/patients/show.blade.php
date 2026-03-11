@@ -196,7 +196,7 @@
                     {{-- ===================== --}}
                     <div class="col-xl-4">
 
-                        {{-- 3️⃣ PROVEEDOR --}}
+                        {{-- 3️⃣ afileados --}}
                         <div class="card shadow-sm mb-6">
                             <div class="card-header border-0">
                                 <h3 class="card-title fw-bold text-dark">

@@ -3,7 +3,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">Agregar proveedor</h5>
+                <h5 class="modal-title">Agregar afiliado</h5>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -12,9 +12,9 @@
 
                 <div class="modal-body">
 
-                    {{-- Tipo proveedor --}}
+                    {{-- Tipo afiliado --}}
                     <div class="mb-3">
-                        <label class="form-label">Tipo de proveedor</label>
+                        <label class="form-label">Tipo de Afiliado</label>
                         <select name="provider_type" class="form-select" required>
                             <option value="">Selecciona</option>
                             <option value="doctor">Doctor</option>
@@ -72,7 +72,7 @@
                         Cancelar
                     </button>
                     <button class="btn btn-primary">
-                        Crear proveedor
+                        Crear Afiliado
                     </button>
                 </div>
             </form>

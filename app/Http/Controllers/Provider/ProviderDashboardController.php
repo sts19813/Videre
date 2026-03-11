@@ -12,7 +12,7 @@ class ProviderDashboardController extends Controller
     {
         $user = auth()->user();
 
-        // Seguridad: solo proveedores
+        // Seguridad: solo afilieados
         if (!$user->provider) {
             abort(403, 'No autorizado');
         }

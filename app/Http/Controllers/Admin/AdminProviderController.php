@@ -88,13 +88,13 @@ class AdminProviderController extends Controller
         } catch (\Throwable $e) {
 
             DB::rollBack();
-            Log::error('Error crear proveedor admin', [
+            Log::error('Error crear afiliado admin', [
                 'error' => $e->getMessage()
             ]);
 
             return response()->json([
                 'success' => false,
-                'message' => 'Error al crear proveedor',
+                'message' => 'Error al crear afiliado',
             ], 500);
         }
     }

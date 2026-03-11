@@ -372,7 +372,7 @@ $('#createProviderForm').on('submit', function (e) {
                     document.getElementById('providerCreateModal')
                 ).hide();
 
-                toastr.success('Proveedor creado correctamente');
+                toastr.success('Afilieado creado correctamente');
 
                 setTimeout(() => {
                     location.reload();
@@ -380,7 +380,7 @@ $('#createProviderForm').on('submit', function (e) {
             }
         },
         error: function (xhr) {
-            let msg = 'Error al crear proveedor';
+            let msg = 'Error al crear Afilieado';
 
             if (xhr.responseJSON?.message) {
                 msg = xhr.responseJSON.message;
@@ -491,8 +491,18 @@ $('.btn-view-provider').on('click', function () {
         $('#view_name').text(provider.user.name);
         $('#view_email').text(provider.user.email);
 
+        const providerTypeLabels = {
+            doctor: 'Doctor',
+            optica: 'Optica',
+            optometrista: 'Optometrista',
+            oftalmologo: 'Oftalmologo',
+            medicos: 'Medicos',
+            medico: 'Medico',
+            otros: 'Otros'
+        };
+
         $('#view_provider_type').text(
-            provider.provider_type === 'doctor' ? 'Doctor' : 'Óptica'
+            providerTypeLabels[provider.provider_type] ?? provider.provider_type ?? '-'
         );
 
         $('#view_clinic').text(provider.clinic_name ?? '—');
@@ -509,7 +519,7 @@ $('.btn-view-provider').on('click', function () {
         ).show();
     })
         .fail(() => {
-            toastr.error('No se pudo cargar el proveedor');
+            toastr.error('No se pudo cargar el afilieado');
         });
 });
 

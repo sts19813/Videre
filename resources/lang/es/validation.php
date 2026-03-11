@@ -25,7 +25,7 @@ return [
         'last_name' => 'apellido',
         'clinic_name' => 'consultorio',
         'phone' => 'teléfono',
-        'provider_type' => 'tipo de proveedor',
+        'provider_type' => 'tipo de afiliado',
         'password' => 'contraseña',
         'password_confirmation' => 'confirmación de la contraseña',
     ],
