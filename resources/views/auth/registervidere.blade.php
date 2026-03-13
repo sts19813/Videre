@@ -43,10 +43,10 @@
                                     Optometrista
                                 </option>
                                 <option value="oftalmologo" @selected(old('provider_type') === 'oftalmologo')>
-                                    Oftalmologo
+                                    Oftalmólogo
                                 </option>
                                 <option value="medicos" @selected(old('provider_type') === 'medicos')>
-                                    Medicos
+                                    Médicos
                                 </option>
                                 <option value="otros" @selected(old('provider_type') === 'otros')>
                                     Otros
