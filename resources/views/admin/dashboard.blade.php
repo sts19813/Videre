@@ -13,37 +13,56 @@
     {{-- STATS --}}
     <div class="row g-4 mb-5">
 
-        <div class="col-12 col-md-4">
+        {{-- PENDIENTES --}}
+        <div class="col-12 col-md-3">
             <div class="card border shadow-sm h-100">
                 <div class="card-body d-flex align-items-center gap-3">
-                    <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center"
+                    <div class="rounded-circle bg-warning bg-opacity-10 d-flex align-items-center justify-content-center"
                         style="width:48px;height:48px;">
-                        <i class="ki-outline ki-people fs-3 text-primary"></i>
+                        <i class="ki-outline ki-time fs-3 text-warning"></i>
                     </div>
                     <div>
-                        <div class="text-muted small">Afiliados</div>
-                        <div class="fs-4 fw-semibold">{{ $stats['providers'] }}</div>
+                        <div class="text-muted small">Pendientes</div>
+                        <div class="fs-4 fw-semibold">{{ $stats['pending'] }}</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 col-md-4">
+        {{-- CITA AGENDADA --}}
+        <div class="col-12 col-md-3">
             <div class="card border shadow-sm h-100">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="rounded-circle bg-info bg-opacity-10 d-flex align-items-center justify-content-center"
                         style="width:48px;height:48px;">
-                        <i class="ki-outline ki-user fs-3 text-info"></i>
+                        <i class="ki-outline ki-calendar fs-3 text-info"></i>
                     </div>
                     <div>
-                        <div class="text-muted small">Pacientes enviados</div>
-                        <div class="fs-4 fw-semibold">{{ $stats['patients_sent'] }}</div>
+                        <div class="text-muted small">Cita agendada</div>
+                        <div class="fs-4 fw-semibold">{{ $stats['scheduled'] }}</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 col-md-4">
+        {{-- CONTRARREFERENCIA --}}
+        <div class="col-12 col-md-3">
+            <div class="card border shadow-sm h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="rounded-circle bg-danger bg-opacity-10 d-flex align-items-center justify-content-center"
+                        style="width:48px;height:48px;">
+                        <i class="ki-outline ki-exit-left fs-3 text-danger"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small">Contrarreferencia</div>
+                        <div class="fs-4 fw-semibold">{{ $stats['counter_ref'] }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- ATENDIDOS --}}
+        <div class="col-12 col-md-3">
             <div class="card border shadow-sm h-100">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center"
@@ -51,8 +70,8 @@
                         <i class="ki-outline ki-check-circle fs-3 text-success"></i>
                     </div>
                     <div>
-                        <div class="text-muted small">Pacientes atendidos</div>
-                        <div class="fs-4 fw-semibold">{{ $stats['patients_attended'] }}</div>
+                        <div class="text-muted small">Atendidos</div>
+                        <div class="fs-4 fw-semibold">{{ $stats['attended'] }}</div>
                     </div>
                 </div>
             </div>

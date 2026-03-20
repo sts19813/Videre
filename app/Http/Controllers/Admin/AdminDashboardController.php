@@ -13,8 +13,22 @@ class AdminDashboardController extends Controller
     {
         $stats = [
             'providers' => Provider::count(),
-            'patients_sent' => Patient::count(),
-            'patients_attended' => Patient::where('status', 'atendido')->count(),
+
+            // NUEVOS KPIs
+            'pending' => Patient::where('status', 'pendiente')->count(),
+
+            'scheduled' => Patient::where('status', 'cita_agendada')->count(),
+
+            'counter_ref' => Patient::where('status', 'contrarreferencia')->count(),
+
+            // ATENDIDOS = todos los que ya pasaron por consulta real
+            'attended' => Patient::whereIn('status', [
+                'en_consulta',
+                'propuesta_cirugia',
+                'propuesta_tratamiento',
+                'estudios_complementarios',
+                'en_seguimiento'
+            ])->count(),
         ];
 
         $patients = Patient::with('provider.user')
