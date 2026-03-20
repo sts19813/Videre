@@ -59,7 +59,7 @@
 
                         <div class="col-md-6">
                             <label class="form-label">Celular *</label>
-                            <input type="text" name="phone" class="form-control"
+                            <input type="text" name="phone" class="form-control" id="phoneInput"
                                    value="{{ old('phone', $patient->phone ?? '') }}" required>
                         </div>
 
@@ -262,6 +262,13 @@
     toggleInsurance();
 
     referralType.addEventListener("change", toggleInsurance);
+    const phoneInput = document.getElementById("phoneInput");
+
+    phoneInput.addEventListener("input", function () {
+        // Elimina todo lo que NO sea número
+        this.value = this.value.replace(/\D/g, '');
+    });
 
 });
+
 </script>
