@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Str;
 class Patient extends Model
 {
     use HasFactory;
@@ -84,6 +84,7 @@ class Patient extends Model
         static::updating(function ($patient) {
 
             $changes = $patient->getDirty();
+            $batchId = Str::uuid();
 
             foreach ($changes as $field => $newValue) {
 
@@ -97,6 +98,7 @@ class Patient extends Model
                     'old_value' => is_array($oldValue) ? json_encode($oldValue) : $oldValue,
                     'new_value' => is_array($newValue) ? json_encode($newValue) : $newValue,
                     'snapshot' => null,
+                    'batch_id' => $batchId,
                 ]);
             }
         });

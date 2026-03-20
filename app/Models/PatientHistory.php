@@ -29,6 +29,12 @@ class PatientHistory extends Model
     public function getFieldLabelAttribute()
     {
         return match ($this->field) {
+            'first_name' => 'Nombre',
+            'last_name' => 'Apellido',
+            'phone' => 'Teléfono',
+            'email' => 'Correo',
+            'birth_date' => 'Fecha de nacimiento',
+
             'status' => 'Estatus',
             'appointment_date' => 'Fecha de cita',
             'appointment_time' => 'Hora de cita',
@@ -36,6 +42,7 @@ class PatientHistory extends Model
             'attention_time' => 'Hora de atención',
             'procedure' => 'Procedimiento',
             'attention_observations' => 'Observaciones médicas',
+
             default => ucfirst(str_replace('_', ' ', $this->field)),
         };
     }
@@ -136,5 +143,10 @@ class PatientHistory extends Model
         }
 
         return $value;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -325,7 +325,15 @@
 
                 <div style="max-height: 650px; overflow-y: auto; padding-right: 15px;">
 
-                    @forelse($patient->histories as $history)
+                    @php
+                        $grouped = $patient->histories->groupBy('batch_id');
+                    @endphp
+
+                    @forelse($grouped as $batch)
+
+                        @php
+                            $first = $batch->first();
+                        @endphp
 
                         <div class="d-flex mb-6">
 
@@ -335,35 +343,39 @@
 
                             <div>
 
+                                {{-- Usuario --}}
                                 <div class="fw-bold text-dark mb-1">
-                                    {{ $history->field_label }}
+                                    {{ $first->user->name ?? 'Sistema' }}
                                 </div>
 
-                                <div class="text-muted fs-7 mb-1">
-                                    De:
-                                    <span class="text-dark">
-                                        {!! $history->old_value_formatted !!}
+                                {{-- Cambios --}}
+                                @foreach($batch as $history)
+                                    <div class="text-muted fs-7">
+                                        {{ $history->field_label }}:
+                                        <span class="text-dark">
+                                            {!! $history->old_value_formatted !!}
+                                        </span>
+                                        →
+                                        <span class="text-dark fw-semibold">
+                                            {!! $history->new_value_formatted !!}
+                                        </span>
+                                    </div>
+                                @endforeach
 
-                                    </span>
-                                    →
-                                    <span class="text-dark fw-semibold">
-                                        {!! $history->new_value_formatted !!}
-                                    </span>
+                                {{-- Fecha --}}
+                                <div class="text-muted fs-8 mt-1">
+                                    {{ $first->created_at->format('d/m/Y H:i') }}
                                 </div>
-                                <div class="text-muted fs-8">
-                                    {{ $history->created_at->format('d/m/Y H:i') }}
-                                    @if($history->user)
-                                        · {{ $history->user->name }}
-                                    @endif
-                                </div>
+
                             </div>
                         </div>
+
                         <div class="separator my-4"></div>
+
                     @empty
                         <div class="text-muted">
                             No hay movimientos registrados.
                         </div>
-
                     @endforelse
                 </div>
             </div>
