@@ -48,27 +48,52 @@ class ProviderPatientController extends Controller
 
             // Información clínica dinámica
             'clinical_data' => 'nullable|array',
+            'refraction' => 'nullable|string',
+            'anterior_segment_findings' => 'nullable|string',
+            'posterior_segment_findings' => 'nullable|string',
+
+            'files.*' => 'nullable|file|max:5120|mimes:jpg,jpeg,png,pdf,doc,docx',
 
             // Observaciones generales
         ]);
 
+        $provider = $request->user()->provider;
 
+        if (!$provider) {
+            abort(403);
+        }
 
-        Patient::create([
-            'provider_id' => auth()->user()->provider->id ?? 1, // temporal
+        $patient = Patient::create([
+            'provider_id' => $provider->id,
             'first_name' => $validated['first_name'],
             'last_name' => $validated['last_name'],
             'phone' => $validated['phone'],
-            'email' => $validated['email'],
-            'observations' => $validated['observations'],
+            'email' => $validated['email'] ?? null,
+            'observations' => $validated['observations'] ?? null,
             'status' => 'pendiente',
             'referrer' => $validated['referrer'] ?? 'otro',
             'referral_type' => $validated['referral_type'],
-            'insurance' => $validated['insurance'],
-            'policy_date' => $validated['policy_date'],
+            'insurance' => $validated['insurance'] ?? null,
+            'policy_date' => $validated['policy_date'] ?? null,
             'clinical_data' => $validated['clinical_data'] ?? [],
-            'birth_date' => $validated['birth_date'],
+            'birth_date' => $validated['birth_date'] ?? null,
+            'refraction' => $validated['refraction'] ?? null,
+            'anterior_segment_findings' => $validated['anterior_segment_findings'] ?? null,
+            'posterior_segment_findings' => $validated['posterior_segment_findings'] ?? null,
         ]);
+
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $path = $file->store('patients/' . $patient->id, 'public');
+
+                $patient->files()->create([
+                    'file_name' => $file->getClientOriginalName(),
+                    'file_path' => $path,
+                    'file_type' => $file->getClientMimeType(),
+                    'file_size' => round($file->getSize() / 1024),
+                ]);
+            }
+        }
 
         return response()->json([
             'success' => true,
