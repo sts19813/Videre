@@ -48,7 +48,7 @@
                 <!--begin::Aside-->
                 <div class="d-flex flex-center flex-lg-start flex-column">
                     <!--begin::Logo-->
-                    <a href="index.html" class="mb-7">
+                    <a href="http://afiliados.videre.mx/" class="mb-7">
                         <img width="250px" alt="Logo" src='{{ asset("assets/img/Videre-Clinica-Logo.svg") }}'/>
                     </a>
                     <!--end::Logo-->
