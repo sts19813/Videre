@@ -28,11 +28,17 @@ class ProviderDashboardController extends Controller
                 ->count(),
 
             'scheduled' => Patient::where('provider_id', $providerId)
-                ->where('status', 'cita_agendada')
+                ->whereIn('status', ['cita_agendada', 'reagendada'])
                 ->count(),
 
             'attended' => Patient::where('provider_id', $providerId)
-                ->where('status', 'atendido')
+                ->whereIn('status', [
+                    'en_consulta',
+                    'propuesta_cirugia',
+                    'propuesta_tratamiento',
+                    'estudios_complementarios',
+                    'en_seguimiento'
+                ])
                 ->count(),
         ];
 

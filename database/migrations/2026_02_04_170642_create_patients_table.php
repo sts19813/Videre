@@ -27,7 +27,14 @@ return new class extends Migration {
             $table->enum('status', [
                 'pendiente',
                 'cita_agendada',
-                'atendido',
+                'reagendada',
+                'en_consulta',
+                'propuesta_cirugia',
+                'propuesta_tratamiento',
+                'estudios_complementarios',
+                'en_seguimiento',
+                'contrarreferencia',
+                'sin_respuesta',
                 'cancelado'
             ])->default('pendiente');
 

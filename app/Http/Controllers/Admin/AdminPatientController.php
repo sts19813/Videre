@@ -14,8 +14,16 @@ class AdminPatientController extends Controller
     public function updateStatus(Request $request, Patient $patient)
     {
         $request->validate([
-            'status' => 'required|in:pendiente,cita_agendada,atendido,cancelado'
+            'status' => 'required|in:pendiente,cita_agendada,reagendada,en_consulta,propuesta_cirugia,propuesta_tratamiento,estudios_complementarios,en_seguimiento,contrarreferencia,sin_respuesta,cancelado'
         ]);
+
+        if ($request->status === 'sin_respuesta' && $patient->status !== 'pendiente') {
+            abort(403);
+        }
+
+        if ($request->status === 'reagendada' && !in_array($patient->status, ['cita_agendada', 'reagendada'], true)) {
+            abort(403);
+        }
 
         $patient->update([
             'status' => $request->status
@@ -26,17 +34,23 @@ class AdminPatientController extends Controller
 
     public function schedule(Request $request, Patient $patient)
     {
-
+        if (!in_array($patient->status, ['pendiente', 'cita_agendada', 'reagendada'], true)) {
+            abort(403);
+        }
 
         $data = $request->validate([
             'appointment_date' => 'required|date',
             'appointment_time' => 'required'
         ]);
 
+        $status = $patient->status === 'pendiente'
+            ? 'cita_agendada'
+            : 'reagendada';
+
         $patient->update([
             'appointment_date' => $data['appointment_date'],
             'appointment_time' => $data['appointment_time'],
-            'status' => 'cita_agendada'
+            'status' => $status
         ]);
 
         return response()->json(['success' => true]);
@@ -44,7 +58,7 @@ class AdminPatientController extends Controller
 
     public function attend(Request $request, Patient $patient)
     {
-        if ($patient->status !== 'cita_agendada') {
+        if (!in_array($patient->status, ['cita_agendada', 'reagendada'], true)) {
             abort(403);
         }
 
@@ -74,6 +88,19 @@ class AdminPatientController extends Controller
 
         $patient->update([
             'status' => 'cancelado'
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function noResponse(Patient $patient)
+    {
+        if ($patient->status !== 'pendiente') {
+            abort(403);
+        }
+
+        $patient->update([
+            'status' => 'sin_respuesta'
         ]);
 
         return response()->json(['success' => true]);

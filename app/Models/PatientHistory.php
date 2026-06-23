@@ -15,6 +15,7 @@ class PatientHistory extends Model
         'old_value',
         'new_value',
         'snapshot',
+        'batch_id',
     ];
 
     protected $casts = [
@@ -115,12 +116,14 @@ class PatientHistory extends Model
         $statusMap = [
             'pendiente' => 'Pendiente',
             'cita_agendada' => 'Cita agendada',
+            'reagendada' => 'Reagendada',
             'en_consulta' => 'En consulta',
             'propuesta_cirugia' => 'Cirugía propuesta',
             'propuesta_tratamiento' => 'Tratamiento propuesto',
             'estudios_complementarios' => 'Estudios solicitados',
             'en_seguimiento' => 'En seguimiento',
             'contrarreferencia' => 'Contrarreferencia',
+            'sin_respuesta' => 'Sin respuesta',
             'cancelado' => 'Cancelado',
         ];
 

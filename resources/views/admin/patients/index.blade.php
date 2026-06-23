@@ -22,7 +22,9 @@
                     </thead>
                     <tbody>
                         @forelse($patients as $patient)
-                            <tr data-id="{{ $patient->id }}">
+                            <tr data-id="{{ $patient->id }}"
+                                data-appointment-date="{{ optional($patient->appointment_date)->format('Y-m-d') }}"
+                                data-appointment-time="{{ $patient->appointment_time ? \Carbon\Carbon::parse($patient->appointment_time)->format('H:i') : '' }}">
                                 <td>{{ $patient->first_name }} {{ $patient->last_name }}</td>
                                 <td>{{ $patient->provider->user->name ?? '-' }}</td>
                                 <td>{{ $patient->phone }}</td>
@@ -33,24 +35,28 @@
                                         $badges = [
                                             'pendiente' => 'badge-light-warning',
                                             'cita_agendada' => 'badge-light-primary',
+                                            'reagendada' => 'badge-light-info',
                                             'en_consulta' => 'badge-light-info',
                                             'propuesta_cirugia' => 'badge-light-danger',
                                             'propuesta_tratamiento' => 'badge-light-success',
                                             'estudios_complementarios' => 'badge-light-warning',
                                             'en_seguimiento' => 'badge-light-dark',
                                             'contrarreferencia' => 'badge-light-success',
+                                            'sin_respuesta' => 'badge-light-secondary',
                                             'cancelado' => 'badge-light-danger',
                                         ];
 
                                         $labels = [
                                             'pendiente' => 'Pendiente',
                                             'cita_agendada' => 'Cita agendada',
+                                            'reagendada' => 'Reagendada',
                                             'en_consulta' => 'En consulta',
                                             'propuesta_cirugia' => 'Cirugía propuesta',
                                             'propuesta_tratamiento' => 'Tratamiento propuesto',
                                             'estudios_complementarios' => 'Estudios solicitados',
                                             'en_seguimiento' => 'En seguimiento',
                                             'contrarreferencia' => 'Contrarreferencia',
+                                            'sin_respuesta' => 'Sin respuesta',
                                             'cancelado' => 'Cancelado',
                                         ];
 
@@ -102,12 +108,17 @@
                                                     <i class="ki-outline ki-cross me-2"></i>
                                                     Cancelar
                                                 </a>
+
+                                                <a class="dropdown-item text-muted btn-no-response-patient">
+                                                    <i class="ki-outline ki-phone me-2"></i>
+                                                    Sin respuesta
+                                                </a>
                                             @endif
 
                                             {{-- ========================= --}}
                                             {{-- CITA AGENDADA --}}
                                             {{-- ========================= --}}
-                                            @if($patient->status === 'cita_agendada')
+                                            @if(in_array($patient->status, ['cita_agendada', 'reagendada']))
                                                 <a class="dropdown-item btn-attend-patient">
                                                     <i class="ki-outline ki-check me-2"></i>
                                                     Iniciar consulta

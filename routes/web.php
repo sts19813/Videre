@@ -50,6 +50,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::put('/patients/{patient}/schedule', [AdminPatientController::class, 'schedule'])->name('patients.schedule');
         Route::put('/patients/{patient}/attend', [AdminPatientController::class, 'attend'])->name('patients.attend');
         Route::put('/patients/{patient}/cancel', [AdminPatientController::class, 'cancel'])->name('patients.cancel');
+        Route::put('/patients/{patient}/no-response', [AdminPatientController::class, 'noResponse'])->name('patients.no-response');
 
         Route::put('/patients/{patient}', [AdminPatientController::class, 'update'])->name('admin.patients.update');
         Route::delete('/admin/patient-files/{file}', [AdminPatientController::class, 'deleteFile']);
