@@ -42,7 +42,7 @@
                                             'estudios_complementarios' => 'badge-light-warning',
                                             'en_seguimiento' => 'badge-light-dark',
                                             'contrarreferencia' => 'badge-light-success',
-                                            'sin_respuesta' => 'badge-light-secondary',
+                                            'sin_respuesta' => 'badge-light-success',
                                             'cancelado' => 'badge-light-danger',
                                         ];
 
