@@ -97,7 +97,7 @@ $(document).ready(function () {
 ========================================================= */
 $(document).on('click', '.btn-reschedule-appointment', function () {
     const row = $(this).closest('tr');
-    openAppointmentModal(row.data('id'));
+    openAppointmentModal(row.data('id'), true, row.data('appointment-date'), row.data('appointment-time'));
 });
 
 
@@ -141,11 +141,50 @@ $(document).on('click', '.btn-cancel-patient', function () {
 
 
 /* =========================================================
+   PACIENTES – sin respuesta desde pendiente
+========================================================= */
+$(document).on('click', '.btn-no-response-patient', function () {
+
+    const patientId = $(this).closest('tr').data('id');
+
+    Swal.fire({
+        title: '¿Marcar sin respuesta?',
+        text: 'El paciente quedará con estatus Sin respuesta',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, marcar',
+        cancelButtonText: 'No'
+    }).then((result) => {
+
+        if (!result.isConfirmed) return;
+
+        $.ajax({
+            url: `/admin/patients/${patientId}/no-response`,
+            method: 'PUT',
+            headers: {
+                'X-CSRF-TOKEN': document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute('content')
+            },
+            success: function () {
+                toastr.success('Paciente marcado sin respuesta');
+                localStorage.setItem('adminActiveTab', 'tab-patients');
+                location.reload();
+            },
+            error: function () {
+                toastr.error('Error al marcar sin respuesta');
+            }
+        });
+    });
+});
+
+
+/* =========================================================
    PACIENTES – AGENDAR CITA
 ========================================================= */
 $(document).on('click', '.btn-schedule-appointment', function () {
     const row = $(this).closest('tr');
-    openAppointmentModal(row.data('id'));
+    openAppointmentModal(row.data('id'), false);
 });
 
 $('#saveAppointment').on('click', function () {
@@ -172,7 +211,9 @@ $('#saveAppointment').on('click', function () {
             appointment_time: time
         },
         success: function () {
-            toastr.success('Cita agendada');
+            const isReschedule = $('#appointmentModal').data('rescheduling') === true;
+
+            toastr.success(isReschedule ? 'Cita reagendada' : 'Cita agendada');
 
             localStorage.setItem('adminActiveTab', 'tab-patients');
             location.reload();
@@ -899,10 +940,13 @@ $('#patientCreateModal').on('show.bs.modal', function () {
 /* =========================================================
    UTILIDADES
 ========================================================= */
-function openAppointmentModal(patientId) {
+function openAppointmentModal(patientId, isReschedule = false, appointmentDate = '', appointmentTime = '') {
     $('#appointmentPatientId').val(patientId);
-    $('#appointmentDate').val('');
-    $('#appointmentTime').val('');
+    $('#appointmentDate').val(appointmentDate || '');
+    $('#appointmentTime').val(appointmentTime || '');
+    $('#appointmentModal').data('rescheduling', isReschedule);
+    $('#appointmentModalTitle').text(isReschedule ? 'Reagendar cita' : 'Agendar cita');
+    $('#saveAppointment').text(isReschedule ? 'Guardar nueva cita' : 'Guardar cita');
     $('#appointmentModal').modal('show');
 }
 

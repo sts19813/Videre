@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\DB;
 return new class extends Migration {
     public function up()
     {
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         // Primero actualizamos datos viejos
         DB::statement("
         UPDATE patients 
@@ -33,6 +37,10 @@ return new class extends Migration {
 
     public function down()
     {
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         DB::statement("
         ALTER TABLE patients 
         MODIFY status ENUM(

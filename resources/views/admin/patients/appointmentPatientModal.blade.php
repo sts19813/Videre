@@ -3,7 +3,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">Agendar cita</h5>
+                <h5 class="modal-title" id="appointmentModalTitle">Agendar cita</h5>
                 <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">
                     <i class="ki-outline ki-cross"></i>
                 </button>

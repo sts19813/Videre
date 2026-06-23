@@ -133,12 +133,14 @@
                                     $statusMap = [
                                         'pendiente' => ['warning', 'Pendiente'],
                                         'cita_agendada' => ['primary', 'Cita agendada'],
+                                        'reagendada' => ['info', 'Reagendada'],
                                         'en_consulta' => ['info', 'En consulta'],
                                         'propuesta_cirugia' => ['danger', 'Cirugía propuesta'],
                                         'propuesta_tratamiento' => ['success', 'Tratamiento propuesto'],
                                         'estudios_complementarios' => ['warning', 'Estudios solicitados'],
                                         'en_seguimiento' => ['dark', 'En seguimiento'],
                                         'contrarreferencia' => ['success', 'Contrarreferencia'],
+                                        'sin_respuesta' => ['secondary', 'Sin respuesta'],
                                         'cancelado' => ['danger', 'Cancelado'],
                                     ];
 

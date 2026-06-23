@@ -55,12 +55,12 @@ class Patient extends Model
 
     public function getStatusDateTimeAttribute()
     {
-        if ($this->status === 'cita_agendada' && $this->appointment_date && $this->appointment_time) {
+        if (in_array($this->status, ['cita_agendada', 'reagendada'], true) && $this->appointment_date && $this->appointment_time) {
             return $this->appointment_date->format('d/m/Y') . ' ' .
                 \Carbon\Carbon::parse($this->appointment_time)->format('h:i A');
         }
 
-        if ($this->status === 'atendido' && $this->attention_date && $this->attention_time) {
+        if ($this->status === 'en_consulta' && $this->attention_date && $this->attention_time) {
             return $this->attention_date->format('d/m/Y') . ' ' .
                 \Carbon\Carbon::parse($this->attention_time)->format('h:i A');
         }

@@ -17,7 +17,7 @@ class AdminDashboardController extends Controller
             // NUEVOS KPIs
             'pending' => Patient::where('status', 'pendiente')->count(),
 
-            'scheduled' => Patient::where('status', 'cita_agendada')->count(),
+            'scheduled' => Patient::whereIn('status', ['cita_agendada', 'reagendada'])->count(),
 
             'counter_ref' => Patient::where('status', 'contrarreferencia')->count(),
 
